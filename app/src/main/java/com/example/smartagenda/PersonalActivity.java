@@ -2,7 +2,9 @@ package com.example.smartagenda;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 public class PersonalActivity extends AppCompatActivity {
 
@@ -10,5 +12,11 @@ public class PersonalActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personal);
+    }
+
+    public void onAccountBtn_Clicked(View caller)
+    {
+        Intent intent = new Intent(this, LogOutActivity.class);
+        startActivity(intent);
     }
 }
