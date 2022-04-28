@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".AgendaScreen">
 
 
     <LinearLayout
@@ -15,12 +15,13 @@
         android:layout_marginBottom="20dp"
         android:orientation="horizontal">
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/previousWeekButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background=""
-            android:onClick="previousMonthAction"
+            android:background="@color/white"
+            android:onClick="previousWeekAction"
             android:text="@string/leftArrow"
             android:textColor="@color/blue"
             android:textSize="20sp"
@@ -28,7 +29,7 @@
             tools:ignore="OnClick" />
 
         <TextView
-            android:id="@+id/monthYearTV"
+            android:id="@+id/monthYear"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
@@ -37,11 +38,12 @@
             android:textColor="@color/black"
             android:textSize="20sp" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/nextWeekButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background=""
+            android:background="@color/white"
             android:onClick="nextMonthAction"
             android:text="@string/rightArrow"
             android:textColor="@color/blue"
@@ -58,6 +60,7 @@
 
 
         <TextView
+            android:id="@+id/mon"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -67,6 +70,7 @@
             android:textSize="16sp" />
 
         <TextView
+            android:id="@+id/tue"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -76,6 +80,7 @@
             android:textSize="16sp" />
 
         <TextView
+            android:id="@+id/wed"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -85,6 +90,7 @@
             android:textSize="16sp" />
 
         <TextView
+            android:id="@+id/thur"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -94,6 +100,7 @@
             android:textSize="16sp" />
 
         <TextView
+            android:id="@+id/fri"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -103,6 +110,7 @@
             android:textSize="16sp" />
 
         <TextView
+            android:id="@+id/sat"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -112,6 +120,7 @@
             android:textSize="16sp" />
 
         <TextView
+            android:id="@+id/sun"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -128,21 +137,30 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/calendarRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="516dp" />
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <ListView
+        android:id="@+id/eventTable"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5"></ListView>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="68dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
         android:orientation="horizontal">
 
 
         <Button
+            android:id="@+id/personalButton"
             style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="207.5dp"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_gravity="start"
+            android:layout_weight="0.3"
             android:onClick="gotoGroupCalendar"
             android:text="@string/personal"
             android:textColor="@color/blue"
@@ -151,18 +169,33 @@
             tools:ignore="OnClick" />
 
         <Button
-            android:id="@+id/button"
-            android:layout_width="207.5dp"
+            android:id="@+id/groupButton"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_weight="0.3"
             android:layout_height="match_parent"
             android:layout_gravity="end"
-            android:background=""
             android:onClick="gotoPersonalCalendar"
             android:text="@string/group"
             android:textColor="@color/blue"
             android:textSize="20sp"
             android:textStyle="bold"
-            tools:ignore="OnClick"
-            style="?android:attr/buttonBarButtonStyle" />
+            tools:ignore="OnClick" />
+
+        <Button
+            android:id="@+id/popupBtn"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.15"
+            android:background="@color/blue"
+            android:textColor="@color/blue"
+            app:icon="@android:drawable/ic_menu_set_as"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="OnClick,SpeakableTextPresentCheck" />
 
 
     </LinearLayout>

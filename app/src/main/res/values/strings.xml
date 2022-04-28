@@ -12,4 +12,8 @@
     <string name="sat">SAT</string>
     <string name="apr_2022">Apr 2022</string>
     <string name="sun">SUN</string>
+    <string name="one">1</string>
+    <string name="add_event">Add event</string>
+    <string name="add_recurring_event">Add recurring event</string>
+    <string name="settings">Settings</string>
 </resources>
