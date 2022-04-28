@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">SmartAgenda</string>
+    <string name="group">Group</string>
+    <string name="personal">Personal</string>
+    <string name="leftArrow"><![CDATA[<-]]></string>
+    <string name="rightArrow"><![CDATA[->]]></string>
+    <string name="mon">MON</string>
+    <string name="tue">TUE</string>
+    <string name="wed">WED</string>
+    <string name="thur">THUR</string>
+    <string name="fri">FRI</string>
+    <string name="sat">SAT</string>
+    <string name="apr_2022">Apr 2022</string>
+    <string name="sun">SUN</string>
 </resources>
