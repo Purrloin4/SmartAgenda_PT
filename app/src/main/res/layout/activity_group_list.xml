@@ -6,4 +6,45 @@
     android:layout_height="match_parent"
     tools:context=".GroupListActivity">
 
+    <Button
+        android:id="@+id/accountBtn2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="-95dp"
+        android:layout_marginTop="-60dp"
+        android:foreground="@drawable/usericon2"
+        android:background="#90000000"
+        android:onClick="onAccountBtn_Clicked"
+        app:layout_constraintStart_toEndOf="@+id/logoTxt1"
+        app:layout_constraintTop_toBottomOf="@+id/logoTxt1" />
+
+    <TextView
+        android:id="@+id/logoTxt1"
+        android:layout_width="422dp"
+        android:layout_height="71dp"
+        android:background="#2196F3"
+        android:fontFamily="@font/schoolbell"
+        android:text="       SmartAgenda"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="40sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="11dp"
+        android:fontFamily="@font/schoolbell"
+        android:text="Group(s)"
+        android:textColor="#2196F3"
+        android:textSize="40sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logoTxt1" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
