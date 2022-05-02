@@ -6,35 +6,27 @@
     android:layout_height="match_parent"
     tools:context=".LogOutActivity">
 
-    <ImageButton
-        android:id="@+id/modifyBtn2"
-        android:layout_width="31dp"
-        android:layout_height="34dp"
-        android:layout_marginStart="7dp"
-        android:layout_marginTop="5dp"
-        app:layout_constraintStart_toEndOf="@+id/hashPasswordTxt"
-        app:layout_constraintTop_toBottomOf="@+id/password4Txt"
-        app:srcCompat="@android:drawable/ic_menu_edit" />
-
-    <ImageButton
+    <Button
         android:id="@+id/modifyBtn1"
-        android:layout_width="31dp"
-        android:layout_height="34dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="68dp"
+        android:layout_width="17dp"
+        android:layout_height="18dp"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="70dp"
+        android:background="#00000000"
+        android:foreground="@drawable/pen"
         app:layout_constraintStart_toEndOf="@+id/savedEmailTxt"
-        app:layout_constraintTop_toBottomOf="@+id/savedUsernameTxt"
-        app:srcCompat="@android:drawable/ic_menu_edit" />
+        app:layout_constraintTop_toBottomOf="@+id/savedUsernameTxt" />
+
 
     <TextView
         android:id="@+id/logOutTxt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_marginTop="137dp"
         android:layout_marginBottom="539dp"
         android:fontFamily="@font/schoolbell"
         android:foregroundTint="@color/white"
-        android:text="Account"
+        android:text=" Account"
         android:textAllCaps="false"
         android:textColor="#DF4579"
         android:textSize="40sp"
@@ -90,10 +82,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="4dp"
-        android:fontFamily="@font/schoolbell"
         android:text="*****"
         android:textColor="@color/black"
-        android:textSize="25sp"
+        android:textSize="15sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password4Txt" />
 
@@ -102,12 +93,14 @@
         android:layout_width="189dp"
         android:layout_height="54dp"
         android:layout_marginStart="208dp"
-        android:layout_marginTop="59dp"
+        android:layout_marginTop="160dp"
         android:background="#DF4579"
         android:fontFamily="@font/schoolbell"
         android:text="LOG OUT"
         android:textColor="@color/white"
         android:textSize="36sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/hashPasswordTxt" />
 
@@ -117,10 +110,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="4dp"
-        android:fontFamily="@font/schoolbell"
         android:text="*username*"
         android:textColor="@color/black"
-        android:textSize="25sp"
+        android:textSize="15sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/username3Txt" />
 
@@ -130,11 +122,22 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="5dp"
-        android:fontFamily="@font/schoolbell"
         android:text="*email*"
         android:textColor="@color/black"
-        android:textSize="25sp"
+        android:textSize="15sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/email3Txt" />
+
+    <Button
+        android:id="@+id/modifyBtn2"
+        android:layout_width="17dp"
+        android:layout_height="18dp"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="6dp"
+        android:background="#00000000"
+        android:foreground="@drawable/pen"
+        android:text="Button"
+        app:layout_constraintStart_toEndOf="@+id/hashPasswordTxt"
+        app:layout_constraintTop_toBottomOf="@+id/password4Txt" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

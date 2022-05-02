@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -10,10 +11,52 @@
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/headerTxt1"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="#9C27B0"
+            android:fontFamily="@font/schoolbell"
+            android:text="SmartAgenda"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="30sp" />
+
+        <Button
+            android:id="@+id/accountBtn3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="-100dp"
+            android:layout_marginTop="-1dp"
+            android:background="#00000000"
+            android:foreground="@drawable/usericon2"
+            android:onClick="onAccountBtn3_Clicked"
+            app:layout_constraintStart_toEndOf="@+id/logoTxt1"
+            app:layout_constraintTop_toBottomOf="@+id/logoTxt1" />
+
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/headerTxt4"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:fontFamily="@font/schoolbell"
+        android:text="personal schedule"
+        android:textColor="#9C27B0"
+        android:textAlignment="center"
+        android:textSize="30sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="0dp"
         android:layout_marginBottom="20dp"
         android:orientation="horizontal">
+
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/previousWeekButton"
@@ -21,9 +64,10 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@color/white"
+            android:fontFamily="@font/schoolbell"
             android:onClick="previousWeekAction"
             android:text="@string/leftArrow"
-            android:textColor="@color/blue"
+            android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold"
             tools:ignore="OnClick" />
@@ -34,6 +78,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:text="@string/apr_2022"
+            android:fontFamily="@font/schoolbell"
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="20sp" />
@@ -46,7 +91,8 @@
             android:background="@color/white"
             android:onClick="nextMonthAction"
             android:text="@string/rightArrow"
-            android:textColor="@color/blue"
+            android:fontFamily="@font/schoolbell"
+            android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold"
             tools:ignore="OnClick" />
@@ -65,6 +111,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/mon"
+            android:fontFamily="@font/schoolbell"
             android:textAlignment="center"
             android:textColor="@color/gray"
             android:textSize="16sp" />
@@ -75,6 +122,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/tue"
+            android:fontFamily="@font/schoolbell"
             android:textAlignment="center"
             android:textColor="@color/gray"
             android:textSize="16sp" />
@@ -86,6 +134,7 @@
             android:layout_weight="1"
             android:text="@string/wed"
             android:textAlignment="center"
+            android:fontFamily="@font/schoolbell"
             android:textColor="@color/gray"
             android:textSize="16sp" />
 
@@ -95,6 +144,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/thur"
+            android:fontFamily="@font/schoolbell"
             android:textAlignment="center"
             android:textColor="@color/gray"
             android:textSize="16sp" />
@@ -105,6 +155,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/fri"
+            android:fontFamily="@font/schoolbell"
             android:textAlignment="center"
             android:textColor="@color/gray"
             android:textSize="16sp" />
@@ -115,6 +166,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/sat"
+            android:fontFamily="@font/schoolbell"
             android:textAlignment="center"
             android:textColor="@color/gray"
             android:textSize="16sp" />
@@ -125,6 +177,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/sun"
+            android:fontFamily="@font/schoolbell"
             android:textAlignment="center"
             android:textColor="@color/gray"
             android:textSize="16sp" />
@@ -144,13 +197,24 @@
         android:id="@+id/eventTable"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="5"></ListView>
+        android:layout_weight="5">
+    </ListView>
+
+
+    <Button
+        android:id="@+id/popupBtn"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="74dp"
+        android:layout_gravity="right"
+        android:foreground="@drawable/plus_button"
+        android:onClick="onPlusBtn_Clicked"
+        tools:ignore="OnClick,SpeakableTextPresentCheck" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="68dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginTop="5dp"
         android:orientation="horizontal">
 
 
@@ -161,9 +225,10 @@
             android:layout_height="match_parent"
             android:layout_gravity="start"
             android:layout_weight="0.3"
+            android:fontFamily="@font/schoolbell"
             android:onClick="gotoGroupCalendar"
             android:text="@string/personal"
-            android:textColor="@color/blue"
+            android:textColor="#9C27B0"
             android:textSize="20sp"
             android:textStyle="bold"
             tools:ignore="OnClick" />
@@ -177,24 +242,12 @@
             android:layout_gravity="end"
             android:onClick="gotoPersonalCalendar"
             android:text="@string/group"
-            android:textColor="@color/blue"
+            android:textColor="#9C27B0"
             android:textSize="20sp"
+            android:fontFamily="@font/schoolbell"
             android:textStyle="bold"
             tools:ignore="OnClick" />
 
-        <Button
-            android:id="@+id/popupBtn"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.15"
-            android:foreground="@drawable/up_button"
-            android:textColor="@color/blue"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="OnClick,SpeakableTextPresentCheck" />
 
 
     </LinearLayout>
