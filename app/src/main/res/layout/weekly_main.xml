@@ -26,7 +26,7 @@
             android:textSize="30sp" />
 
         <Button
-            android:id="@+id/accountBtn3"
+            android:id="@+id/accountBtn4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="-100dp"
@@ -226,7 +226,7 @@
             android:layout_gravity="start"
             android:layout_weight="0.3"
             android:fontFamily="@font/schoolbell"
-            android:onClick="gotoGroupCalendar"
+            android:onClick="onPersonalBtn_Clicked"
             android:text="@string/personal"
             android:textColor="#9C27B0"
             android:textSize="20sp"
@@ -237,14 +237,14 @@
             android:id="@+id/groupButton"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="0dp"
-            android:layout_weight="0.3"
             android:layout_height="match_parent"
             android:layout_gravity="end"
-            android:onClick="gotoPersonalCalendar"
-            android:text="@string/group"
+            android:layout_weight="0.3"
+            android:fontFamily="@font/schoolbell"
+            android:onClick="onGroupBtn_Clicked"
+            android:text="GROUP(S)"
             android:textColor="#9C27B0"
             android:textSize="20sp"
-            android:fontFamily="@font/schoolbell"
             android:textStyle="bold"
             tools:ignore="OnClick" />
 

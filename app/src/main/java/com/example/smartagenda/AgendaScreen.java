@@ -1,5 +1,6 @@
 package com.example.smartagenda;
 
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -9,6 +10,7 @@ import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 
 public class AgendaScreen extends AppCompatActivity {
     Button button;
@@ -36,14 +38,26 @@ public class AgendaScreen extends AppCompatActivity {
 
     public void onAccountBtn3_Clicked(View caller)
     {
-        Intent intent = new Intent(this, LogOutActivity.class);
-        startActivity(intent);
+        AccountOverviewFragment dialogFragment=new AccountOverviewFragment();
+        dialogFragment.show(getSupportFragmentManager(),"My  Fragment");
     }
 
     public void onTaskAddBtn_Clicked(View caller)
     {
-        Intent intent = new Intent(this, NewTaskActivity.class);
+        NewTaskFragment dialogFragment=new NewTaskFragment();
+        dialogFragment.show(getSupportFragmentManager(),"My  Fragment");
+    }
+
+    public void onGroupBtn_Clicked(View caller)
+    {
+        Intent intent = new Intent(this, GroupListActivity.class);
         startActivity(intent);
+    }
+
+    public void onPersonalBtn_Clicked(View caller)
+    {
+        NewEventFragment dialogFragment=new NewEventFragment();
+        dialogFragment.show(getSupportFragmentManager(),"My  Fragment");
     }
 
 }

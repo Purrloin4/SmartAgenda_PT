@@ -85,5 +85,17 @@
         <item> 12 </item>
     </string-array>
 
+    <string-array name="daysList">
+        <item> monday </item>
+        <item> tuesday </item>
+        <item> wednesday </item>
+        <item> thursday </item>
+        <item> friday </item>
+        <item> saturday </item>
+        <item> sunday </item>
+    </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 
 </resources>

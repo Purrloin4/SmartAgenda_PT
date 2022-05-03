@@ -16,8 +16,8 @@ public class GroupListActivity extends AppCompatActivity {
 
     public void onAccountBtn_Clicked (View caller)
     {
-        Intent intent = new Intent(this, LogOutActivity.class);
-        startActivity(intent);
+        AccountOverviewFragment dialogFragment=new AccountOverviewFragment();
+        dialogFragment.show(getSupportFragmentManager(),"My  Fragment");
     }
 
 }
