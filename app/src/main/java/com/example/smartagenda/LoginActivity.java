@@ -29,7 +29,7 @@ public class LoginActivity extends AppCompatActivity {
         if (!username.getText().toString().matches("")
                 &&!password.getText().toString().matches(""))
         {
-            Intent intent = new Intent(this, AgendaScreen.class);
+            Intent intent = new Intent(this, AgendaScreenActivity.class);
             startActivity(intent);
         }
         else

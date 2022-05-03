@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".NewTaskActivity">
+    tools:context=".ScheduleNewTaskActivity">
 
     <TextView
         android:id="@+id/textView9"
@@ -39,7 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="168dp"
         android:fontFamily="@font/schoolbell"
-        android:text="date"
+        android:text="deadline"
         android:textAlignment="center"
         android:textColor="#9C27B0"
         android:textSize="20dp"
@@ -128,7 +128,7 @@
         app:layout_constraintEnd_toStartOf="@+id/spinner2"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/spinner"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerTime" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextTime2" />
 
     <EditText
         android:id="@+id/editTextDate3"
@@ -145,29 +145,28 @@
         app:layout_constraintTop_toBottomOf="@+id/descriptionIn" />
 
     <Button
-        android:id="@+id/buttonSaveTask"
+        android:id="@+id/button"
         android:layout_width="141dp"
         android:layout_height="54dp"
         android:layout_marginTop="59dp"
         android:background="#9C27B0"
         android:fontFamily="@font/schoolbell"
-        android:text="SAVE TASK"
+        android:text="SCHEDULE TASK"
         android:textColor="@color/white"
-        android:textSize="20sp"
-        android:onClick="saveTaskAction"
+        android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
-    <Spinner
-        android:id="@+id/spinnerTime"
+    <EditText
+        android:id="@+id/editTextTime2"
         android:layout_width="68dp"
         android:layout_height="33dp"
         android:layout_marginStart="135dp"
         android:layout_marginTop="7dp"
-        android:entries="@array/time"
-        android:fontFamily="@font/schoolbell"
+        android:ems="10"
+        android:inputType="time"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/descriptionTxt2" />
 
@@ -176,12 +175,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="7dp"
         android:fontFamily="@font/schoolbell"
         android:text="hrs"
         android:textColor="@color/black"
         android:textSize="20dp"
-        app:layout_constraintStart_toEndOf="@+id/spinnerTime"
+        app:layout_constraintStart_toEndOf="@+id/editTextTime2"
         app:layout_constraintTop_toBottomOf="@+id/descriptionTxt2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
