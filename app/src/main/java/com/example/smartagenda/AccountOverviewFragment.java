@@ -39,7 +39,6 @@ public class AccountOverviewFragment extends DialogFragment
 
         Button pen1 = (Button) rootView.findViewById(R.id.modifyBtn3);
 
-
         return rootView;
 
     }
@@ -48,7 +47,7 @@ public class AccountOverviewFragment extends DialogFragment
     {
         super.onResume();
         Window window = getDialog().getWindow();
-        window.setLayout(750, 900);
+        window.setLayout(900, 1800);
         window.setGravity(Gravity.CENTER);
     }
 

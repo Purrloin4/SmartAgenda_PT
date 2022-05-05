@@ -3,17 +3,13 @@
 
     <item
         android:id="@+id/taskAddBtn"
-        android:onClick="onTaskAddBtn_Clicked"
-        android:title="add task" />
+        android:onClick="onScheduleTaskBtn_Clicked"
+        android:title="schedule task" />
 
     <item
         android:id="@+id/RecurringEventAddBtn"
         android:onClick="RecurringEventAddBtn_Clicked"
         android:title="add recurring event" />
-    <item
-        android:id="@+id/scheduleTask"
-        android:onClick="scheduleTask_Clicked"
-        android:title="schedule a task" />
 
 
 </menu>

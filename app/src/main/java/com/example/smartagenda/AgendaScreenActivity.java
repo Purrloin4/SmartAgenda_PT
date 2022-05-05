@@ -102,10 +102,11 @@ public class AgendaScreenActivity extends AppCompatActivity implements CalendarA
 
     public void onAccountBtn3_Clicked(View caller)
     {
-        Intent intent = new Intent(this, LogOutActivity.class);
-        startActivity(intent);
+        AccountOverviewFragment dialogFragment=new AccountOverviewFragment();
+        dialogFragment.show(getSupportFragmentManager(),"My  Fragment");
     }
 
+    /*
     public void onTaskAddBtn_Clicked(MenuItem item)
     {
         Intent intent = new Intent(this, NewTaskActivity.class);
@@ -120,6 +121,12 @@ public class AgendaScreenActivity extends AppCompatActivity implements CalendarA
 
     public void scheduleTask_Clicked(MenuItem item) {
         Intent intent = new Intent(this, ScheduleNewTaskActivity.class);
+        startActivity(intent);
+    }*/
+
+    public void onScheduleTaskBtn_Clicked(View caller)
+    {
+        Intent intent = new Intent(this, LogOutActivity.class);
         startActivity(intent);
     }
 }
