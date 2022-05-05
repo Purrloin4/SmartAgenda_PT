@@ -13,6 +13,9 @@
             android:name=".NewTaskActivity"
             android:exported="false" />
         <activity
+            android:name=".ScheduleNewTaskActivity"
+            android:exported="false" />
+        <activity
             android:name=".GroupListActivity"
             android:exported="false" />
         <activity
@@ -20,9 +23,6 @@
             android:exported="false" />
         <activity
             android:name=".LoginActivity"
-            android:exported="false" />
-        <activity
-            android:name=".PersonalActivity"
             android:exported="false" />
         <activity
             android:name=".SignUpActivity"
