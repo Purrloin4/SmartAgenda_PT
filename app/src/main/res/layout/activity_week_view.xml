@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".AgendaScreen">
+    tools:context=".AgendaScreenActivity">
 
 
     <LinearLayout
@@ -73,7 +73,7 @@
             tools:ignore="OnClick" />
 
         <TextView
-            android:id="@+id/monthYear"
+            android:id="@+id/monthYearText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
@@ -89,7 +89,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@color/white"
-            android:onClick="nextMonthAction"
+            android:onClick="nextWeekAction"
             android:text="@string/rightArrow"
             android:fontFamily="@font/schoolbell"
             android:textColor="@color/black"
@@ -194,7 +194,7 @@
         android:layout_weight="1" />
 
     <ListView
-        android:id="@+id/eventTable"
+        android:id="@+id/eventListView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="5">
@@ -206,7 +206,7 @@
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="wrap_content"
         android:layout_height="74dp"
-        android:layout_gravity="right"
+        android:layout_gravity="end"
         android:foreground="@drawable/plus_button"
         android:onClick="onPlusBtn_Clicked"
         tools:ignore="OnClick,SpeakableTextPresentCheck" />
