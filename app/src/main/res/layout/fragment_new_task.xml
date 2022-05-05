@@ -122,14 +122,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="316dp"
         android:fontFamily="@font/schoolbell"
         android:text="/"
         android:textAlignment="center"
         android:textColor="#9C27B0"
         android:textSize="30dp"
         app:layout_constraintStart_toEndOf="@+id/daysSp"
-        app:layout_constraintTop_toBottomOf="@+id/hoursIn2" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/yearIn"
@@ -173,19 +172,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/descriptionTxt2" />
 
-    <TextView
-        android:id="@+id/hoursTxt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="4dp"
-        android:fontFamily="@font/schoolbell"
-        android:text="hrs"
-        android:textColor="@color/black"
-        android:textSize="20dp"
-        android:layout_constraintStart_toEndOf="@+id/hoursIn2"
-        app:layout_constraintStart_toEndOf="@+id/spinnerTime"
-        app:layout_constraintTop_toBottomOf="@+id/descriptionTxt2" />
 
 
 

@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_week_view);
+        setContentView(R.layout.activity_main);
 
         //logInBtn = (Button) findViewById(R.id.logInBtn);
         //signUpBtn = (Button) findViewById(R.id.signUpBtn);
