@@ -40,7 +40,7 @@ public class SignUpActivity extends AppCompatActivity {
                 &&!confirmPassword.getText().toString().matches("")
                 && password.getText().toString().equals(confirmPassword.getText().toString()))
         {
-            Intent intent = new Intent(this, AgendaScreen.class);
+            Intent intent = new Intent(this, AgendaScreenActivity.class);
             startActivity(intent);
         }
         else

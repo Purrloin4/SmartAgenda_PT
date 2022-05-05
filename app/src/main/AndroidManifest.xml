@@ -10,6 +10,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SmartAgenda" >
         <activity
+
+            android:name=".NewTaskActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ScheduleNewTaskActivity"
+            android:exported="false" />
+        <activity
             android:name=".GroupListActivity"
             android:exported="false" />
         <activity
