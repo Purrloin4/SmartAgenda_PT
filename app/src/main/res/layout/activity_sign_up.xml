@@ -13,7 +13,6 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="4dp"
         android:ems="10"
-        android:fontFamily="@font/schoolbell"
         android:inputType="textPersonName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/usernameTxt" />
@@ -21,15 +20,15 @@
 
     <TextView
         android:id="@+id/signUpTxt"
-        android:layout_width="403dp"
-        android:layout_height="35dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="120dp"
         android:fontFamily="@font/schoolbell"
         android:text="CREATE AN ACCOUNT"
         android:textAllCaps="false"
         android:textColor="@android:color/holo_green_light"
-        android:textSize="30sp"
+        android:textSize="40sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -42,6 +41,7 @@
         android:layout_marginTop="20dp"
         android:fontFamily="@font/schoolbell"
         android:text="username"
+        android:textStyle="bold"
         android:textAllCaps="false"
         android:textColor="@color/black"
         android:textSize="20sp"
@@ -49,50 +49,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/signUpTxt" />
 
-    <EditText
-        android:id="@+id/emailIn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="4dp"
-        android:ems="10"
-        android:fontFamily="@font/schoolbell"
-        android:inputType="textEmailAddress"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3"
-        tools:ignore="TouchTargetSizeCheck" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="136dp"
-        android:layout_height="23dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="19dp"
-
-        android:fontFamily="@font/schoolbell"
-        android:text="e-mail"
-        android:textAllCaps="false"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/usernameIn2" />
 
     <TextView
         android:id="@+id/passwordTxt"
         android:layout_width="102dp"
         android:layout_height="27dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="17dp"
 
+        android:layout_marginTop="20dp"
         android:fontFamily="@font/schoolbell"
         android:text="password"
+        android:textStyle="bold"
         android:textAllCaps="false"
         android:textColor="@color/black"
-        android:textSize="20sp"
 
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailIn" />
+        app:layout_constraintTop_toBottomOf="@+id/usernameIn2" />
 
     <EditText
         android:id="@+id/passwordIn"
@@ -101,7 +74,6 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="7dp"
         android:ems="10"
-        android:fontFamily="@font/schoolbell"
         android:inputType="textPassword"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordTxt" />
@@ -115,6 +87,7 @@
 
         android:fontFamily="@font/schoolbell"
         android:text="confirm password"
+        android:textStyle="bold"
         android:textAllCaps="false"
         android:textColor="@color/black"
         android:textSize="20sp"
@@ -138,8 +111,8 @@
         android:id="@+id/saveBtn1"
         android:layout_width="189dp"
         android:layout_height="54dp"
-        android:layout_marginStart="200dp"
-        android:layout_marginTop="71dp"
+        android:layout_marginTop="79dp"
+        android:layout_marginEnd="16dp"
         android:background="@android:color/holo_green_light"
         android:fontFamily="@font/schoolbell"
         android:onClick="onSave1Btn_Clicked"
@@ -147,6 +120,17 @@
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="36sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/password2In" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="13dp"
+        android:fontFamily="@font/schoolbell"
+        android:text="(password must be 10 or more characters long)"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password2In" />
 

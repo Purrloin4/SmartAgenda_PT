@@ -2,14 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/taskAddBtn"
-        android:onClick="onTaskAddBtn_Clicked"
-        android:title="add task" />
+        android:id="@+id/addPersonalTaskBtn"
+        android:onClick="onAddPersonalTaskBtn_Clicked"
+        android:title="schedule task" />
+
 
     <item
-        android:id="@+id/RecurringEventAddBtn"
-        android:onClick="scheduleTask_Clicked"
-        android:title="schedule a task" />
+        android:id="@+id/addRecurringEventBtn"
+        android:onClick="onAddRecurringEvent_Clicked"
+        android:title="add recurring event" />
 
 
 

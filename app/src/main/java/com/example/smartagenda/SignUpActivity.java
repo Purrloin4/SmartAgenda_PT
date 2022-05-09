@@ -13,7 +13,6 @@ import android.widget.Toast;
 public class SignUpActivity extends AppCompatActivity {
 
     private EditText username;
-    private EditText email;
     private EditText password;
     private EditText confirmPassword;
     private Button save;
@@ -23,7 +22,6 @@ public class SignUpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
 
         username = (EditText) findViewById(R.id.usernameIn2);
-        email = (EditText) findViewById(R.id.emailIn);
         password = (EditText) findViewById(R.id.passwordIn);
         confirmPassword = (EditText) findViewById(R.id.password2In);
 
@@ -33,9 +31,35 @@ public class SignUpActivity extends AppCompatActivity {
 
     public void onSave1Btn_Clicked(View caller)
     {
+        if (username.getText().toString().matches("")
+                ||password.getText().toString().matches("")
+                ||confirmPassword.getText().toString().matches(""))
+        {
+            Toast.makeText(this, "All fields are mandatory", Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            if (!password.getText().toString().equals(confirmPassword.getText().toString()))
+            {
+                Toast.makeText(this, "Passwords are different", Toast.LENGTH_SHORT).show();
+            }
+            else
+            {
+                if (password.getText().toString().length()<10)
+                {
+                    Toast.makeText(this, "Passwords too short", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    Intent intent = new Intent(this, AgendaScreenActivity.class);
+                    startActivity(intent);
+                }
+            }
 
+        }
+
+        /*
         if (!username.getText().toString().matches("")
-                && !email.getText().toString().matches("")
                 &&!password.getText().toString().matches("")
                 &&!confirmPassword.getText().toString().matches("")
                 && password.getText().toString().equals(confirmPassword.getText().toString()))
@@ -46,7 +70,6 @@ public class SignUpActivity extends AppCompatActivity {
         else
         {
             if (username.getText().toString().matches("")
-                    || email.getText().toString().matches("")
                     || password.getText().toString().matches("")
                     || confirmPassword.getText().toString().matches(""))
             {
@@ -57,7 +80,7 @@ public class SignUpActivity extends AppCompatActivity {
                 Toast.makeText(this, "Passwords don't match", Toast.LENGTH_SHORT).show();
             }
 
-        }
+        }*/
 
 
     }

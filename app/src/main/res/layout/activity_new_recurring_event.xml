@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".NewRecurringEventActivity">
+
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:fontFamily="@font/schoolbell"
+        android:text="NEW RECURRING EVENT"
+        android:textAlignment="center"
+        android:textColor="#9C27B0"
+        android:textSize="40dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/descriptionTxt4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:fontFamily="@font/schoolbell"
+        android:text="description"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+    <EditText
+        android:id="@+id/descriptionIn2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/descriptionTxt4" />
+
+    <TextView
+        android:id="@+id/dayTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/schoolbell"
+        android:text="day"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/descriptionIn2" />
+
+    <Spinner
+        android:id="@+id/daysSp2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:entries="@array/daysList"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dayTxt" />
+
+    <Button
+        android:id="@+id/logOutBtn2"
+        android:layout_width="141dp"
+        android:layout_height="54dp"
+        android:layout_marginTop="92dp"
+        android:background="#9C27B0"
+        android:fontFamily="@font/schoolbell"
+        android:onClick="onAddEventBtn_Clicked"
+        android:text="ADD EVENT "
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/endDateIn" />
+
+    <TextView
+        android:id="@+id/endTimeTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginStart="105dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="20dp"
+        android:fontFamily="@font/schoolbell"
+        android:text="end time"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/startTimeTxt"
+        app:layout_constraintTop_toBottomOf="@+id/daysSp2" />
+
+    <TextView
+        android:id="@+id/endDateIn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/schoolbell"
+        android:text="select"
+        android:textColor="@color/gray"
+        android:textSize="20dp"
+        app:layout_constraintStart_toStartOf="@+id/endDateTxt"
+        app:layout_constraintTop_toBottomOf="@+id/endDateTxt" />
+
+    <TextView
+        android:id="@+id/endDateTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="105dp"
+        android:layout_marginEnd="132dp"
+        android:fontFamily="@font/schoolbell"
+        android:text="end date"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/startDateTxt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/startDateTxt" />
+
+    <TextView
+        android:id="@+id/startDateIn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="208dp"
+        android:fontFamily="@font/schoolbell"
+        android:onClick="onSelectStartDate_Clicked"
+        android:text="select"
+        android:textAlignment="center"
+        android:textColor="@color/gray"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/startDateTxt" />
+
+    <TextView
+        android:id="@+id/startDateTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="19dp"
+        android:fontFamily="@font/schoolbell"
+        android:text="start date"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/startDateIn"
+        app:layout_constraintEnd_toStartOf="@+id/endDateTxt"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/endTimeIn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/schoolbell"
+        android:onClick="onSelectEndTime_Clicked"
+        android:text="select"
+        android:textAlignment="center"
+        android:textColor="@color/gray"
+        android:textSize="20dp"
+        app:layout_constraintStart_toStartOf="@+id/endTimeTxt"
+        app:layout_constraintTop_toBottomOf="@+id/endTimeTxt" />
+
+    <TextView
+        android:id="@+id/startTimeTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/schoolbell"
+        android:text="start time"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/endTimeTxt"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/endTimeTxt" />
+
+    <TextView
+        android:id="@+id/startTimeIn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/schoolbell"
+        android:onClick="onSelectStartTime_Clicked"
+        android:text="select"
+        android:textAlignment="center"
+        android:textColor="@color/gray"
+        android:textSize="20dp"
+        app:layout_constraintStart_toStartOf="@+id/startTimeTxt"
+        app:layout_constraintTop_toBottomOf="@+id/startTimeTxt" />
+
+    <Switch
+        android:id="@+id/allDaySw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/schoolbell"
+        android:text="all day"
+        android:onClick="onAllDaySp_Clicked"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/daysSp2" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

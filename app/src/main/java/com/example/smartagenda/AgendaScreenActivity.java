@@ -45,7 +45,7 @@ public class AgendaScreenActivity extends AppCompatActivity implements CalendarA
         monthYearText = findViewById(R.id.monthYearText);
         eventListView = findViewById(R.id.eventListView);
         //addEvent = (Button) findViewById(R.id.eventAddBtn);
-        addTask = (Button) findViewById(R.id.taskAddBtn);
+        addTask = (Button) findViewById(R.id.addPersonalTaskBtn);
     }
 
     private void setWeekView()
@@ -103,29 +103,25 @@ public class AgendaScreenActivity extends AppCompatActivity implements CalendarA
 
     public void onAccountBtn3_Clicked(View caller)
     {
-        AccountOverviewFragment dialogFragment = new AccountOverviewFragment();
-        dialogFragment.show(getSupportFragmentManager(), "My Fragment");
+        //AccountOverviewFragment dialogFragment = new AccountOverviewFragment();
+        //dialogFragment.show(getSupportFragmentManager(), "My Fragment");
+
+        Intent intent = new Intent(this, AccountActivity.class);
+        startActivity(intent);
     }
 
-    /*
-    public void onTaskAddBtn_Clicked(MenuItem item)
+
+    public void onAddPersonalTaskBtn_Clicked(MenuItem item)
     {
         Intent intent = new Intent(this, NewTaskActivity.class);
         startActivity(intent);
     }
 
-    public void scheduleTask_Clicked(MenuItem item) {
-        Intent intent = new Intent(this, ScheduleNewTaskActivity.class);
-        startActivity(intent);
-    }*/
-
-    public void onScheduleTaskBtn_Clicked(View caller)
+    public void onAddRecurringEvent_Clicked(MenuItem item)
     {
-        Intent intent = new Intent(this, LogOutActivity.class);
+        Intent intent = new Intent(this, NewRecurringEventActivity.class);
         startActivity(intent);
     }
-
-
 
 }
 

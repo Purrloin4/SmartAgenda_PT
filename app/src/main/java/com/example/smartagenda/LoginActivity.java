@@ -27,6 +27,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public void onLogIn2Btn_Clicked(View caller)
     {
+
         if (!username.getText().toString().matches("")
                 &&!password.getText().toString().matches(""))
         {
