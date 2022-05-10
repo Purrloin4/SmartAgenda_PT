@@ -117,5 +117,11 @@ public class AgendaScreenActivity extends AppCompatActivity implements CalendarA
         startActivity(intent);
     }
 
+    public void onGroupBtn_Clicked(View caller)
+    {
+        Intent intent = new Intent(this, GroupsActivity.class);
+        startActivity(intent);
+    }
+
 }
 
