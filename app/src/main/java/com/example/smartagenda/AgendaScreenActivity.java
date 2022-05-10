@@ -26,8 +26,6 @@ public class AgendaScreenActivity extends AppCompatActivity implements CalendarA
     private ListView eventListView;
     private Button addTask;
 
-    //Button addEvent;
-    //Button addTask;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -40,12 +38,11 @@ public class AgendaScreenActivity extends AppCompatActivity implements CalendarA
 
     private void initWidgets()
     {
-        button = (Button) findViewById(R.id.popupBtn);
+        button = findViewById(R.id.popupBtn);
         calendarRecyclerView = findViewById(R.id.calendarRecyclerView);
         monthYearText = findViewById(R.id.monthYearText);
         eventListView = findViewById(R.id.eventListView);
-        //addEvent = (Button) findViewById(R.id.eventAddBtn);
-        addTask = (Button) findViewById(R.id.addPersonalTaskBtn);
+        addTask = findViewById(R.id.addPersonalTaskBtn);
     }
 
     private void setWeekView()
@@ -103,9 +100,6 @@ public class AgendaScreenActivity extends AppCompatActivity implements CalendarA
 
     public void onAccountBtn3_Clicked(View caller)
     {
-        //AccountOverviewFragment dialogFragment = new AccountOverviewFragment();
-        //dialogFragment.show(getSupportFragmentManager(), "My Fragment");
-
         Intent intent = new Intent(this, AccountActivity.class);
         startActivity(intent);
     }

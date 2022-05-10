@@ -30,7 +30,24 @@ public class EventAdapter extends ArrayAdapter<com.example.smartagenda.Event>
 
         TextView eventCellTV = convertView.findViewById(R.id.eventCellTV);
 
-        String eventTitle = event.getName() +" "+ CalendarUtils.formattedTime(event.getTime());
+        String formattedStartHour = "" +event.getStartHour();
+        String formattedStartMin = ""+ event.getStartMin();
+        String formattedEndHour = "" +event.getEndHour();
+        String formattedEndMin = ""+ event.getEndMin();
+        if (event.getStartHour() < 10){
+        formattedStartHour = "0" + event.getStartHour();
+        }
+        if (event.getStartMin() < 10){
+            formattedStartMin = "0" + event.getStartMin();
+        }
+        if (event.getEndHour() < 10){
+            formattedEndHour = "0" + event.getEndHour();
+        }
+        if (event.getEndMin() < 10){
+            formattedEndMin = "0" + event.getEndMin();
+        }
+
+        String eventTitle = event.getDescription() +" "+ formattedStartHour + ":" + formattedStartMin + "-" + formattedEndHour + ":" + formattedEndMin;
         eventCellTV.setText(eventTitle);
         return convertView;
     }

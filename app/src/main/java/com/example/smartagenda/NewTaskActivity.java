@@ -21,11 +21,10 @@ import java.util.Locale;
 
 public class NewTaskActivity extends AppCompatActivity
 {
-    /*
 
-    private EditText eventNameET;
-    private TextView eventDateTV, eventTimeTV;
-    private LocalTime time;*/
+
+
+
 
     private TextView deadlineTV, duration;
     DatePickerDialog.OnDateSetListener setListener;
@@ -97,10 +96,6 @@ public class NewTaskActivity extends AppCompatActivity
             }
         });
 
-        //initWidgets();
-        //time = LocalTime.now();
-        //eventDateTV.setText("Date: " + CalendarUtils.formattedDate(CalendarUtils.selectedDate));
-        //eventTimeTV.setText("Time: " + CalendarUtils.formattedTime(time));
     }
 
     public void onSelectDuration_Clicked(View view)
@@ -168,18 +163,5 @@ public class NewTaskActivity extends AppCompatActivity
         }
     }
 
-    /*
-    private void initWidgets()
-    {
-        eventNameET = findViewById(R.id.descriptionIn);
-    }*/
 
-    /*
-    public void saveTaskAction(View view)
-    {
-        String eventName = eventNameET.getText().toString();
-        Event newEvent = new Event(eventName, CalendarUtils.selectedDate, time);
-        Event.eventsList.add(newEvent);
-        finish();
-    }*/
 }
