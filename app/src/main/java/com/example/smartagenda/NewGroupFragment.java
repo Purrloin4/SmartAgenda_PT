@@ -17,6 +17,18 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 public class NewGroupFragment extends DialogFragment {
@@ -27,6 +39,7 @@ public class NewGroupFragment extends DialogFragment {
     private EditText memberIn;
     private TextView newMember;
     private int counter;
+    private RequestQueue requestQueue;
 
     @Nullable
     @Override
@@ -45,6 +58,55 @@ public class NewGroupFragment extends DialogFragment {
             @Override
             public void onClick(View view)
             {
+                requestQueue = Volley.newRequestQueue(rootView.getContext());
+                String requestURL = "https://studev.groept.be/api/a21pt308/usernames";
+
+                JsonArrayRequest submitRequest = new JsonArrayRequest(Request.Method.GET,requestURL,null,new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        int counter2 = 0;
+                        for (int i=0; i<response.length(); ++i) {
+                            JSONObject o = null;
+                            try {
+                                o = response.getJSONObject(i);
+                                if (o.get("username").equals(memberIn.getText().toString()))
+                                {
+                                    counter2++;
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        if (counter2==0)
+                        {
+                            Toast.makeText(rootView.getContext(), "There is no account under that username", Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                        {
+                            if (counter==0)
+                            {
+                                newMember.setText(memberIn.getText().toString());
+                                newMember.setVisibility(View.VISIBLE);
+                            }
+                            else
+                            {
+                                newMember.setText(newMember.getText().toString()+ ", " +memberIn.getText().toString());
+                            }
+                            counter++;
+                        }
+                        //txtInfo.setText(info);
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(rootView.getContext(), "Unable to communicate with the server", Toast.LENGTH_LONG).show();
+                    }
+                });
+
+                requestQueue.add(submitRequest);
+
+                /*
+
                 if (counter==0)
                 {
                     newMember.setText(memberIn.getText().toString());
@@ -54,7 +116,7 @@ public class NewGroupFragment extends DialogFragment {
                 {
                     newMember.setText(newMember.getText().toString()+ ", " +memberIn.getText().toString());
                 }
-                counter++;
+                counter++;*/
             }
         });
 
