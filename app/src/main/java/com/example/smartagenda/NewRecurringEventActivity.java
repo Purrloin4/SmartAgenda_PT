@@ -18,6 +18,9 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -28,6 +31,7 @@ public class NewRecurringEventActivity extends AppCompatActivity {
     DatePickerDialog.OnDateSetListener setListener;
     DatePickerDialog.OnDateSetListener setListener2;
     private EditText eventDescriptionET;
+    private Spinner daysSp2;
 
     private TextView startTime, endTime;
     private int startHour, startMin, endHour, endMin;
@@ -45,6 +49,7 @@ public class NewRecurringEventActivity extends AppCompatActivity {
 
     private int startDay, startMonth, startYear, endDay, endMonth, endYear;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +58,7 @@ public class NewRecurringEventActivity extends AppCompatActivity {
         title1 = findViewById(R.id.startTimeTxt);
         title2 = findViewById(R.id.endTimeTxt);
         allDay = findViewById(R.id.allDaySw);
+        daysSp2 = findViewById(R.id.daysSp2);
         isON = false;
 
         coherentTime = false;
@@ -159,6 +165,19 @@ public class NewRecurringEventActivity extends AppCompatActivity {
                 datePickerDialog.show();
             }
         });
+    }
+
+    public ArrayList<String> getDates(TextView startDate, TextView endDate)
+    {
+        ArrayList<String> dates = new ArrayList<String>();
+        if (startYear <= endYear){
+            if (startMonth <= endMonth){
+                if(startDay <= endDay){
+
+                }
+            }
+        }
+        return dates;
     }
 
     public void onSelectStartTime_Clicked(View view)

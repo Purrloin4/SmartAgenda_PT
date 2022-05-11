@@ -47,7 +47,9 @@ public class EventAdapter extends ArrayAdapter<com.example.smartagenda.Event>
             formattedEndMin = "0" + event.getEndMin();
         }
 
-        String eventTitle = event.getDescription() +" "+ formattedStartHour + ":" + formattedStartMin + "-" + formattedEndHour + ":" + formattedEndMin;
+        String formattedTime = formattedStartHour + ":" + formattedStartMin + "-" + formattedEndHour + ":" + formattedEndMin;
+
+        String eventTitle = event.getDescription() +" "+ formattedTime;
         eventCellTV.setText(eventTitle);
         return convertView;
     }
