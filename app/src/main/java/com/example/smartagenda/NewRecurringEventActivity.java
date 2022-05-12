@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
@@ -28,6 +29,9 @@ public class NewRecurringEventActivity extends AppCompatActivity {
 
     private TextView startDate;
     private TextView endDate;
+    private LocalDate startDateLD;
+    private LocalDate endDateLD;
+
     DatePickerDialog.OnDateSetListener setListener;
     DatePickerDialog.OnDateSetListener setListener2;
     private EditText eventDescriptionET;
@@ -116,6 +120,8 @@ public class NewRecurringEventActivity extends AppCompatActivity {
                             startDay= "0" +day;
                         String date = startDay + "/"  + startMonth + "/" + year;
                         startDate.setText(date);
+
+                        startDateLD = LocalDate.of(year, month, day);
                     }
                 }, year, month, day);
                 datePickerDialog.show();
@@ -152,14 +158,16 @@ public class NewRecurringEventActivity extends AppCompatActivity {
                     @Override
                     public void onDateSet(DatePicker view , int year, int month, int day) {
                         month = month+1;
-                        String startMonth = "" + month;
-                        String startDay = "" + day;
+                        String endMonth = "" + month;
+                        String endDay = "" + day;
                         if (month<10)
-                            startMonth= "0" +month;
+                            endMonth= "0" +month;
                         if (day<10)
-                            startDay= "0" +day;
-                        String date = startDay + "/"  + startMonth + "/" + year;
+                            endDay= "0" +day;
+                        String date = endDay + "/"  + endMonth + "/" + year;
                         endDate.setText(date);
+
+                        endDateLD = LocalDate.of(year, month, day);
                     }
                 }, year, month, day);
                 datePickerDialog.show();
@@ -167,15 +175,18 @@ public class NewRecurringEventActivity extends AppCompatActivity {
         });
     }
 
-    public ArrayList<String> getDates(TextView startDate, TextView endDate)
+    public ArrayList<LocalDate> getDates(LocalDate startDateLD, LocalDate endDateLD)
     {
-        ArrayList<String> dates = new ArrayList<String>();
-        if (startYear <= endYear){
-            if (startMonth <= endMonth){
-                if(startDay <= endDay){
+        ArrayList<LocalDate> dates = new ArrayList<LocalDate>();
+        int j = endDateLD.getDayOfYear();
+        String spinnerText = daysSp2.getSelectedItem().toString().toUpperCase(Locale.ROOT);
 
-                }
+        for (int i = startDateLD.getDayOfYear(); i <= j; i++){
+            String dayOfWeek = startDateLD.getDayOfWeek().toString();
+            if (dayOfWeek.equals(spinnerText)){
+                dates.add(startDateLD);
             }
+            startDateLD = startDateLD.plusDays(1);
         }
         return dates;
     }
@@ -280,9 +291,13 @@ public class NewRecurringEventActivity extends AppCompatActivity {
 
         if (coherentDate && coherentTime)
         {
+
             String eventDescription = eventDescriptionET.getText().toString();
-            Event newEvent = new Event(eventDescription, startHour, startMin, endHour, endMin, startDate); //Somehow make this a loop for every day from startDate until endDate
-            Event.eventsList.add(newEvent);
+            for (LocalDate date:getDates(startDateLD,endDateLD)) {
+                Event newEvent = new Event(eventDescription, startHour, startMin, endHour, endMin, date);
+                Event.eventsList.add(newEvent);
+            }
+
             finish();
 
             Intent intent = new Intent(this, AgendaScreenActivity.class);

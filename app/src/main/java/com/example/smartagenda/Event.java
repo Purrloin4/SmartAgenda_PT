@@ -18,7 +18,7 @@ public class Event
 
         for(Event event : eventsList)
         {
-            if(event.getDate().equals(CalendarUtils.formattedDate(date).toString()))
+            if(event.getDate().equals(CalendarUtils.formattedDate(date)))
                 events.add(event);
         }
 
@@ -31,10 +31,10 @@ public class Event
     private int startMin;
     private int endHour;
     private int endMin;
-    private TextView date;
+    private LocalDate date;
 
 
-    public Event(String description, int startHour, int startMin, int endHour, int endMin, TextView date) {
+    public Event(String description, int startHour, int startMin, int endHour, int endMin, LocalDate date) {
         this.description = description;
         this.startHour = startHour;
         this.startMin = startMin;
@@ -65,6 +65,6 @@ public class Event
     }
 
     public String getDate() {
-        return date.getText().toString();
+        return CalendarUtils.formattedDate(date);
     }
 }
