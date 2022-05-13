@@ -18,8 +18,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.android.volley.RequestQueue;
-
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
@@ -28,8 +27,13 @@ public class NewRecurringEventActivity extends AppCompatActivity {
 
     private TextView startDate;
     private TextView endDate;
+    private LocalDate startDateLD;
+    private LocalDate endDateLD;
+
     DatePickerDialog.OnDateSetListener setListener;
     DatePickerDialog.OnDateSetListener setListener2;
+    DatePickerDialog.OnDateSetListener setListener3;
+
     private EditText eventDescriptionET;
     private Spinner daysSp2;
 
@@ -41,10 +45,18 @@ public class NewRecurringEventActivity extends AppCompatActivity {
     private boolean coherentTime;
     private boolean coherentDate;
 
-    private TextView title1;
-    private TextView title2;
+    private TextView startTimeTV;
+    private TextView endTimeTV;
+    private TextView startDateTV;
+    private TextView endDateTV;
+    private TextView oneDateTV;
+    private TextView oneDate;
+
     private Switch allDay;
-    private boolean isON;
+    private Switch oneTime;
+
+    private boolean allDayON;
+    private boolean oneTimeON;
 
 
     private int startDay, startMonth, startYear, endDay, endMonth, endYear;
@@ -55,11 +67,15 @@ public class NewRecurringEventActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_recurring_event);
 
-        title1 = findViewById(R.id.startTimeTxt);
-        title2 = findViewById(R.id.endTimeTxt);
+        startTimeTV = findViewById(R.id.startTimeTxt);
+        endTimeTV = findViewById(R.id.endTimeTxt);
+        startDateTV = findViewById(R.id.startDateTxt);
+        endDateTV = findViewById(R.id.endDateTxt);
+        oneDateTV = findViewById(R.id.oneDateTxt);
+
         allDay = findViewById(R.id.allDaySw);
         daysSp2 = findViewById(R.id.daysSp2);
-        isON = false;
+        allDayON = false;
 
         coherentTime = false;
         coherentDate = false;
@@ -68,6 +84,7 @@ public class NewRecurringEventActivity extends AppCompatActivity {
 
         startDate = findViewById(R.id.startDateIn);
         endDate = findViewById(R.id.endDateIn);
+        oneDate = findViewById(R.id.DateIn);
 
         endTime = findViewById(R.id.endTimeIn);
         startTime = findViewById(R.id.startTimeIn);
@@ -76,6 +93,11 @@ public class NewRecurringEventActivity extends AppCompatActivity {
         final int year = calendar.get(Calendar.YEAR);
         final int month = calendar.get(Calendar.MONTH);
         final int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        oneDateTV.setVisibility(View.INVISIBLE);
+        oneDate.setVisibility(View.INVISIBLE);
+
+
 
 
         startDate.setOnClickListener(new View.OnClickListener() {
@@ -89,7 +111,7 @@ public class NewRecurringEventActivity extends AppCompatActivity {
 
         setListener = new DatePickerDialog.OnDateSetListener(){
             @Override
-            public void onDateSet (DatePicker view, int year, int month, int dayOfMonth) {  //this part doest do anything because we show "select" instead i think
+            public void onDateSet (DatePicker view, int year, int month, int dayOfMonth) {
                 month = month + 1;
                 startMonth = month;
                 startYear = year;
@@ -116,6 +138,8 @@ public class NewRecurringEventActivity extends AppCompatActivity {
                             startDay= "0" +day;
                         String date = startDay + "/"  + startMonth + "/" + year;
                         startDate.setText(date);
+
+                        startDateLD = LocalDate.of(year, month, day);
                     }
                 }, year, month, day);
                 datePickerDialog.show();
@@ -152,6 +176,52 @@ public class NewRecurringEventActivity extends AppCompatActivity {
                     @Override
                     public void onDateSet(DatePicker view , int year, int month, int day) {
                         month = month+1;
+                        String endMonth = "" + month;
+                        String endDay = "" + day;
+                        if (month<10)
+                            endMonth= "0" +month;
+                        if (day<10)
+                            endDay= "0" +day;
+                        String date = endDay + "/"  + endMonth + "/" + year;
+                        endDate.setText(date);
+
+                        endDateLD = LocalDate.of(year, month, day);
+                    }
+                }, year, month, day);
+                datePickerDialog.show();
+            }
+        });
+
+        oneDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(NewRecurringEventActivity.this,android.R.style.Theme_Holo_Light_Dialog, setListener, year, month, day);
+                datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                datePickerDialog.show();
+            }
+        });
+
+        setListener3 = new DatePickerDialog.OnDateSetListener(){
+            @Override
+            public void onDateSet (DatePicker view, int year, int month, int dayOfMonth) {  //this part doest do anything because we show "select" instead i think
+                month = month + 1;
+                startMonth = month;
+                startYear = year;
+                startDay = dayOfMonth;
+                String date = year + "-" + month  + "-" + dayOfMonth;
+                oneDate.setText(date);
+            }
+
+        };
+
+
+        oneDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(NewRecurringEventActivity.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view , int year, int month, int day) {
+                        month = month+1;
                         String startMonth = "" + month;
                         String startDay = "" + day;
                         if (month<10)
@@ -159,7 +229,10 @@ public class NewRecurringEventActivity extends AppCompatActivity {
                         if (day<10)
                             startDay= "0" +day;
                         String date = startDay + "/"  + startMonth + "/" + year;
-                        endDate.setText(date);
+                        oneDate.setText(date);
+
+                        startDateLD = LocalDate.of(year, month, day);
+                        endDateLD = LocalDate.of(year, month, day);
                     }
                 }, year, month, day);
                 datePickerDialog.show();
@@ -167,15 +240,18 @@ public class NewRecurringEventActivity extends AppCompatActivity {
         });
     }
 
-    public ArrayList<String> getDates(TextView startDate, TextView endDate)
+    public ArrayList<LocalDate> getDates(LocalDate startDateLD, LocalDate endDateLD)
     {
-        ArrayList<String> dates = new ArrayList<String>();
-        if (startYear <= endYear){
-            if (startMonth <= endMonth){
-                if(startDay <= endDay){
+        ArrayList<LocalDate> dates = new ArrayList<LocalDate>();
+        int j = endDateLD.getDayOfYear();
+        String spinnerText = daysSp2.getSelectedItem().toString().toUpperCase(Locale.ROOT);
 
-                }
+        for (int i = startDateLD.getDayOfYear(); i <= j; i++){ // make lambda
+            String dayOfWeek = startDateLD.getDayOfWeek().toString();
+            if (dayOfWeek.equals(spinnerText)){
+                dates.add(startDateLD);
             }
+            startDateLD = startDateLD.plusDays(1);
         }
         return dates;
     }
@@ -239,50 +315,23 @@ public class NewRecurringEventActivity extends AppCompatActivity {
             }
         }
 
-        if (startYear==endYear)
-        {
-            if (startMonth<endMonth)
-            {
-                coherentDate=true;
-            }
-            else
-            {
-                if (startMonth==endMonth)
-                {
-                    if (startDay<=endDay)
-                    {
-                        coherentDate=true;
-                    }
-                    else
-                    {
-                        Toast.makeText(this, "Time slot is incoherent", Toast.LENGTH_SHORT).show();
-                    }
-                }
-                else
-                {
-                    Toast.makeText(this, "Time slot is incoherent", Toast.LENGTH_SHORT).show();
-                }
-            }
-
+        if (startDateLD.getDayOfYear() > endDateLD.getDayOfYear()){
+            Toast.makeText(this, "Date is incoherent", Toast.LENGTH_SHORT).show();
         }
-        else
-        {
-            if (startYear<endYear)
-            {
-                coherentDate=true;
-            }
-            else
-            {
-                Toast.makeText(this, "Time slot is incoherent", Toast.LENGTH_SHORT).show();
-            }
+        else {
+            coherentDate = true;
         }
 
 
         if (coherentDate && coherentTime)
         {
+
             String eventDescription = eventDescriptionET.getText().toString();
-            Event newEvent = new Event(eventDescription, startHour, startMin, endHour, endMin, startDate); //Somehow make this a loop for every day from startDate until endDate
-            Event.eventsList.add(newEvent);
+            for (LocalDate date:getDates(startDateLD,endDateLD)) {
+                Event newEvent = new Event(eventDescription, startTime, endTime, date, allDayON);
+                Event.eventsList.add(newEvent);
+            }
+
             finish();
 
             Intent intent = new Intent(this, AgendaScreenActivity.class);
@@ -292,24 +341,51 @@ public class NewRecurringEventActivity extends AppCompatActivity {
 
     public void onAllDaySp_Clicked(View caller)
     {
-        if (isON==false)
+        if (allDayON ==false)
         {
-            title1.setVisibility(caller.INVISIBLE);
+            startTimeTV.setVisibility(caller.INVISIBLE);
             startTime.setVisibility(caller.INVISIBLE);
-            title2.setVisibility(caller.INVISIBLE);
+            endTimeTV.setVisibility(caller.INVISIBLE);
             endTime.setVisibility(caller.INVISIBLE);
-            isON=true;
+            allDayON =true;
+            startHour = 0;
+            startMin = 0;
+            endHour= 24;
+            endMin = 0;
+            startTime.setText(String.format(Locale.getDefault(),"%02d:%02d", 0, 0));
+            endTime.setText(String.format(Locale.getDefault(),"%02d:%02d", 24, 0));
         }
         else
         {
-            title1.setVisibility(caller.VISIBLE);
+            startTimeTV.setVisibility(caller.VISIBLE);
             startTime.setVisibility(caller.VISIBLE);
-            title2.setVisibility(caller.VISIBLE);
+            endTimeTV.setVisibility(caller.VISIBLE);
             endTime.setVisibility(caller.VISIBLE);
-            isON=false;
+            allDayON =false;
         }
-    }
 
+
+    }
+    public void onOneTimeSp_Clicked(View caller) {
+        if (oneTimeON == false) {
+            startDateTV.setVisibility(caller.INVISIBLE);
+            startDate.setVisibility(caller.INVISIBLE);
+            endDateTV.setVisibility(caller.INVISIBLE);
+            endDate.setVisibility(caller.INVISIBLE);
+            oneDateTV.setVisibility(caller.VISIBLE);
+            oneDate.setVisibility(caller.VISIBLE);
+            oneTimeON = true;
+        } else {
+            startDateTV.setVisibility(caller.VISIBLE);
+            startDate.setVisibility(caller.VISIBLE);
+            endDateTV.setVisibility(caller.VISIBLE);
+            endDate.setVisibility(caller.VISIBLE);
+            oneDateTV.setVisibility(caller.INVISIBLE);
+            oneDate.setVisibility(caller.INVISIBLE);
+            oneTimeON = false;
+        }
+
+    }
 
 
 

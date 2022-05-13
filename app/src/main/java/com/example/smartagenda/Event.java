@@ -18,7 +18,7 @@ public class Event
 
         for(Event event : eventsList)
         {
-            if(event.getDate().equals(CalendarUtils.formattedDate(date).toString()))
+            if(event.getDate().equals(CalendarUtils.formattedDate(date)))
                 events.add(event);
         }
 
@@ -27,20 +27,18 @@ public class Event
 
 
     private String description;
-    private int startHour;
-    private int startMin;
-    private int endHour;
-    private int endMin;
-    private TextView date;
+    private TextView startTime;;
+    private TextView endTime;
+    private LocalDate date;
+    private boolean allDay;
 
 
-    public Event(String description, int startHour, int startMin, int endHour, int endMin, TextView date) {
+    public Event(String description, TextView startTime, TextView endTime, LocalDate date, boolean allDay) {
         this.description = description;
-        this.startHour = startHour;
-        this.startMin = startMin;
-        this.endHour = endHour;
-        this.endMin = endMin;
+        this.startTime = startTime;
+        this.endTime = endTime;
         this.date = date;
+        this.allDay = allDay;
     }
 
 
@@ -48,23 +46,17 @@ public class Event
         return description;
     }
 
-    public int getStartHour() {
-        return startHour;
+    public String getStartTime() {
+        return startTime.getText().toString();
     }
 
-    public int getStartMin() {
-        return startMin;
-    }
-
-    public int getEndHour() {
-        return endHour;
-    }
-
-    public int getEndMin() {
-        return endMin;
-    }
+    public String getEndTime() { return endTime.getText().toString(); }
 
     public String getDate() {
-        return date.getText().toString();
+        return CalendarUtils.formattedDate(date);
+    }
+
+    public boolean isAllDay() {
+        return allDay;
     }
 }

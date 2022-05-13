@@ -89,6 +89,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/schoolbell"
         android:onClick="onSelectDuration_Clicked"
+        android:layout_marginTop="4dp"
         android:text="select"
         android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
