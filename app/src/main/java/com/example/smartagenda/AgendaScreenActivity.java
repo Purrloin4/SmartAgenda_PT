@@ -26,6 +26,8 @@ public class AgendaScreenActivity extends AppCompatActivity implements CalendarA
     private ListView eventListView;
     private Button addTask;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {

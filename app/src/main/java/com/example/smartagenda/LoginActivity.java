@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -82,6 +83,12 @@ public class LoginActivity extends AppCompatActivity {
                         }
                         else
                         {
+                            SharedPreferences login = getSharedPreferences("UserInfo", 0);
+                            SharedPreferences.Editor editor = login.edit();
+                            editor.putString("username",username.getText().toString());
+                            editor.putString("password",password.getText().toString());
+                            editor.commit();
+
                             Toast.makeText(LoginActivity.this, "You are now logged in.", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(LoginActivity.this, AgendaScreenActivity.class);
                             startActivity(intent);
