@@ -53,6 +53,7 @@ public class NewRecurringEventActivity extends AppCompatActivity {
     private TextView endDateTV;
     private TextView oneDateTV;
     private TextView oneDate;
+    private TextView dayTxt;
 
     private Switch allDay;
     private Switch oneTime;
@@ -74,10 +75,14 @@ public class NewRecurringEventActivity extends AppCompatActivity {
         startDateTV = findViewById(R.id.startDateTxt);
         endDateTV = findViewById(R.id.endDateTxt);
         oneDateTV = findViewById(R.id.oneDateTxt);
+        dayTxt = findViewById(R.id.dayTxt);
 
         allDay = findViewById(R.id.allDaySw);
         daysSp2 = findViewById(R.id.daysSp2);
         allDayON = false;
+
+        oneTime = findViewById(R.id.oneTimeSw);
+        oneTimeON = false;
 
         coherentTime = false;
         coherentDate = false;
@@ -133,6 +138,7 @@ public class NewRecurringEventActivity extends AppCompatActivity {
                         startDateLD = LocalDate.of(year, month, day);
                         String date = CalendarUtils.formattedDate(startDateLD);
                         startDate.setText(date);
+                        spinnerRemoveChecker();
                     }
                 }, year, month, day);
                 datePickerDialog.show();
@@ -170,6 +176,7 @@ public class NewRecurringEventActivity extends AppCompatActivity {
                         endDateLD = LocalDate.of(year, month, day);
                         String date = CalendarUtils.formattedDate(endDateLD);
                         endDate.setText(date);
+                        spinnerRemoveChecker();
                     }
                 }, year, month, day);
                 datePickerDialog.show();
@@ -229,6 +236,11 @@ public class NewRecurringEventActivity extends AppCompatActivity {
         int j = endDateLD.getDayOfYear();
         String spinnerText = daysSp2.getSelectedItem().toString().toUpperCase(Locale.ROOT);
 
+        if(startDateLD.getDayOfYear() == endDateLD.getDayOfYear()){
+            dates.add(startDateLD);
+            return dates;
+        }
+
         for (int i = startDateLD.getDayOfYear(); i <= j; i++){ // make lambda
             String dayOfWeek = startDateLD.getDayOfWeek().toString();
             if (dayOfWeek.equals(spinnerText)){
@@ -277,7 +289,15 @@ public class NewRecurringEventActivity extends AppCompatActivity {
 
     public void onAddEventBtn_Clicked(View caller)
     {
+        if (allDayON){
+            startHour = 0;
+            startMin = 0;
+            endHour= 24;
+            endMin = 0;
 
+            startTimeLT = LocalTime.of(0,0);
+            endTimeLT = LocalTime.of(23,59);
+        }
         if (startHour==endHour)
         {
             if (startMin<endMin)
@@ -335,12 +355,6 @@ public class NewRecurringEventActivity extends AppCompatActivity {
             endTimeTV.setVisibility(caller.INVISIBLE);
             endTime.setVisibility(caller.INVISIBLE);
             allDayON =true;
-            startHour = 0;
-            startMin = 0;
-            endHour= 24;
-            endMin = 0;
-            startTime.setText(String.format(Locale.getDefault(),"%02d:%02d", 0, 0));
-            endTime.setText(String.format(Locale.getDefault(),"%02d:%02d", 24, 0));
         }
         else
         {
@@ -362,6 +376,8 @@ public class NewRecurringEventActivity extends AppCompatActivity {
             oneDateTV.setVisibility(caller.VISIBLE);
             oneDate.setVisibility(caller.VISIBLE);
             oneTimeON = true;
+            daysSp2.setVisibility(caller.INVISIBLE);
+            dayTxt.setVisibility(caller.INVISIBLE);
         } else {
             startDateTV.setVisibility(caller.VISIBLE);
             startDate.setVisibility(caller.VISIBLE);
@@ -370,6 +386,19 @@ public class NewRecurringEventActivity extends AppCompatActivity {
             oneDateTV.setVisibility(caller.INVISIBLE);
             oneDate.setVisibility(caller.INVISIBLE);
             oneTimeON = false;
+        }
+
+    }
+    public void spinnerRemoveChecker(){
+        if (startDateLD != null && endDateLD != null) {
+            if(startDateLD.getDayOfYear() == endDateLD.getDayOfYear()){
+                daysSp2.setVisibility(View.INVISIBLE);
+                dayTxt.setVisibility(View.INVISIBLE);
+            }
+            else{
+                daysSp2.setVisibility(View.VISIBLE);
+                dayTxt.setVisibility(View.VISIBLE);
+            }
         }
 
     }
