@@ -19,6 +19,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
@@ -39,6 +40,7 @@ public class NewRecurringEventActivity extends AppCompatActivity {
 
     private TextView startTime, endTime;
     private int startHour, startMin, endHour, endMin;
+    private LocalTime startTimeLT, endTimeLT;
 
     private Button addEvent;
 
@@ -113,10 +115,8 @@ public class NewRecurringEventActivity extends AppCompatActivity {
             @Override
             public void onDateSet (DatePicker view, int year, int month, int dayOfMonth) {
                 month = month + 1;
-                startMonth = month;
-                startYear = year;
-                startDay = dayOfMonth;
-                String date = year + "-" + month  + "-" + dayOfMonth;
+                startDateLD = LocalDate.of(year, month, day);
+                String date = CalendarUtils.formattedDate(startDateLD);
                 startDate.setText(date);
             }
 
@@ -130,16 +130,9 @@ public class NewRecurringEventActivity extends AppCompatActivity {
                     @Override
                     public void onDateSet(DatePicker view , int year, int month, int day) {
                         month = month+1;
-                        String startMonth = "" + month;
-                        String startDay = "" + day;
-                        if (month<10)
-                            startMonth= "0" +month;
-                        if (day<10)
-                            startDay= "0" +day;
-                        String date = startDay + "/"  + startMonth + "/" + year;
-                        startDate.setText(date);
-
                         startDateLD = LocalDate.of(year, month, day);
+                        String date = CalendarUtils.formattedDate(startDateLD);
+                        startDate.setText(date);
                     }
                 }, year, month, day);
                 datePickerDialog.show();
@@ -159,10 +152,8 @@ public class NewRecurringEventActivity extends AppCompatActivity {
             @Override
             public void onDateSet (DatePicker viw, int year, int month, int dayOfMonth) { // same here
                 month = month + 1;
-                endMonth = month;
-                endYear = year;
-                endDay = dayOfMonth;
-                String date = dayOfMonth + "/" + month + "/" + year;
+                endDateLD = LocalDate.of(year, month, day);
+                String date = CalendarUtils.formattedDate(endDateLD);
                 endDate.setText(date);
             }
 
@@ -176,16 +167,9 @@ public class NewRecurringEventActivity extends AppCompatActivity {
                     @Override
                     public void onDateSet(DatePicker view , int year, int month, int day) {
                         month = month+1;
-                        String endMonth = "" + month;
-                        String endDay = "" + day;
-                        if (month<10)
-                            endMonth= "0" +month;
-                        if (day<10)
-                            endDay= "0" +day;
-                        String date = endDay + "/"  + endMonth + "/" + year;
-                        endDate.setText(date);
-
                         endDateLD = LocalDate.of(year, month, day);
+                        String date = CalendarUtils.formattedDate(endDateLD);
+                        endDate.setText(date);
                     }
                 }, year, month, day);
                 datePickerDialog.show();
@@ -203,7 +187,7 @@ public class NewRecurringEventActivity extends AppCompatActivity {
 
         setListener3 = new DatePickerDialog.OnDateSetListener(){
             @Override
-            public void onDateSet (DatePicker view, int year, int month, int dayOfMonth) {  //this part doest do anything because we show "select" instead i think
+            public void onDateSet (DatePicker view, int year, int month, int dayOfMonth) {
                 month = month + 1;
                 startMonth = month;
                 startYear = year;
@@ -230,7 +214,6 @@ public class NewRecurringEventActivity extends AppCompatActivity {
                             startDay= "0" +day;
                         String date = startDay + "/"  + startMonth + "/" + year;
                         oneDate.setText(date);
-
                         startDateLD = LocalDate.of(year, month, day);
                         endDateLD = LocalDate.of(year, month, day);
                     }
@@ -263,7 +246,9 @@ public class NewRecurringEventActivity extends AppCompatActivity {
             public void onTimeSet(TimePicker timePicker, int selStartHour, int selStartMin) {
                 startHour= selStartHour;
                 startMin = selStartMin;
-                startTime.setText(String.format(Locale.getDefault(),"%02d:%02d", startHour, startMin));
+                startTimeLT = LocalTime.of(selStartHour,selStartMin);
+                String time = CalendarUtils.formattedTime(startTimeLT);
+                startTime.setText(time);
 
             }
         };
@@ -279,7 +264,9 @@ public class NewRecurringEventActivity extends AppCompatActivity {
             public void onTimeSet(TimePicker timePicker, int selEndHour, int selEndMin) {
                 endHour= selEndHour;
                 endMin = selEndMin;
-                endTime.setText(String.format(Locale.getDefault(),"%02d:%02d", endHour, endMin));
+                endTimeLT = LocalTime.of(selEndHour,selEndMin);
+                String time = CalendarUtils.formattedTime(endTimeLT);
+                endTime.setText(time);
 
             }
         };
@@ -328,7 +315,7 @@ public class NewRecurringEventActivity extends AppCompatActivity {
 
             String eventDescription = eventDescriptionET.getText().toString();
             for (LocalDate date:getDates(startDateLD,endDateLD)) {
-                Event newEvent = new Event(eventDescription, startTime, endTime, date, allDayON);
+                Event newEvent = new Event(eventDescription, startTimeLT, endTimeLT, date, allDayON);
                 Event.eventsList.add(newEvent);
             }
 

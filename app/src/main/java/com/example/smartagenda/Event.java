@@ -6,6 +6,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class Event
@@ -27,13 +28,13 @@ public class Event
 
 
     private String description;
-    private TextView startTime;;
-    private TextView endTime;
+    private LocalTime startTime;
+    private LocalTime endTime;
     private LocalDate date;
     private boolean allDay;
 
 
-    public Event(String description, TextView startTime, TextView endTime, LocalDate date, boolean allDay) {
+    public Event(String description, LocalTime startTime,LocalTime endTime, LocalDate date, boolean allDay) {
         this.description = description;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -47,10 +48,11 @@ public class Event
     }
 
     public String getStartTime() {
-        return startTime.getText().toString();
+        return CalendarUtils.formattedTime(startTime);
     }
-
-    public String getEndTime() { return endTime.getText().toString(); }
+    public String getEndTime() {
+        return CalendarUtils.formattedTime(endTime);
+    }
 
     public String getDate() {
         return CalendarUtils.formattedDate(date);
