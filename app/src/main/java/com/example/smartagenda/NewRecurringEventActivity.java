@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -17,6 +18,17 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -40,6 +52,7 @@ public class NewRecurringEventActivity extends AppCompatActivity {
 
     private TextView startTime, endTime;
     private int startHour, startMin, endHour, endMin;
+    private int oneDay, oneMonth, oneYear;
     private LocalTime startTimeLT, endTimeLT;
 
     private Button addEvent;
@@ -63,6 +76,7 @@ public class NewRecurringEventActivity extends AppCompatActivity {
 
 
     private int startDay, startMonth, startYear, endDay, endMonth, endYear;
+    private RequestQueue requestQueue;
 
 
     @Override
@@ -135,6 +149,9 @@ public class NewRecurringEventActivity extends AppCompatActivity {
                     @Override
                     public void onDateSet(DatePicker view , int year, int month, int day) {
                         month = month+1;
+                        startDay=day;
+                        startMonth=month;
+                        startYear=year;
                         startDateLD = LocalDate.of(year, month, day);
                         String date = CalendarUtils.formattedDate(startDateLD);
                         startDate.setText(date);
@@ -173,6 +190,9 @@ public class NewRecurringEventActivity extends AppCompatActivity {
                     @Override
                     public void onDateSet(DatePicker view , int year, int month, int day) {
                         month = month+1;
+                        endDay=day;
+                        endMonth=month;
+                        endYear=year;
                         endDateLD = LocalDate.of(year, month, day);
                         String date = CalendarUtils.formattedDate(endDateLD);
                         endDate.setText(date);
@@ -213,6 +233,12 @@ public class NewRecurringEventActivity extends AppCompatActivity {
                     @Override
                     public void onDateSet(DatePicker view , int year, int month, int day) {
                         month = month+1;
+                        startMonth=month;
+                        endMonth=month;
+                        startDay=day;
+                        endDay=day;
+                        startYear=year;
+                        endYear=year;
                         String startMonth = "" + month;
                         String startDay = "" + day;
                         if (month<10)
@@ -340,6 +366,124 @@ public class NewRecurringEventActivity extends AppCompatActivity {
             }
 
             finish();
+
+            SharedPreferences login = getSharedPreferences("UserInfo", 0);
+            String username = login.getString("username", "");
+            requestQueue = Volley.newRequestQueue(this);
+
+            if (!allDayON && !oneTimeON)
+            {
+                String requestURL = "https://studev.groept.be/api/a21pt308/new_event/"+eventDescriptionET.getText().toString()+"/"+startHour+"/"+startMin+"/"+endHour+"/"+endMin+"/"+startDay+"/"+startMonth+"/"+startYear+"/"+endDay+"/"+endMonth+"/"+endYear+"/"+username+"/"+daysSp2.getSelectedItem().toString();
+                JsonArrayRequest submitRequest = new JsonArrayRequest(Request.Method.GET,requestURL,null,new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        String info = "";
+                        for (int i=0; i<response.length(); ++i) {
+                            JSONObject o = null;
+                            try {
+                                o = response.getJSONObject(i);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(NewRecurringEventActivity.this, "Unable to communicate with the server", Toast.LENGTH_LONG).show();
+                    }
+                });
+
+                requestQueue.add(submitRequest);
+            }
+
+            else
+            {
+                if (allDayON && !oneTimeON)
+                {
+                    String requestURL2 = "https://studev.groept.be/api/a21pt308/new_event2/"+eventDescriptionET.getText().toString()+"/"+startDay+"/"+startMonth+"/"+startYear+"/"+endDay+"/"+endMonth+"/"+endYear+"/"+username+"/"+daysSp2.getSelectedItem().toString();
+                    JsonArrayRequest submitRequest2 = new JsonArrayRequest(Request.Method.GET,requestURL2,null,new Response.Listener<JSONArray>() {
+                        @Override
+                        public void onResponse(JSONArray response) {
+                            String info = "";
+                            for (int i=0; i<response.length(); ++i) {
+                                JSONObject o = null;
+                                try {
+                                    o = response.getJSONObject(i);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(NewRecurringEventActivity.this, "Unable to communicate with the server", Toast.LENGTH_LONG).show();
+                        }
+                    });
+
+                    requestQueue.add(submitRequest2);
+
+                }
+
+                else
+                {
+                    if (!allDayON && oneTimeON)
+                    {
+
+                        String requestURL3= "https://studev.groept.be/api/a21pt308/new_event3/"+eventDescriptionET.getText().toString()+"/"+startHour+"/"+startMin+"/"+endHour+"/"+endMin+"/"+startDay+"/"+startMonth+"/"+startYear+"/"+endDay+"/"+endMonth+"/"+endYear+"/"+username;
+                        JsonArrayRequest submitRequest3 = new JsonArrayRequest(Request.Method.GET,requestURL3,null,new Response.Listener<JSONArray>() {
+                            @Override
+                            public void onResponse(JSONArray response) {
+                                String info = "";
+                                for (int i=0; i<response.length(); ++i) {
+                                    JSONObject o = null;
+                                    try {
+                                        o = response.getJSONObject(i);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Toast.makeText(NewRecurringEventActivity.this, "Unable to communicate with the server", Toast.LENGTH_LONG).show();
+                            }
+                        });
+
+                        requestQueue.add(submitRequest3);
+
+                    }
+                    else
+                    {
+                        String requestURL4= "https://studev.groept.be/api/a21pt308/new_event4/"+eventDescriptionET.getText().toString()+"/"+startDay+"/"+startMonth+"/"+startYear+"/"+endDay+"/"+endMonth+"/"+endYear+"/"+username;
+                        JsonArrayRequest submitRequest4 = new JsonArrayRequest(Request.Method.GET,requestURL4,null,new Response.Listener<JSONArray>() {
+                            @Override
+                            public void onResponse(JSONArray response) {
+                                String info = "";
+                                for (int i=0; i<response.length(); ++i) {
+                                    JSONObject o = null;
+                                    try {
+                                        o = response.getJSONObject(i);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Toast.makeText(NewRecurringEventActivity.this, "Unable to communicate with the server", Toast.LENGTH_LONG).show();
+                            }
+                        });
+
+                        requestQueue.add(submitRequest4);
+
+
+                    }
+                }
+            }
 
             Intent intent = new Intent(this, AgendaScreenActivity.class);
             startActivity(intent);

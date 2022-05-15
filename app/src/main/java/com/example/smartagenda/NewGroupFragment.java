@@ -1,6 +1,7 @@
 package com.example.smartagenda;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -30,6 +31,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 
 public class NewGroupFragment extends DialogFragment {
 
@@ -37,9 +40,11 @@ public class NewGroupFragment extends DialogFragment {
     private Button save;
     private Button add;
     private EditText memberIn;
+    private EditText groupName;
     private TextView newMember;
     private int counter;
     private RequestQueue requestQueue;
+    private String members;
 
     @Nullable
     @Override
@@ -49,7 +54,10 @@ public class NewGroupFragment extends DialogFragment {
         super.onCreateView(inflater, container, savedInstanceState);
         View rootView = inflater.inflate(R.layout.fragment_new_group, container, false);
 
+        members= "";
+
         counter = 0;
+        groupName=rootView.findViewById(R.id.groupNameIn);
         add = rootView.findViewById(R.id.addMemberBtn);
         memberIn = rootView.findViewById(R.id.memberIn);
         newMember = rootView.findViewById(R.id.userTxt);
@@ -59,8 +67,8 @@ public class NewGroupFragment extends DialogFragment {
             public void onClick(View view)
             {
                 requestQueue = Volley.newRequestQueue(rootView.getContext());
-                String requestURL = "https://studev.groept.be/api/a21pt308/usernames";
 
+                String requestURL = "https://studev.groept.be/api/a21pt308/usernames";
                 JsonArrayRequest submitRequest = new JsonArrayRequest(Request.Method.GET,requestURL,null,new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
@@ -85,12 +93,14 @@ public class NewGroupFragment extends DialogFragment {
                         {
                             if (counter==0)
                             {
-                                newMember.setText(memberIn.getText().toString());
+                                members=members+memberIn.getText().toString();
+                                newMember.setText(members);
                                 newMember.setVisibility(View.VISIBLE);
                             }
                             else
                             {
-                                newMember.setText(newMember.getText().toString()+ ", " +memberIn.getText().toString());
+                                members=members+ ", " +memberIn.getText().toString();
+                                newMember.setText(members);
                             }
                             counter++;
                         }
@@ -125,8 +135,73 @@ public class NewGroupFragment extends DialogFragment {
             @Override
             public void onClick(View view)
             {
-                Intent intent = new Intent(getActivity(), GroupsActivity.class);
-                startActivity(intent);
+                SharedPreferences login = rootView.getContext().getSharedPreferences("UserInfo", 0);
+                String username = login.getString("username", "");
+                requestQueue = Volley.newRequestQueue(rootView.getContext());
+
+                String requestURL = "https://studev.groept.be/api/a21pt308/teamnames";
+                JsonArrayRequest submitRequest = new JsonArrayRequest(Request.Method.GET,requestURL,null,new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        int counter = 0;
+                        for (int i=0; i<response.length(); ++i) {
+                            JSONObject o = null;
+                            try {
+                                o = response.getJSONObject(i);
+                                if (o.get("team_name").equals(groupName.getText().toString()))
+                                {
+                                    counter++;
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        if (counter==0)
+                        {
+                            String requestURL2 = "https://studev.groept.be/api/a21pt308/add_team/"+groupName.getText().toString()+"/"+username+"/"+members;
+                            JsonArrayRequest submitRequest2 = new JsonArrayRequest(Request.Method.GET,requestURL2,null,new Response.Listener<JSONArray>() {
+                                @Override
+                                public void onResponse(JSONArray response) {
+                                    String info = "";
+                                    for (int i=0; i<response.length(); ++i) {
+                                        JSONObject o = null;
+                                        try {
+                                            o = response.getJSONObject(i);
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                }
+                            }, new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    Toast.makeText(rootView.getContext(), "Unable to communicate with the server", Toast.LENGTH_LONG).show();
+                                }
+                            });
+
+                            requestQueue.add(submitRequest2);
+
+
+                            Intent intent = new Intent(getActivity(), GroupsActivity.class);
+                            startActivity(intent);
+                        }
+                        else
+                        {
+                            Toast.makeText(rootView.getContext(), "This group name is already used.", Toast.LENGTH_SHORT).show();
+                        }
+                        //txtInfo.setText(info);
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(rootView.getContext(), "Unable to communicate with the server", Toast.LENGTH_LONG).show();
+                    }
+                });
+
+                requestQueue.add(submitRequest);
+
+
             }
         } );
 
