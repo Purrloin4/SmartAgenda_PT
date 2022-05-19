@@ -32,12 +32,12 @@ public class EventAdapter extends ArrayAdapter<com.example.smartagenda.Event> {
         TextView eventCellTV = convertView.findViewById(R.id.eventCellTV);
         String formattedTime;
         if (event.isAllDay()){
-            formattedTime = "All day";
+            formattedTime = "all day";
         }
         else{
             formattedTime = event.getStartTime() +"-"+ event.getEndTime();
         }
-        String eventTitle = event.getDescription() +" "+ formattedTime;
+        String eventTitle = event.getDescription() +" \u2022 "+ formattedTime;
         eventCellTV.setText(eventTitle);
         return convertView;
     }
