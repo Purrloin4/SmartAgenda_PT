@@ -318,7 +318,7 @@ public class NewRecurringEventActivity extends AppCompatActivity {
         if (allDayON){
             startHour = 0;
             startMin = 0;
-            endHour= 24;
+            endHour= 23;
             endMin = 0;
 
             startTimeLT = LocalTime.of(0,0);
@@ -360,17 +360,57 @@ public class NewRecurringEventActivity extends AppCompatActivity {
         {
 
             String eventDescription = eventDescriptionET.getText().toString();
-            for (LocalDate date:getDates(startDateLD,endDateLD)) {
-                Event newEvent = new Event(eventDescription, startTimeLT, endTimeLT, date, allDayON);
-                Event.eventsList.add(newEvent);
-            }
-
-            finish();
+            String startTimeString = startTimeLT.toString();
+            String endTimeString = endTimeLT.toString();
+            String description = eventDescriptionET.getText().toString();
 
             SharedPreferences login = getSharedPreferences("UserInfo", 0);
             String username = login.getString("username", "");
             requestQueue = Volley.newRequestQueue(this);
 
+            for (LocalDate date:getDates(startDateLD,endDateLD)) {
+                Event newEvent = new Event(eventDescription, startTimeLT, endTimeLT, date, allDayON);
+                Event.eventsList.add(newEvent);
+
+
+                String dateString = date.toString();
+
+                int tinyInt;
+                if(allDayON){
+                    tinyInt = 1;
+                }
+                else{
+                    tinyInt = 0;
+                }
+
+                String requestURL = "https://studev.groept.be/api/a21pt308/add_event/"+description+"/"+startTimeString+"/"+endTimeString+"/"+dateString+"/"+username+"/"+tinyInt;
+                JsonArrayRequest submitRequest = new JsonArrayRequest(Request.Method.GET,requestURL,null,new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        String info = "";
+                        for (int i=0; i<response.length(); ++i) {
+                            JSONObject o = null;
+                            try {
+                                o = response.getJSONObject(i);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(NewRecurringEventActivity.this, "Unable to communicate with the server", Toast.LENGTH_LONG).show();
+                    }
+                });
+
+                requestQueue.add(submitRequest);
+            }
+
+            finish();
+
+
+/*
             if (!allDayON && !oneTimeON)
             {
                 String requestURL = "https://studev.groept.be/api/a21pt308/new_event/"+eventDescriptionET.getText().toString()+"/"+startHour+"/"+startMin+"/"+endHour+"/"+endMin+"/"+startDay+"/"+startMonth+"/"+startYear+"/"+endDay+"/"+endMonth+"/"+endYear+"/"+username+"/"+daysSp2.getSelectedItem().toString();
@@ -480,10 +520,11 @@ public class NewRecurringEventActivity extends AppCompatActivity {
 
                         requestQueue.add(submitRequest4);
 
-
                     }
+
+
                 }
-            }
+            }*/
 
             Intent intent = new Intent(this, AgendaScreenActivity.class);
             startActivity(intent);
