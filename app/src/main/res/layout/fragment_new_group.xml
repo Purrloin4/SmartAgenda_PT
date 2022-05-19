@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="31dp"
+        android:layout_marginTop="16dp"
         android:fontFamily="@font/schoolbell"
         android:text="NEW GROUP"
         android:textColor="@android:color/holo_blue_light"
@@ -65,15 +65,15 @@
         android:id="@+id/createGroupBtn"
         android:layout_width="148dp"
         android:layout_height="59dp"
+        android:layout_marginTop="43dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="20dp"
         android:background="@android:color/holo_blue_light"
         android:fontFamily="@font/schoolbell"
         android:text="CREATE GROUP"
         android:textColor="@color/white"
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/memberIn" />
 
     <EditText
         android:id="@+id/memberIn"

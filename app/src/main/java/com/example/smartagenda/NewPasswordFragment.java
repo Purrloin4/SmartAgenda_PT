@@ -120,12 +120,13 @@ public class NewPasswordFragment extends DialogFragment {
         return rootView;
     }
 
+    /*
     public void onResume()
     {
         super.onResume();
         Window window = getDialog().getWindow();
         window.setLayout(750, 800);
         window.setGravity(Gravity.CENTER);
-    }
+    }*/
 
 }

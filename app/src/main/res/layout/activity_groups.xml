@@ -25,7 +25,7 @@
         android:layout_height="42dp"
         android:layout_marginTop="17dp"
         android:fontFamily="@font/schoolbell"
-        android:text="GROUP SETTINGS"
+        android:text="GROUPS"
         android:textColor="@android:color/holo_blue_light"
         android:textSize="30sp"
         android:textStyle="bold"
@@ -46,20 +46,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         tools:ignore="OnClick,SpeakableTextPresentCheck" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="73dp"
-        android:fontFamily="@font/schoolbell"
-        android:text="groups"
-        android:textColor="@color/black"
-        android:textSize="20dp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/headerTxt1" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
