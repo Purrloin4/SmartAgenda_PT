@@ -370,6 +370,7 @@ public class NewRecurringEventActivity extends AppCompatActivity {
             SharedPreferences login = getSharedPreferences("UserInfo", 0);
             String username = login.getString("username", "");
             requestQueue = Volley.newRequestQueue(this);
+            /*
 
             if (!allDayON && !oneTimeON)
             {
@@ -483,7 +484,7 @@ public class NewRecurringEventActivity extends AppCompatActivity {
 
                     }
                 }
-            }
+            }*/
 
             Intent intent = new Intent(this, AgendaScreenActivity.class);
             startActivity(intent);

@@ -3,10 +3,12 @@ package com.example.smartagenda;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -16,6 +18,18 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -35,6 +49,7 @@ public class NewTaskActivity extends AppCompatActivity
     private Spinner groupSp;
     private TextView groupTV;
     private EditText description;
+    private RequestQueue requestQueue;
 
 
     @Override
@@ -59,6 +74,50 @@ public class NewTaskActivity extends AppCompatActivity
         final int year = calendar.get(Calendar.YEAR);
         final int month = calendar.get(Calendar.MONTH);
         final int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        SharedPreferences login = getSharedPreferences("UserInfo", 0);
+        String username = login.getString("username", "");
+
+        ArrayList<String> groupNames = new ArrayList<>();
+
+
+        requestQueue = Volley.newRequestQueue(this);
+        String requestURL = "https://studev.groept.be/api/a21pt308/groups_per_user/"+username+"/"+username;
+
+
+        JsonArrayRequest submitRequest = new JsonArrayRequest(Request.Method.GET,requestURL,null,new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                String info = "";
+                for (int i=0; i<response.length(); ++i)
+                {
+                    JSONObject o = null;
+                    try {
+                        o = response.getJSONObject(i);
+                        groupNames.add(o.get("team_name").toString());
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(NewTaskActivity.this, "Unable to communicate with the server", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        requestQueue.add(submitRequest);
+
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                this, android.R.layout.simple_spinner_item, groupNames);
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        Spinner sItems = (Spinner) findViewById(R.id.groupSpinner);
+        sItems.setAdapter(adapter);
 
 
         deadlineTV.setOnClickListener(new View.OnClickListener() {
