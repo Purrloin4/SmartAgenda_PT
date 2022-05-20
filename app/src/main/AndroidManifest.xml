@@ -12,9 +12,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SmartAgenda">
         <activity
-            android:name=".NewPasswordActivity"
-            android:exported="false" />
-        <activity
             android:name=".GroupsActivity"
             android:exported="false" />
         <activity

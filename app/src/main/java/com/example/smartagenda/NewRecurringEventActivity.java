@@ -74,6 +74,8 @@ public class NewRecurringEventActivity extends AppCompatActivity {
     private boolean allDayON;
     private boolean oneTimeON;
 
+    private boolean allFieldsFilled;
+
 
     private int startDay, startMonth, startYear, endDay, endMonth, endYear;
     private RequestQueue requestQueue;
@@ -100,6 +102,7 @@ public class NewRecurringEventActivity extends AppCompatActivity {
 
         coherentTime = false;
         coherentDate = false;
+        allFieldsFilled=false;
         addEvent=findViewById(R.id.addRecurringEventBtn);
         eventDescriptionET = findViewById(R.id.descriptionIn2);
 
@@ -219,7 +222,8 @@ public class NewRecurringEventActivity extends AppCompatActivity {
                 startMonth = month;
                 startYear = year;
                 startDay = dayOfMonth;
-                String date = year + "-" + month  + "-" + dayOfMonth;
+                startDateLD = LocalDate.of(year, month, day);
+                String date = CalendarUtils.formattedDate(startDateLD);
                 oneDate.setText(date);
             }
 
@@ -239,6 +243,7 @@ public class NewRecurringEventActivity extends AppCompatActivity {
                         endDay=day;
                         startYear=year;
                         endYear=year;
+                        /*
                         String startMonth = "" + month;
                         String startDay = "" + day;
                         if (month<10)
@@ -246,9 +251,11 @@ public class NewRecurringEventActivity extends AppCompatActivity {
                         if (day<10)
                             startDay= "0" +day;
                         String date = startDay + "/"  + startMonth + "/" + year;
-                        oneDate.setText(date);
+                        String date = CalendarUtils.formattedDate(oneDateLD);*/
                         startDateLD = LocalDate.of(year, month, day);
                         endDateLD = LocalDate.of(year, month, day);
+                        String date = CalendarUtils.formattedDate(startDateLD);
+                        oneDate.setText(date);
                     }
                 }, year, month, day);
                 datePickerDialog.show();
@@ -324,39 +331,112 @@ public class NewRecurringEventActivity extends AppCompatActivity {
             startTimeLT = LocalTime.of(0,0);
             endTimeLT = LocalTime.of(23,59);
         }
-        if (startHour==endHour)
+
+
+
+        if (allDayON)
         {
-            if (startMin<endMin)
+            if (!oneTimeON)
             {
-                coherentTime = true;
+                if (!startDate.getText().toString().matches("select")
+                        && !endDate.getText().toString().matches("select")
+                        && !eventDescriptionET.getText().toString().matches(""))
+                {
+                    allFieldsFilled=true;
+
+                    if (startDateLD.getDayOfYear() > endDateLD.getDayOfYear())
+                    {
+                        Toast.makeText(this, "Dates are incoherent", Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        coherentTime=true;
+                    }
+                }
+                else
+                {
+                    Toast.makeText(this, "Some fields are still empty.", Toast.LENGTH_SHORT).show();
+                }
             }
             else
             {
-                Toast.makeText(this, "Time slot is incoherent.", Toast.LENGTH_SHORT).show();
-            }
+                if (!oneDate.getText().toString().matches("select")
+                        && !eventDescriptionET.getText().toString().matches(""))
+                {
+                    allFieldsFilled=true;
+                    coherentDate=true;
 
+                }
+                else
+                {
+                    Toast.makeText(this, "Some fields are still empty.", Toast.LENGTH_SHORT).show();
+                }
+            }
         }
         else
         {
-            if (startHour<endHour)
+            if(oneTimeON)
             {
-                coherentTime = true;
+                if (!startTime.getText().toString().matches("select")
+                        && !endTime.getText().toString().matches("select")
+                        && !oneDate.getText().toString().matches("select")
+                        && !eventDescriptionET.getText().toString().matches(""))
+                {
+                    allFieldsFilled=true;
+                    if (startDateLD.getDayOfYear() > endDateLD.getDayOfYear())
+                    {
+                        Toast.makeText(this, "Dates are incoherent.", Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        coherentDate=true;
+                    }
+
+                    if (startTimeLT.compareTo(endTimeLT)>0){
+                        Toast.makeText(this, "Times slot is incoherent", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        coherentTime = true;
+                    }
+                }
+                else
+                {
+                    Toast.makeText(this, "Some fields are still empty.", Toast.LENGTH_SHORT).show();
+                }
             }
             else
             {
-                Toast.makeText(this, "Time slot is incoherent", Toast.LENGTH_SHORT).show();
+                if (!startTime.getText().toString().matches("select")
+                        && !endTime.getText().toString().matches("select")
+                        && !startDate.getText().toString().matches("select")
+                        && !endDate.getText().toString().matches("select")
+                        && !eventDescriptionET.getText().toString().matches(""))
+                {
+                    allFieldsFilled=true;
+                    if (startDateLD.getDayOfYear() > endDateLD.getDayOfYear())
+                    {
+                        Toast.makeText(this, "Dates are incoherent.", Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        coherentDate=true;
+                    }
+
+                    if (startTimeLT.compareTo(endTimeLT)>0){
+                        Toast.makeText(this, "Times slot is incoherent", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        coherentTime = true;
+                    }
+                }
+                else
+                {
+                    Toast.makeText(this, "Some fields are still empty.", Toast.LENGTH_SHORT).show();
+                }
             }
         }
 
-        if (startDateLD.getDayOfYear() > endDateLD.getDayOfYear()){
-            Toast.makeText(this, "Date is incoherent", Toast.LENGTH_SHORT).show();
-        }
-        else {
-            coherentDate = true;
-        }
-
-
-        if (coherentDate && coherentTime)
+        if (coherentDate && coherentTime && allFieldsFilled)
         {
 
             String eventDescription = eventDescriptionET.getText().toString();
@@ -367,7 +447,7 @@ public class NewRecurringEventActivity extends AppCompatActivity {
             SharedPreferences login = getSharedPreferences("UserInfo", 0);
             String username = login.getString("username", "");
             requestQueue = Volley.newRequestQueue(this);
-            /*
+
 
             for (LocalDate date:getDates(startDateLD,endDateLD)) {
                 Event newEvent = new Event(eventDescription, startTimeLT, endTimeLT, date, allDayON);
@@ -410,122 +490,6 @@ public class NewRecurringEventActivity extends AppCompatActivity {
 
             finish();
 
-
-/*
-            if (!allDayON && !oneTimeON)
-            {
-                String requestURL = "https://studev.groept.be/api/a21pt308/new_event/"+eventDescriptionET.getText().toString()+"/"+startHour+"/"+startMin+"/"+endHour+"/"+endMin+"/"+startDay+"/"+startMonth+"/"+startYear+"/"+endDay+"/"+endMonth+"/"+endYear+"/"+username+"/"+daysSp2.getSelectedItem().toString();
-                JsonArrayRequest submitRequest = new JsonArrayRequest(Request.Method.GET,requestURL,null,new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        String info = "";
-                        for (int i=0; i<response.length(); ++i) {
-                            JSONObject o = null;
-                            try {
-                                o = response.getJSONObject(i);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(NewRecurringEventActivity.this, "Unable to communicate with the server", Toast.LENGTH_LONG).show();
-                    }
-                });
-
-                requestQueue.add(submitRequest);
-            }
-
-            else
-            {
-                if (allDayON && !oneTimeON)
-                {
-                    String requestURL2 = "https://studev.groept.be/api/a21pt308/new_event2/"+eventDescriptionET.getText().toString()+"/"+startDay+"/"+startMonth+"/"+startYear+"/"+endDay+"/"+endMonth+"/"+endYear+"/"+username+"/"+daysSp2.getSelectedItem().toString();
-                    JsonArrayRequest submitRequest2 = new JsonArrayRequest(Request.Method.GET,requestURL2,null,new Response.Listener<JSONArray>() {
-                        @Override
-                        public void onResponse(JSONArray response) {
-                            String info = "";
-                            for (int i=0; i<response.length(); ++i) {
-                                JSONObject o = null;
-                                try {
-                                    o = response.getJSONObject(i);
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }
-                    }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Toast.makeText(NewRecurringEventActivity.this, "Unable to communicate with the server", Toast.LENGTH_LONG).show();
-                        }
-                    });
-
-                    requestQueue.add(submitRequest2);
-
-                }
-
-                else
-                {
-                    if (!allDayON && oneTimeON)
-                    {
-
-                        String requestURL3= "https://studev.groept.be/api/a21pt308/new_event3/"+eventDescriptionET.getText().toString()+"/"+startHour+"/"+startMin+"/"+endHour+"/"+endMin+"/"+startDay+"/"+startMonth+"/"+startYear+"/"+endDay+"/"+endMonth+"/"+endYear+"/"+username;
-                        JsonArrayRequest submitRequest3 = new JsonArrayRequest(Request.Method.GET,requestURL3,null,new Response.Listener<JSONArray>() {
-                            @Override
-                            public void onResponse(JSONArray response) {
-                                String info = "";
-                                for (int i=0; i<response.length(); ++i) {
-                                    JSONObject o = null;
-                                    try {
-                                        o = response.getJSONObject(i);
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            }
-                        }, new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Toast.makeText(NewRecurringEventActivity.this, "Unable to communicate with the server", Toast.LENGTH_LONG).show();
-                            }
-                        });
-
-                        requestQueue.add(submitRequest3);
-
-                    }
-                    else
-                    {
-                        String requestURL4= "https://studev.groept.be/api/a21pt308/new_event4/"+eventDescriptionET.getText().toString()+"/"+startDay+"/"+startMonth+"/"+startYear+"/"+endDay+"/"+endMonth+"/"+endYear+"/"+username;
-                        JsonArrayRequest submitRequest4 = new JsonArrayRequest(Request.Method.GET,requestURL4,null,new Response.Listener<JSONArray>() {
-                            @Override
-                            public void onResponse(JSONArray response) {
-                                String info = "";
-                                for (int i=0; i<response.length(); ++i) {
-                                    JSONObject o = null;
-                                    try {
-                                        o = response.getJSONObject(i);
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            }
-                        }, new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Toast.makeText(NewRecurringEventActivity.this, "Unable to communicate with the server", Toast.LENGTH_LONG).show();
-                            }
-                        });
-
-                        requestQueue.add(submitRequest4);
-
-                    }
-
-
-                }
-            }*/
 
             Intent intent = new Intent(this, AgendaScreenActivity.class);
             startActivity(intent);

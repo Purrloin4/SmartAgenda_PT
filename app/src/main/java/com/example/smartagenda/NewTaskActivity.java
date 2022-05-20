@@ -29,6 +29,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
@@ -36,11 +38,7 @@ import java.util.Locale;
 public class NewTaskActivity extends AppCompatActivity
 {
 
-
-
-
-
-    private TextView deadlineTV, duration;
+    private TextView deadlineTV, durationTV;
     DatePickerDialog.OnDateSetListener setListener;
 
     private int hour, min;
@@ -50,6 +48,9 @@ public class NewTaskActivity extends AppCompatActivity
     private TextView groupTV;
     private EditText description;
     private RequestQueue requestQueue;
+
+    private LocalTime durationLT;
+    private LocalDate deadlineLD;
 
 
     @Override
@@ -66,7 +67,7 @@ public class NewTaskActivity extends AppCompatActivity
         groupTV=findViewById(R.id.groupNameTxt);
         groupTV.setVisibility(View.INVISIBLE);
 
-        duration = findViewById(R.id.durationIn);
+        durationTV = findViewById(R.id.durationIn);
 
         deadlineTV = findViewById(R.id.deadlineIn);
 
@@ -133,7 +134,8 @@ public class NewTaskActivity extends AppCompatActivity
             @Override
             public void onDateSet (DatePicker viw, int year, int month, int dayOfMonth) {
                 month = month + 1;
-                String date = day + "/" + month + "/" + year;
+                deadlineLD = LocalDate.of(year, month, day);
+                String date = CalendarUtils.formattedDate(deadlineLD);
                 deadlineTV.setText(date);
             }
 
@@ -147,7 +149,8 @@ public class NewTaskActivity extends AppCompatActivity
                     @Override
                     public void onDateSet(DatePicker view , int year, int month, int day) {
                         month = month+1;
-                        String date = day + "/" + month + "/" + year;
+                        deadlineLD = LocalDate.of(year, month, day);
+                        String date = CalendarUtils.formattedDate(deadlineLD);
                         deadlineTV.setText(date);
                     }
                 }, year, month, day);
@@ -164,7 +167,10 @@ public class NewTaskActivity extends AppCompatActivity
             public void onTimeSet(TimePicker timePicker, int selHour, int selMin) {
                 hour= selHour;
                 min = selMin;
-                duration.setText(String.format(Locale.getDefault(),"%02d:%02d", hour, min));
+                //duration.setText(String.format(Locale.getDefault(),"%02d:%02d", hour, min));
+                durationLT = LocalTime.of(hour,min);
+                String duration = CalendarUtils.formattedTime(durationLT);
+                durationTV.setText(duration);
 
             }
         };
@@ -194,11 +200,15 @@ public class NewTaskActivity extends AppCompatActivity
         if (isON==false)
         {
             if (!description.getText().toString().matches("")
-                    && !duration.getText().toString().matches("select")
+                    && !durationTV.getText().toString().matches("select")
                     && !deadlineTV.getText().toString().matches("select"))
             {
                 Intent intent = new Intent(this, AgendaScreenActivity.class);
                 startActivity(intent);
+
+                //scheduling algorithm for personal task
+
+
             }
             else
             {
@@ -208,7 +218,7 @@ public class NewTaskActivity extends AppCompatActivity
         else
         {
             if (!description.getText().toString().matches("")
-                    && !duration.getText().toString().matches("select")
+                    && !durationTV.getText().toString().matches("select")
                     && !deadlineTV.getText().toString().matches("select")
             && groupSp.getSelectedItem().toString().matches("" ))
             {
