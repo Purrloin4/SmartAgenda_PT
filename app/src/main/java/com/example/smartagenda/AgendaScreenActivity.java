@@ -39,7 +39,6 @@ public class AgendaScreenActivity extends AppCompatActivity implements CalendarA
     private RecyclerView calendarRecyclerView;
     private ListView eventListView;
     private Button addTask;
-    private boolean once = true;
 
 
 
@@ -51,9 +50,8 @@ public class AgendaScreenActivity extends AppCompatActivity implements CalendarA
         setContentView(R.layout.activity_week_view);
         initWidgets();
         CalendarUtils.selectedDate = LocalDate.now();
-        if (once){
+        if (Event.eventsList.isEmpty()){
             loadEvents();
-            once = false;
         }
         setWeekView();
     }
