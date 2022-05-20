@@ -1,5 +1,8 @@
 package com.example.smartagenda;
 
+import static java.time.temporal.ChronoUnit.DAYS;
+import static java.time.temporal.ChronoUnit.HOURS;
+
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -29,6 +32,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -51,6 +55,7 @@ public class NewTaskActivity extends AppCompatActivity
 
     private LocalTime durationLT;
     private LocalDate deadlineLD;
+    private String username;
 
 
     @Override
@@ -77,7 +82,7 @@ public class NewTaskActivity extends AppCompatActivity
         final int day = calendar.get(Calendar.DAY_OF_MONTH);
 
         SharedPreferences login = getSharedPreferences("UserInfo", 0);
-        String username = login.getString("username", "");
+        username = login.getString("username", "");
 
         ArrayList<String> groupNames = new ArrayList<>();
 
@@ -181,6 +186,7 @@ public class NewTaskActivity extends AppCompatActivity
 
     public void onGroupSwitch_Clicked(View caller)
     {
+
         if (isON == true)
         {
             groupSp.setVisibility(caller.INVISIBLE);
@@ -195,6 +201,34 @@ public class NewTaskActivity extends AppCompatActivity
         }
     }
 
+
+    public void writeToDataBase(String newDescription, String newStartTime, String newEndTime, String newDate)
+    {
+
+        String requestURL3 = "https://studev.groept.be/api/a21pt308/add_task/"+newDescription+"/"+newStartTime+"/"+newEndTime+"/"+newDate+"/"+username;
+        JsonArrayRequest submitRequest3 = new JsonArrayRequest(Request.Method.GET,requestURL3,null,new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                String info = "";
+                for (int i=0; i<response.length(); ++i) {
+                    JSONObject o = null;
+                    try {
+                        o = response.getJSONObject(i);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(NewTaskActivity.this, "Unable to communicate with the server", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        requestQueue.add(submitRequest3);
+    }
+
     public void onScheduleTaskBtn_Clicked (View caller)
     {
         if (isON==false)
@@ -203,11 +237,63 @@ public class NewTaskActivity extends AppCompatActivity
                     && !durationTV.getText().toString().matches("select")
                     && !deadlineTV.getText().toString().matches("select"))
             {
-                Intent intent = new Intent(this, AgendaScreenActivity.class);
-                startActivity(intent);
+
 
                 //scheduling algorithm for personal task
+                for(int j=1; j < DAYS.between(LocalDate.now(), deadlineLD); j++)
+                {
+                    requestQueue = Volley.newRequestQueue(this);
 
+
+                    String dateAttempt = deadlineLD.minusDays(j).toString();
+
+                    String requestURL2 = "https://studev.groept.be/api/a21pt308/eventsOfDayInChronologicalOrder/"+username+"/"+dateAttempt;
+
+
+                    JsonArrayRequest submitRequest2 = new JsonArrayRequest(Request.Method.GET,requestURL2,null,new Response.Listener<JSONArray>() {
+                        @Override
+                        public void onResponse(JSONArray response) {
+                            String info = "";
+                            for (int i=0; i<response.length(); ++i) {
+                                JSONObject o = null;
+                                JSONObject o2 = null;
+                                try
+                                {
+                                    o = response.getJSONObject(i);
+                                    o2 =response.getJSONObject(i+1);
+
+                                    int emptySlot = (int) HOURS.between(LocalTime.parse(o.get("endTime").toString()), LocalTime.parse(o2.get("startTime").toString()));
+                                    int duration = durationLT.getHour();
+
+                                if (emptySlot
+                                        >= duration)
+                                {
+                                    LocalTime newEndTime = LocalTime.parse(o.get("endTime").toString());
+                                    newEndTime=newEndTime.plusHours(durationLT.getHour());
+                                    writeToDataBase(description.getText().toString(), o.get("endTime").toString(), newEndTime.toString(), dateAttempt);
+
+
+                                }
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(NewTaskActivity.this, "Unable to communicate with the server", Toast.LENGTH_LONG).show();
+                        }
+                    });
+
+                    requestQueue.add(submitRequest2);
+                }
+
+
+
+                Intent intent = new Intent(this, AgendaScreenActivity.class);
+                startActivity(intent);
 
             }
             else

@@ -535,6 +535,8 @@ public class NewRecurringEventActivity extends AppCompatActivity {
             endDate.setVisibility(caller.VISIBLE);
             oneDateTV.setVisibility(caller.INVISIBLE);
             oneDate.setVisibility(caller.INVISIBLE);
+            daysSp2.setVisibility(caller.VISIBLE);
+            dayTxt.setVisibility(caller.VISIBLE);
             oneTimeON = false;
         }
 
