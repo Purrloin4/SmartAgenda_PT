@@ -243,15 +243,6 @@ public class NewRecurringEventActivity extends AppCompatActivity {
                         endDay=day;
                         startYear=year;
                         endYear=year;
-                        /*
-                        String startMonth = "" + month;
-                        String startDay = "" + day;
-                        if (month<10)
-                            startMonth= "0" +month;
-                        if (day<10)
-                            startDay= "0" +day;
-                        String date = startDay + "/"  + startMonth + "/" + year;
-                        String date = CalendarUtils.formattedDate(oneDateLD);*/
                         startDateLD = LocalDate.of(year, month, day);
                         endDateLD = LocalDate.of(year, month, day);
                         String date = CalendarUtils.formattedDate(startDateLD);
