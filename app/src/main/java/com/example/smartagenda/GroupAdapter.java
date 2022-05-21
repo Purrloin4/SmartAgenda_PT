@@ -2,6 +2,7 @@ package com.example.smartagenda;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -13,16 +14,19 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupViewHolder> {
 
     Context context;
     List<String> groups;
+    private GroupViewHolder.OnGroupListener mOnGroupListener;
 
-    public GroupAdapter(Context context, List<String> groups) {
+    public GroupAdapter(Context context, List<String> groups, GroupViewHolder.OnGroupListener onGroupListener) {
         this.context = context;
         this.groups = groups;
+        this.mOnGroupListener = onGroupListener;
     }
 
     @NonNull
     @Override
     public GroupViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new GroupViewHolder(LayoutInflater.from(context).inflate(R.layout.group_and_members_cell,parent,false));
+        View view = LayoutInflater.from(context).inflate(R.layout.group_cell,parent,false);
+        return new GroupViewHolder(view, mOnGroupListener);
     }
 
     @Override

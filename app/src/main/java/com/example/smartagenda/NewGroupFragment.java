@@ -182,6 +182,8 @@ public class NewGroupFragment extends DialogFragment {
 
                             requestQueue.add(submitRequest2);
 
+                            GroupsActivity.groupNames.add(groupName.getText().toString());
+
 
                             Intent intent = new Intent(getActivity(), GroupsActivity.class);
                             startActivity(intent);
@@ -207,14 +209,5 @@ public class NewGroupFragment extends DialogFragment {
 
         return rootView;
     }
-/*
-    public void onResume()
-    {
-        super.onResume();
-        Window window = getDialog().getWindow();
-        window.setLayout(750, 800);
-        window.setGravity(Gravity.CENTER);
-    }
 
- */
 }
