@@ -126,6 +126,8 @@ public class NewTaskActivity extends AppCompatActivity
         Spinner sItems = (Spinner) findViewById(R.id.groupSpinner);
         sItems.setAdapter(adapter);
 
+        TipOfDayFragment dialogFragment = new TipOfDayFragment();
+        dialogFragment.show(getSupportFragmentManager(), "My Fragment");
 
         deadlineTV.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -279,7 +281,7 @@ public class NewTaskActivity extends AppCompatActivity
                                     {
                                         durationInMin = durationLT.getMinute() + durationLT.getHour()*60;
 
-                                        if (i==0 && !LocalTime.parse(o.get("startTime").toString()).equals("00:00"))
+                                        if (i==0 && !o.get("startTime").toString().equals("00:00"))
                                         {
                                             emptySlotInMin = (int) MINUTES.between(LocalTime.parse("00:00"), LocalTime.parse(o.get("startTime").toString()));
                                             newEndTime=LocalTime.parse(o.get("startTime").toString()).minusMinutes(15);
@@ -288,7 +290,7 @@ public class NewTaskActivity extends AppCompatActivity
                                         }
                                         else
                                         {
-                                            if (i==response.length()-1 && !LocalTime.parse(o.get("endTime").toString()).equals("23:59"))
+                                            if (i==response.length()-1 && !o.get("endTime").toString().equals("23:59"))
                                             {
                                                 emptySlotInMin = (int) MINUTES.between(LocalTime.parse(o.get("endTime").toString()), LocalTime.parse("23:59"));
                                             }
@@ -313,6 +315,7 @@ public class NewTaskActivity extends AppCompatActivity
                                             taskScheduled[0] =true;
                                             Event newEvent = new Event(description.getText().toString(), newStartTime, newEndTime, LocalDate.parse(dateAttempt), false);
                                             Event.eventsList.add(newEvent);
+                                            Toast.makeText(NewTaskActivity.this, "Your task was successfully scheduled.", Toast.LENGTH_SHORT).show();
                                         }
                                     }
                                 }
@@ -352,6 +355,7 @@ public class NewTaskActivity extends AppCompatActivity
                     && !deadlineTV.getText().toString().matches("select")
             && groupSp.getSelectedItem().toString().matches("" ))
             {
+                //scheduling algorithm for group task
                 Intent intent = new Intent(this, AgendaScreenActivity.class);
                 startActivity(intent);
             }
