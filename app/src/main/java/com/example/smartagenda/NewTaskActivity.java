@@ -246,12 +246,12 @@ public class NewTaskActivity extends AppCompatActivity
 
                 //scheduling algorithm for personal task
                 final boolean[] taskScheduled = {false};
-                for(int j=1; j < DAYS.between(LocalDate.now(), deadlineLD); j++)
+                for(final int[] j = {1}; j[0] < DAYS.between(LocalDate.now(), deadlineLD); j[0]++)
                 {
                     requestQueue = Volley.newRequestQueue(this);
 
 
-                    String dateAttempt = deadlineLD.minusDays(j).toString();
+                    String dateAttempt = deadlineLD.minusDays(j[0]).toString();
 
                     String requestURL2 = "https://studev.groept.be/api/a21pt308/eventsOfDayInChronologicalOrder/"+username+"/"+dateAttempt;
 
@@ -267,31 +267,46 @@ public class NewTaskActivity extends AppCompatActivity
                                 JSONObject o2 = null;
                                 try
                                 {
+                                    int durationInMin=-1;
+                                    int emptySlotInMin=-1;
+                                    LocalTime newStartTime = null;
+                                    LocalTime newEndTime = null;
                                     o = response.getJSONObject(i);
-                                    /*
+
                                     if (response.length()==1 && o.get("startTime").toString().equals("00:00") && o.get("endTime").toString().equals("23:59"))
                                     {
-                                        j++;
-                                    }*/
-
-                                    o2 =response.getJSONObject(i+1);
-
-
-                                    int durationInMin = durationLT.getMinute() + durationLT.getHour()*60;
-                                    int emptySlotInMin = (int) MINUTES.between(LocalTime.parse(o.get("endTime").toString()), LocalTime.parse(o2.get("startTime").toString()));
-
-
-                                    if (emptySlotInMin
-                                            >= durationInMin+30 && taskScheduled[0] ==false)
-                                    {
-                                        LocalTime endTime = LocalTime.parse(o.get("endTime").toString());
-                                        LocalTime newStartTime = endTime.plusMinutes(15);
-                                        LocalTime newEndTime = newStartTime.plusHours(durationLT.getHour());
-                                        newEndTime=newEndTime.plusMinutes(durationLT.getMinute());
-                                        writeToDataBase(description.getText().toString(), newStartTime.toString(), newEndTime.toString(), dateAttempt);
-                                        taskScheduled[0] =true;
+                                        j[0]++;
                                     }
+                                    else
+                                    {
+                                        durationInMin = durationLT.getMinute() + durationLT.getHour()*60;
 
+                                        if (i==0 && !LocalTime.parse(o.get("startTime").toString()).equals("00:00"))
+                                        {
+                                            emptySlotInMin = (int) MINUTES.between(LocalTime.parse("00:00"), LocalTime.parse(o.get("startTime").toString()));
+                                            newEndTime=LocalTime.parse(o.get("startTime").toString()).minusMinutes(15);
+                                            newStartTime=newEndTime.minusHours(durationLT.getHour());
+                                            newStartTime=newStartTime.minusMinutes(durationLT.getMinute());
+                                        }
+                                        else
+                                        {
+                                            o2 =response.getJSONObject(i+1);
+                                            emptySlotInMin = (int) MINUTES.between(LocalTime.parse(o.get("endTime").toString()), LocalTime.parse(o2.get("startTime").toString()));
+                                            LocalTime endTime = LocalTime.parse(o.get("endTime").toString());
+                                            newStartTime = endTime.plusMinutes(15);
+                                            newEndTime = newStartTime.plusHours(durationLT.getHour());
+                                            newEndTime=newEndTime.plusMinutes(durationLT.getMinute());
+
+                                        }
+
+
+                                        if (emptySlotInMin
+                                                >= durationInMin+30 && taskScheduled[0] ==false)
+                                        {
+                                            writeToDataBase(description.getText().toString(), newStartTime.toString(), newEndTime.toString(), dateAttempt);
+                                            taskScheduled[0] =true;
+                                        }
+                                    }
                                 }
 
                                 catch (JSONException e)
