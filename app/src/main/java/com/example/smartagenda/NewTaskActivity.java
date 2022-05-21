@@ -279,7 +279,7 @@ public class NewTaskActivity extends AppCompatActivity
                                     {
                                         durationInMin = durationLT.getMinute() + durationLT.getHour()*60;
 
-                                        if (i==0 && !LocalTime.parse(o.get("startTime").toString()).equals("00:00"))
+                                        if (i==0 && !o.get("startTime").toString().equals("00:00"))
                                         {
                                             emptySlotInMin = (int) MINUTES.between(LocalTime.parse("00:00"), LocalTime.parse(o.get("startTime").toString()));
                                             newEndTime=LocalTime.parse(o.get("startTime").toString()).minusMinutes(15);
@@ -288,7 +288,7 @@ public class NewTaskActivity extends AppCompatActivity
                                         }
                                         else
                                         {
-                                            if (i==response.length()-1 && !LocalTime.parse(o.get("endTime").toString()).equals("23:59"))
+                                            if (i==response.length()-1 && !o.get("endTime").toString().equals("23:59"))
                                             {
                                                 emptySlotInMin = (int) MINUTES.between(LocalTime.parse(o.get("endTime").toString()), LocalTime.parse("23:59"));
                                             }
