@@ -87,7 +87,7 @@ public class AgendaScreenActivity extends AppCompatActivity implements CalendarA
                         Event.eventsList.add(newEvent);
 
                         if(i == response.length()-1){
-                            setWeekView(); //need to do this because multi-threading (I think)
+                            setWeekView();
                         }
 
                     } catch (JSONException e) {

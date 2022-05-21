@@ -207,7 +207,7 @@ public class NewGroupFragment extends DialogFragment {
 
         return rootView;
     }
-
+/*
     public void onResume()
     {
         super.onResume();
@@ -215,4 +215,6 @@ public class NewGroupFragment extends DialogFragment {
         window.setLayout(750, 800);
         window.setGravity(Gravity.CENTER);
     }
+
+ */
 }

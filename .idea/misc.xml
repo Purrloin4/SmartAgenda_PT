@@ -3,23 +3,30 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/cedri/OneDrive/Documenten/GitHub/pt-project/app/src/main/res/layout/activity_group.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/cedri/OneDrive/Documenten/GitHub/pt-project/app/src/main/res/layout/activity_groups.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/cedri/OneDrive/Documenten/GitHub/pt-project/app/src/main/res/layout/activity_main.xml" value="0.264" />
+        <entry key="..\:/Users/cedri/OneDrive/Documenten/GitHub/pt-project/app/src/main/res/layout/activity_new_recurring_event.xml" value="0.2296195652173913" />
         <entry key="..\:/Users/cedri/OneDrive/Documenten/GitHub/pt-project/app/src/main/res/layout/activity_new_task.xml" value="0.2" />
         <entry key="..\:/Users/cedri/OneDrive/Documenten/GitHub/pt-project/app/src/main/res/layout/activity_personal.xml" value="0.22644927536231885" />
         <entry key="..\:/Users/cedri/OneDrive/Documenten/GitHub/pt-project/app/src/main/res/layout/activity_schedule_new_task.xml" value="0.22644927536231885" />
         <entry key="..\:/Users/cedri/OneDrive/Documenten/GitHub/pt-project/app/src/main/res/layout/activity_week_view.xml" value="0.23822463768115942" />
         <entry key="..\:/Users/cedri/OneDrive/Documenten/GitHub/pt-project/app/src/main/res/layout/calendar_cell.xml" value="0.5541666666666667" />
+        <entry key="..\:/Users/cedri/OneDrive/Documenten/GitHub/pt-project/app/src/main/res/layout/event_cell.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/cedri/OneDrive/Documenten/GitHub/pt-project/app/src/main/res/layout/fragment_new_event.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/cedri/OneDrive/Documenten/GitHub/pt-project/app/src/main/res/layout/fragment_new_group.xml" value="0.25" />
+        <entry key="..\:/Users/cedri/OneDrive/Documenten/GitHub/pt-project/app/src/main/res/layout/fragment_new_password.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/cedri/OneDrive/Documenten/GitHub/pt-project/app/src/main/res/layout/fragment_new_task.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/cedri/OneDrive/Documenten/GitHub/pt-project/app/src/main/res/layout/group_and_users_cell.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/cedri/OneDrive/Documenten/GitHub/pt-project/app/src/main/res/layout/user_cell.xml" value="0.22" />
         <entry key="..\:/Users/cedri/OneDrive/Documenten/GitHub/pt-project/app/src/main/res/layout/weekly_main.xml" value="0.264" />
         <entry key="..\:/Users/penre/Documents/GitHub/pt-project/app/src/main/res/drawable-anydpi/ic_action_name.xml" value="0.1385" />
         <entry key="..\:/Users/penre/Documents/GitHub/pt-project/app/src/main/res/layout/activity_account.xml" value="0.14666666666666667" />
         <entry key="..\:/Users/penre/Documents/GitHub/pt-project/app/src/main/res/layout/activity_add_task.xml" value="0.15896739130434784" />
         <entry key="..\:/Users/penre/Documents/GitHub/pt-project/app/src/main/res/layout/activity_group_list.xml" value="0.3333333333333333" />
-        <entry key="..\:/Users/penre/Documents/GitHub/pt-project/app/src/main/res/layout/activity_groups.xml" value="0.14492753623188406" />
         <entry key="..\:/Users/penre/Documents/GitHub/pt-project/app/src/main/res/layout/activity_log_out.xml" value="0.6666666666666666" />
         <entry key="..\:/Users/penre/Documents/GitHub/pt-project/app/src/main/res/layout/activity_login.xml" value="0.3333333333333333" />
-        <entry key="..\:/Users/penre/Documents/GitHub/pt-project/app/src/main/res/layout/activity_main.xml" value="0.22" />
+        <entry key="..\:/Users/penre/Documents/GitHub/pt-project/app/src/main/res/layout/activity_main.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/penre/Documents/GitHub/pt-project/app/src/main/res/layout/activity_new_password.xml" value="0.10054347826086957" />
         <entry key="..\:/Users/penre/Documents/GitHub/pt-project/app/src/main/res/layout/activity_new_recurring_event.xml" value="0.32018561484918795" />
         <entry key="..\:/Users/penre/Documents/GitHub/pt-project/app/src/main/res/layout/activity_new_task.xml" value="0.3333333333333333" />
@@ -27,12 +34,12 @@
         <entry key="..\:/Users/penre/Documents/GitHub/pt-project/app/src/main/res/layout/activity_schedule_new_task.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/penre/Documents/GitHub/pt-project/app/src/main/res/layout/activity_sign_up.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/penre/Documents/GitHub/pt-project/app/src/main/res/layout/activity_start.xml" value="0.22" />
-        <entry key="..\:/Users/penre/Documents/GitHub/pt-project/app/src/main/res/layout/activity_week_view.xml" value="0.22" />
+        <entry key="..\:/Users/penre/Documents/GitHub/pt-project/app/src/main/res/layout/activity_week_view.xml" value="0.1" />
         <entry key="..\:/Users/penre/Documents/GitHub/pt-project/app/src/main/res/layout/calendar_cell.xml" value="0.15896739130434784" />
         <entry key="..\:/Users/penre/Documents/GitHub/pt-project/app/src/main/res/layout/fragment_account_overview.xml" value="0.1358695652173913" />
         <entry key="..\:/Users/penre/Documents/GitHub/pt-project/app/src/main/res/layout/fragment_first.xml" value="0.13177083333333334" />
         <entry key="..\:/Users/penre/Documents/GitHub/pt-project/app/src/main/res/layout/fragment_new_event.xml" value="0.3333333333333333" />
-        <entry key="..\:/Users/penre/Documents/GitHub/pt-project/app/src/main/res/layout/fragment_new_group.xml" value="0.22" />
+        <entry key="..\:/Users/penre/Documents/GitHub/pt-project/app/src/main/res/layout/fragment_new_group.xml" value="0.129981884057971" />
         <entry key="..\:/Users/penre/Documents/GitHub/pt-project/app/src/main/res/layout/fragment_new_password.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/penre/Documents/GitHub/pt-project/app/src/main/res/layout/fragment_second.xml" value="0.15806159420289856" />
         <entry key="..\:/Users/penre/Documents/GitHub/pt-project/app/src/main/res/layout/weekly_main.xml" value="0.3333333333333333" />
