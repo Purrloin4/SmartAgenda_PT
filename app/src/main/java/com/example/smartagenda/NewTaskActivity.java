@@ -126,6 +126,8 @@ public class NewTaskActivity extends AppCompatActivity
         Spinner sItems = (Spinner) findViewById(R.id.groupSpinner);
         sItems.setAdapter(adapter);
 
+        TipOfDayFragment dialogFragment = new TipOfDayFragment();
+        dialogFragment.show(getSupportFragmentManager(), "My Fragment");
 
         deadlineTV.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -313,6 +315,7 @@ public class NewTaskActivity extends AppCompatActivity
                                             taskScheduled[0] =true;
                                             Event newEvent = new Event(description.getText().toString(), newStartTime, newEndTime, LocalDate.parse(dateAttempt), false);
                                             Event.eventsList.add(newEvent);
+                                            Toast.makeText(NewTaskActivity.this, "Your task was successfully scheduled.", Toast.LENGTH_SHORT).show();
                                         }
                                     }
                                 }
@@ -352,6 +355,7 @@ public class NewTaskActivity extends AppCompatActivity
                     && !deadlineTV.getText().toString().matches("select")
             && groupSp.getSelectedItem().toString().matches("" ))
             {
+                //scheduling algorithm for group task
                 Intent intent = new Intent(this, AgendaScreenActivity.class);
                 startActivity(intent);
             }
