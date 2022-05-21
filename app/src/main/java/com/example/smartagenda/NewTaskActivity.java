@@ -2,6 +2,7 @@ package com.example.smartagenda;
 
 import static java.time.temporal.ChronoUnit.DAYS;
 import static java.time.temporal.ChronoUnit.HOURS;
+import static java.time.temporal.ChronoUnit.MINUTES;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -229,6 +230,8 @@ public class NewTaskActivity extends AppCompatActivity
         requestQueue.add(submitRequest3);
     }
 
+
+
     public void onScheduleTaskBtn_Clicked (View caller)
     {
         if (isON==false)
@@ -239,7 +242,10 @@ public class NewTaskActivity extends AppCompatActivity
             {
 
 
+
+
                 //scheduling algorithm for personal task
+                final boolean[] taskScheduled = {false};
                 for(int j=1; j < DAYS.between(LocalDate.now(), deadlineLD); j++)
                 {
                     requestQueue = Volley.newRequestQueue(this);
@@ -250,34 +256,50 @@ public class NewTaskActivity extends AppCompatActivity
                     String requestURL2 = "https://studev.groept.be/api/a21pt308/eventsOfDayInChronologicalOrder/"+username+"/"+dateAttempt;
 
 
+
                     JsonArrayRequest submitRequest2 = new JsonArrayRequest(Request.Method.GET,requestURL2,null,new Response.Listener<JSONArray>() {
                         @Override
                         public void onResponse(JSONArray response) {
                             String info = "";
+
                             for (int i=0; i<response.length(); ++i) {
                                 JSONObject o = null;
                                 JSONObject o2 = null;
                                 try
                                 {
                                     o = response.getJSONObject(i);
+                                    /*
+                                    if (response.length()==1 && o.get("startTime").toString().equals("00:00") && o.get("endTime").toString().equals("23:59"))
+                                    {
+                                        j++;
+                                    }*/
+
                                     o2 =response.getJSONObject(i+1);
 
-                                    int emptySlot = (int) HOURS.between(LocalTime.parse(o.get("endTime").toString()), LocalTime.parse(o2.get("startTime").toString()));
-                                    int duration = durationLT.getHour();
 
-                                if (emptySlot
-                                        >= duration)
-                                {
-                                    LocalTime newEndTime = LocalTime.parse(o.get("endTime").toString());
-                                    newEndTime=newEndTime.plusHours(durationLT.getHour());
-                                    writeToDataBase(description.getText().toString(), o.get("endTime").toString(), newEndTime.toString(), dateAttempt);
+                                    int durationInMin = durationLT.getMinute() + durationLT.getHour()*60;
+                                    int emptySlotInMin = (int) MINUTES.between(LocalTime.parse(o.get("endTime").toString()), LocalTime.parse(o2.get("startTime").toString()));
 
+
+                                    if (emptySlotInMin
+                                            >= durationInMin+30 && taskScheduled[0] ==false)
+                                    {
+                                        LocalTime endTime = LocalTime.parse(o.get("endTime").toString());
+                                        LocalTime newStartTime = endTime.plusMinutes(15);
+                                        LocalTime newEndTime = newStartTime.plusHours(durationLT.getHour());
+                                        newEndTime=newEndTime.plusMinutes(durationLT.getMinute());
+                                        writeToDataBase(description.getText().toString(), newStartTime.toString(), newEndTime.toString(), dateAttempt);
+                                        taskScheduled[0] =true;
+                                    }
 
                                 }
 
-                                } catch (JSONException e) {
+                                catch (JSONException e)
+                                {
                                     e.printStackTrace();
                                 }
+
+
                             }
                         }
                     }, new Response.ErrorListener() {
