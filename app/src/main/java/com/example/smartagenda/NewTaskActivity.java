@@ -242,8 +242,6 @@ public class NewTaskActivity extends AppCompatActivity
             {
 
 
-
-
                 //scheduling algorithm for personal task
                 final boolean[] taskScheduled = {false};
                 for(final int[] j = {1}; j[0] < DAYS.between(LocalDate.now(), deadlineLD); j[0]++)
@@ -313,6 +311,8 @@ public class NewTaskActivity extends AppCompatActivity
                                         {
                                             writeToDataBase(description.getText().toString(), newStartTime.toString(), newEndTime.toString(), dateAttempt);
                                             taskScheduled[0] =true;
+                                            Event newEvent = new Event(description.getText().toString(), newStartTime, newEndTime, LocalDate.parse(dateAttempt), false);
+                                            Event.eventsList.add(newEvent);
                                         }
                                     }
                                 }
@@ -321,7 +321,6 @@ public class NewTaskActivity extends AppCompatActivity
                                 {
                                     e.printStackTrace();
                                 }
-
 
                             }
                         }
