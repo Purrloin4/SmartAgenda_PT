@@ -290,15 +290,23 @@ public class NewTaskActivity extends AppCompatActivity
                                         }
                                         else
                                         {
-                                            o2 =response.getJSONObject(i+1);
-                                            emptySlotInMin = (int) MINUTES.between(LocalTime.parse(o.get("endTime").toString()), LocalTime.parse(o2.get("startTime").toString()));
+                                            if (i==response.length()-1 && !LocalTime.parse(o.get("endTime").toString()).equals("23:59"))
+                                            {
+                                                emptySlotInMin = (int) MINUTES.between(LocalTime.parse(o.get("endTime").toString()), LocalTime.parse("23:59"));
+                                            }
+                                            else
+                                            {
+                                                o2 =response.getJSONObject(i+1);
+                                                emptySlotInMin = (int) MINUTES.between(LocalTime.parse(o.get("endTime").toString()), LocalTime.parse(o2.get("startTime").toString()));
+
+                                            }
+
                                             LocalTime endTime = LocalTime.parse(o.get("endTime").toString());
                                             newStartTime = endTime.plusMinutes(15);
                                             newEndTime = newStartTime.plusHours(durationLT.getHour());
                                             newEndTime=newEndTime.plusMinutes(durationLT.getMinute());
 
                                         }
-
 
                                         if (emptySlotInMin
                                                 >= durationInMin+30 && taskScheduled[0] ==false)
