@@ -12,6 +12,7 @@
         android:layout_marginStart="20dp"
         android:id="@+id/memberCellTV"
         android:textSize="20sp"
+        android:fontFamily="@font/schoolbell"
         android:textColor="@color/gray"
         android:text="member"/>
 
