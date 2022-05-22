@@ -22,6 +22,8 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -183,6 +185,7 @@ public class NewTaskActivity extends AppCompatActivity
 
     }
 
+
     public void onSelectDuration_Clicked(View view)
     {
         TimePickerDialog.OnTimeSetListener onTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
@@ -276,73 +279,6 @@ public class NewTaskActivity extends AppCompatActivity
 
 
 
-    public ArrayList<String> getMembers(String groupName)
-    {
-        //
-        ArrayList<String> usernames = new ArrayList<>();
-        String requestURL4 = "https://studev.groept.be/api/a21pt308/usernames";
-        JsonArrayRequest submitRequest4 = new JsonArrayRequest(Request.Method.GET,requestURL4,null,new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-                String info = "";
-                for (int i=0; i<response.length(); ++i) {
-                    JSONObject o = null;
-                    try {
-                        o = response.getJSONObject(i);
-                        String user = o.get("username").toString();
-                        usernames.add(user);
-
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(NewTaskActivity.this, "Unable to communicate with the server", Toast.LENGTH_LONG).show();
-            }
-        });
-
-        requestQueue.add(submitRequest4);
-
-
-        ArrayList<String> usersInGroup = new ArrayList<>();
-        String requestURL5 = "https://studev.groept.be/api/a21pt308/members_per_group/"+groupName;
-        JsonArrayRequest submitRequest5 = new JsonArrayRequest(Request.Method.GET,requestURL5,null,new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-                String info = "";
-                for (int i=0; i<response.length(); ++i) {
-                    JSONObject o = null;
-                    try {
-                        o = response.getJSONObject(i);
-                        String groupString = o.get("members").toString();
-                        usernames.forEach(u ->
-                        {
-                            if (groupString.contains(u))
-                            {
-                                usersInGroup.add(u);
-                            }
-                        });
-
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(NewTaskActivity.this, "Unable to communicate with the server", Toast.LENGTH_LONG).show();
-            }
-        });
-
-        requestQueue.add(submitRequest5);
-        return usersInGroup;
-    }
 
 
     public boolean slotIsFree(String user, String dateAttempt, LocalTime newStartTime, LocalTime newEndTime)
@@ -403,138 +339,176 @@ public class NewTaskActivity extends AppCompatActivity
                     && !durationTV.getText().toString().matches("select")
                     && !deadlineTV.getText().toString().matches("select"))
             {
-
-                final boolean[] taskScheduled = {false};
-                for(final int[] j = {1}; j[0] < DAYS.between(LocalDate.now(), deadlineLD); j[0]++)
+                if (LocalDate.now().isBefore(deadlineLD))
                 {
-                    requestQueue = Volley.newRequestQueue(this);
+                    final boolean[] taskScheduled = {false};
+                    for(final int[] j = {1}; j[0] < DAYS.between(LocalDate.now(), deadlineLD); j[0]++)
+                    {
+                        requestQueue = Volley.newRequestQueue(this);
 
 
-                    String dateAttempt = deadlineLD.minusDays(j[0]).toString();
+                        String dateAttempt = deadlineLD.minusDays(j[0]).toString();
 
-                    String requestURL2 = "https://studev.groept.be/api/a21pt308/eventsOfDayInChronologicalOrder/"+username+"/"+dateAttempt;
+                        String requestURL2 = "https://studev.groept.be/api/a21pt308/eventsOfDayInChronologicalOrder/"+username+"/"+dateAttempt;
 
 
 
-                    JsonArrayRequest submitRequest2 = new JsonArrayRequest(Request.Method.GET,requestURL2,null,new Response.Listener<JSONArray>() {
-                        @Override
-                        public void onResponse(JSONArray response) {
-                            String info = "";
+                        JsonArrayRequest submitRequest2 = new JsonArrayRequest(Request.Method.GET,requestURL2,null,new Response.Listener<JSONArray>() {
+                            @Override
+                            public void onResponse(JSONArray response) {
+                                String info = "";
 
-                            for (int i=0; i<response.length(); ++i) {
-                                JSONObject o = null;
-                                JSONObject o2 = null;
-                                try
-                                {
-                                    int durationInMin=-1;
-                                    int emptySlotInMin=-1;
-                                    LocalTime newStartTime = null;
-                                    LocalTime newEndTime = null;
-                                    o = response.getJSONObject(i);
-
-                                    if (response.length()==1 && o.get("startTime").toString().equals("00:00") && o.get("endTime").toString().equals("23:59"))
+                                for (int i=0; i<response.length(); ++i) {
+                                    JSONObject o = null;
+                                    JSONObject o2 = null;
+                                    try
                                     {
-                                        j[0]++;
-                                    }
-                                    else
-                                    {
-                                        durationInMin = durationLT.getMinute() + durationLT.getHour()*60;
+                                        int durationInMin=-1;
+                                        int emptySlotInMin=-1;
+                                        LocalTime newStartTime = null;
+                                        LocalTime newEndTime = null;
+                                        o = response.getJSONObject(i);
 
-                                        if (i==0 && !o.get("startTime").toString().equals("00:00"))
+                                        if (response.length()==1 && o.get("startTime").toString().equals("00:00") && o.get("endTime").toString().equals("23:59"))
                                         {
-                                            emptySlotInMin = (int) MINUTES.between(LocalTime.parse("00:00"), LocalTime.parse(o.get("startTime").toString()));
-                                            newEndTime=LocalTime.parse(o.get("startTime").toString()).minusMinutes(15);
-                                            newStartTime=newEndTime.minusHours(durationLT.getHour());
-                                            newStartTime=newStartTime.minusMinutes(durationLT.getMinute());
+                                            j[0]++;
                                         }
                                         else
                                         {
-                                            if (i==response.length()-1 && !o.get("endTime").toString().equals("23:59"))
+                                            durationInMin = durationLT.getMinute() + durationLT.getHour()*60;
+
+                                            if (i==0 && !o.get("startTime").toString().equals("00:00"))
                                             {
-                                                emptySlotInMin = (int) MINUTES.between(LocalTime.parse(o.get("endTime").toString()), LocalTime.parse("23:59"));
+                                                emptySlotInMin = (int) MINUTES.between(LocalTime.parse("00:00"), LocalTime.parse(o.get("startTime").toString()));
+                                                newEndTime=LocalTime.parse(o.get("startTime").toString()).minusMinutes(15);
+                                                newStartTime=newEndTime.minusHours(durationLT.getHour());
+                                                newStartTime=newStartTime.minusMinutes(durationLT.getMinute());
                                             }
                                             else
                                             {
-                                                o2 =response.getJSONObject(i+1);
-                                                emptySlotInMin = (int) MINUTES.between(LocalTime.parse(o.get("endTime").toString()), LocalTime.parse(o2.get("startTime").toString()));
-
-                                            }
-
-                                            LocalTime endTime = LocalTime.parse(o.get("endTime").toString());
-                                            newStartTime = endTime.plusMinutes(15);
-                                            newEndTime = newStartTime.plusHours(durationLT.getHour());
-                                            newEndTime=newEndTime.plusMinutes(durationLT.getMinute());
-
-                                        }
-
-                                        if (emptySlotInMin
-                                                >= durationInMin+30 && taskScheduled[0] ==false)
-                                        {
-                                            if (isON==false)
-                                            {
-                                                writeToDataBase(description.getText().toString(), newStartTime.toString(), newEndTime.toString(), dateAttempt);
-                                                taskScheduled[0] =true;
-                                                Event newEvent = new Event(description.getText().toString(), newStartTime, newEndTime, LocalDate.parse(dateAttempt), false);
-                                                Event.eventsList.add(newEvent);
-                                                Toast.makeText(NewTaskActivity.this, "Your task was successfully scheduled.", Toast.LENGTH_SHORT).show();
-                                            }
-                                            else {
-                                                //
-                                                int counter = 1;
-                                                ArrayList<String> members = new ArrayList <>();
-                                                members=getMembers(groupSp.getSelectedItem().toString());
-                                                //members.add("test2");
-                                                //members.add("test4");
-
-                                                for (String member : getMembers(groupSp.getSelectedItem().toString())) {
-                                                    if (!member.equals(username))
-                                                    {
-                                                        if (slotIsFree(member, dateAttempt, newStartTime, newEndTime) == true)
-                                                        {
-                                                            counter++;
-                                                        }
-                                                    }
+                                                if (i==response.length()-1 && !o.get("endTime").toString().equals("23:59"))
+                                                {
+                                                    emptySlotInMin = (int) MINUTES.between(LocalTime.parse(o.get("endTime").toString()), LocalTime.parse("23:59"));
+                                                }
+                                                else
+                                                {
+                                                    o2 =response.getJSONObject(i+1);
+                                                    emptySlotInMin = (int) MINUTES.between(LocalTime.parse(o.get("endTime").toString()), LocalTime.parse(o2.get("startTime").toString()));
 
                                                 }
-                                                if (counter == getMembers(groupSp.getSelectedItem().toString()).size())
+
+                                                LocalTime endTime = LocalTime.parse(o.get("endTime").toString());
+                                                newStartTime = endTime.plusMinutes(15);
+                                                newEndTime = newStartTime.plusHours(durationLT.getHour());
+                                                newEndTime=newEndTime.plusMinutes(durationLT.getMinute());
+
+                                            }
+
+                                            if (emptySlotInMin
+                                                    >= durationInMin+30 && taskScheduled[0] ==false)
+                                            {
+                                                if (isON==false)
                                                 {
+                                                    writeToDataBase(description.getText().toString(), newStartTime.toString(), newEndTime.toString(), dateAttempt);
+                                                    taskScheduled[0] =true;
                                                     Event newEvent = new Event(description.getText().toString(), newStartTime, newEndTime, LocalDate.parse(dateAttempt), false);
                                                     Event.eventsList.add(newEvent);
+                                                    Toast.makeText(NewTaskActivity.this, "Your task was successfully scheduled.", Toast.LENGTH_SHORT).show();
+                                                }
+                                                else {
+                                                    //
 
-                                                    for (String member : getMembers(groupSp.getSelectedItem().toString()))
-                                                    {
-                                                        writeToDataBaseGroup(description.getText().toString(), newStartTime.toString(), newEndTime.toString(), dateAttempt, member, groupSp.getSelectedItem().toString());
-                                                        Toast.makeText(NewTaskActivity.this, "Your group task was successfully scheduled.", Toast.LENGTH_SHORT).show();
-                                                    }
+
+                                                    String requestURL = "https://studev.groept.be/api/a21pt308/members_per_group/"+groupSp.getSelectedItem().toString();
+                                                    LocalTime finalNewStartTime = newStartTime;
+                                                    LocalTime finalNewEndTime = newEndTime;
+                                                    JsonArrayRequest submitRequest = new JsonArrayRequest(Request.Method.GET,requestURL,null,new Response.Listener<JSONArray>() {
+                                                        @Override
+                                                        public void onResponse(JSONArray response) {
+                                                            String info = "";
+                                                            JSONObject o = null;
+                                                            try {
+
+                                                                o = response.getJSONObject(0);
+                                                                String[] members = o.get("members").toString().split(", ");
+                                                                int counter=1;
+
+                                                                for (String member : members) {
+                                                                    if (!member.equals(username))
+                                                                    {
+                                                                        if (slotIsFree(member, dateAttempt, finalNewStartTime, finalNewEndTime) == true)
+                                                                        {
+                                                                            counter++;
+                                                                        }
+                                                                    }
+
+                                                                }
+                                                                if (counter == members.length)
+                                                                {
+                                                                    Event newEvent = new Event(description.getText().toString(), finalNewStartTime, finalNewEndTime, LocalDate.parse(dateAttempt), false);
+                                                                    Event.eventsList.add(newEvent);
+
+                                                                    for (String member : members)
+                                                                    {
+                                                                        writeToDataBaseGroup(description.getText().toString(), finalNewStartTime.toString(), finalNewEndTime.toString(), dateAttempt, member, groupSp.getSelectedItem().toString());
+                                                                        taskScheduled[0] =true;
+                                                                        Toast.makeText(NewTaskActivity.this, "Your group task was successfully scheduled.", Toast.LENGTH_SHORT).show();
+                                                                    }
+                                                                }
+
+                                                            }
+                                                            catch (JSONException e)
+                                                            {
+                                                                e.printStackTrace();
+                                                            }
+
+                                                        }
+                                                    }, new Response.ErrorListener() {
+                                                        @Override
+                                                        public void onErrorResponse(VolleyError error) {
+                                                            Toast.makeText(NewTaskActivity.this, "Unable to communicate with the server", Toast.LENGTH_LONG).show();
+                                                        }
+                                                    });
+
+                                                    requestQueue.add(submitRequest);
+
                                                 }
 
                                             }
-
                                         }
                                     }
-                                }
 
-                                catch (JSONException e)
-                                {
-                                    e.printStackTrace();
-                                }
+                                    catch (JSONException e)
+                                    {
+                                        e.printStackTrace();
+                                    }
 
+                                }
                             }
-                        }
-                    }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Toast.makeText(NewTaskActivity.this, "Unable to communicate with the server", Toast.LENGTH_LONG).show();
-                        }
-                    });
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Toast.makeText(NewTaskActivity.this, "Unable to communicate with the server", Toast.LENGTH_LONG).show();
+                            }
+                        });
 
-                    requestQueue.add(submitRequest2);
+                        requestQueue.add(submitRequest2);
+                    }
+
+                    if (taskScheduled[0]=false)
+                    {
+                        Toast.makeText(NewTaskActivity.this, "This task doesn't fit in your schedule.", Toast.LENGTH_LONG).show();
+                    }
+
+                    Intent intent = new Intent(this, AgendaScreenActivity.class);
+                    startActivity(intent);
+
+                }
+                else
+                {
+                    Toast.makeText(this, "Deadline can't be in the past.", Toast.LENGTH_SHORT).show();
                 }
 
-
-
-                Intent intent = new Intent(this, AgendaScreenActivity.class);
-                startActivity(intent);
 
             }
             else
