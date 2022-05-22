@@ -12,6 +12,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -58,6 +59,8 @@ public class NewTaskActivity extends AppCompatActivity
     private LocalDate deadlineLD;
     private String username;
 
+    ArrayList<String> groupNames;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -67,8 +70,7 @@ public class NewTaskActivity extends AppCompatActivity
 
         description = findViewById(R.id.descriptionIn);
 
-        groupSp= findViewById(R.id.groupSpinner);
-        groupSp.setVisibility(View.INVISIBLE);
+
         isON=false;
         groupTV=findViewById(R.id.groupNameTxt);
         groupTV.setVisibility(View.INVISIBLE);
@@ -85,13 +87,10 @@ public class NewTaskActivity extends AppCompatActivity
         SharedPreferences login = getSharedPreferences("UserInfo", 0);
         username = login.getString("username", "");
 
-        ArrayList<String> groupNames = new ArrayList<>();
 
-
+        groupNames = new ArrayList<>();
         requestQueue = Volley.newRequestQueue(this);
         String requestURL = "https://studev.groept.be/api/a21pt308/groups_per_user/"+username+"/"+username;
-
-
         JsonArrayRequest submitRequest = new JsonArrayRequest(Request.Method.GET,requestURL,null,new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
@@ -119,12 +118,28 @@ public class NewTaskActivity extends AppCompatActivity
         requestQueue.add(submitRequest);
 
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-                this, android.R.layout.simple_spinner_item, groupNames);
+        /*
+
+        String[] groupNames2 = new String [groupNames.size()];
+
+        for (int i = 0; i < groupNames.size(); i++)
+        {
+            groupNames2[i]=groupNames.get(i);
+        }*/
+
+        String[] groupNames3= {"group1", "group3"};
+
+        groupSp= findViewById(R.id.groupSpinner);
+        groupSp.setVisibility(View.INVISIBLE);
+        ArrayAdapter adapter = new ArrayAdapter(
+                this, android.R.layout.simple_spinner_item, groupNames3);
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        Spinner sItems = (Spinner) findViewById(R.id.groupSpinner);
-        sItems.setAdapter(adapter);
+        //Spinner groupSp = (Spinner) findViewById(R.id.groupSpinner);
+        groupSp.setAdapter(adapter);
+
+
+
 
         TipOfDayFragment dialogFragment = new TipOfDayFragment();
         dialogFragment.show(getSupportFragmentManager(), "My Fragment");
@@ -232,19 +247,163 @@ public class NewTaskActivity extends AppCompatActivity
         requestQueue.add(submitRequest3);
     }
 
+    public void writeToDataBaseGroup(String newDescription, String newStartTime, String newEndTime, String newDate, String user, String group)
+    {
+        String requestURL7 = "https://studev.groept.be/api/a21pt308/add_group_task/"+newDescription+"/"+newStartTime+"/"+newEndTime+"/"+newDate+"/"+user+"/"+group;
+        JsonArrayRequest submitRequest7 = new JsonArrayRequest(Request.Method.GET,requestURL7,null,new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                String info = "";
+                for (int i=0; i<response.length(); ++i) {
+                    JSONObject o = null;
+                    try {
+                        o = response.getJSONObject(i);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(NewTaskActivity.this, "Unable to communicate with the server", Toast.LENGTH_LONG).show();
+            }
+        });
 
+        requestQueue.add(submitRequest7);
+    }
+
+
+
+
+    public ArrayList<String> getMembers(String groupName)
+    {
+        //
+        ArrayList<String> usernames = new ArrayList<>();
+        String requestURL4 = "https://studev.groept.be/api/a21pt308/usernames";
+        JsonArrayRequest submitRequest4 = new JsonArrayRequest(Request.Method.GET,requestURL4,null,new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                String info = "";
+                for (int i=0; i<response.length(); ++i) {
+                    JSONObject o = null;
+                    try {
+                        o = response.getJSONObject(i);
+                        String user = o.get("username").toString();
+                        usernames.add(user);
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(NewTaskActivity.this, "Unable to communicate with the server", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        requestQueue.add(submitRequest4);
+
+
+        ArrayList<String> usersInGroup = new ArrayList<>();
+        String requestURL5 = "https://studev.groept.be/api/a21pt308/members_per_group/"+groupName;
+        JsonArrayRequest submitRequest5 = new JsonArrayRequest(Request.Method.GET,requestURL5,null,new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                String info = "";
+                for (int i=0; i<response.length(); ++i) {
+                    JSONObject o = null;
+                    try {
+                        o = response.getJSONObject(i);
+                        String groupString = o.get("members").toString();
+                        usernames.forEach(u ->
+                        {
+                            if (groupString.contains(u))
+                            {
+                                usersInGroup.add(u);
+                            }
+                        });
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(NewTaskActivity.this, "Unable to communicate with the server", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        requestQueue.add(submitRequest5);
+        return usersInGroup;
+    }
+
+
+    public boolean slotIsFree(String user, String dateAttempt, LocalTime newStartTime, LocalTime newEndTime)
+    {
+        final boolean[] result = new boolean[1];
+        result[0]=true;
+
+        String requestURL6 = "https://studev.groept.be/api/a21pt308/eventsOfDayInChronologicalOrder/"+user+"/"+dateAttempt;
+        JsonArrayRequest submitRequest6 = new JsonArrayRequest(Request.Method.GET,requestURL6,null,new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                String info = "";
+
+                for (int i=0; i<response.length(); ++i) {
+                    JSONObject o = null;
+                    JSONObject o2 = null;
+                    try
+                    {
+                        o = response.getJSONObject(i);
+
+                        if ((response.length()==1 && o.get("startTime").toString().equals("00:00")
+                                && o.get("endTime").toString().equals("23:59"))
+                            ||(LocalTime.parse(o.get("startTime").toString()).compareTo(newStartTime)<0
+                                && LocalTime.parse(o.get("endTime").toString()).compareTo(newStartTime)>=0 && LocalTime.parse(o.get("endTime").toString()).compareTo(newEndTime)<0)
+                            ||(LocalTime.parse(o.get("startTime").toString()).compareTo(newStartTime)>=0
+                                && LocalTime.parse(o.get("endTime").toString()).compareTo(newStartTime)<=0)
+                            ||(LocalTime.parse(o.get("startTime").toString()).compareTo(newStartTime)>0 && LocalTime.parse(o.get("startTime").toString()).compareTo(newEndTime)<0
+                                && LocalTime.parse(o.get("endTime").toString()).compareTo(newStartTime)<0))
+                        {
+                            result[0] = false;
+                            i=response.length();
+
+                        }
+                    }
+
+                    catch (JSONException e)
+                    {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(NewTaskActivity.this, "Unable to communicate with the server", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        requestQueue.add(submitRequest6);
+
+        return result[0];
+    }
 
     public void onScheduleTaskBtn_Clicked (View caller)
     {
-        if (isON==false)
-        {
-            if (!description.getText().toString().matches("")
+        if (!description.getText().toString().matches("")
                     && !durationTV.getText().toString().matches("select")
                     && !deadlineTV.getText().toString().matches("select"))
             {
 
-
-                //scheduling algorithm for personal task
                 final boolean[] taskScheduled = {false};
                 for(final int[] j = {1}; j[0] < DAYS.between(LocalDate.now(), deadlineLD); j[0]++)
                 {
@@ -311,11 +470,46 @@ public class NewTaskActivity extends AppCompatActivity
                                         if (emptySlotInMin
                                                 >= durationInMin+30 && taskScheduled[0] ==false)
                                         {
-                                            writeToDataBase(description.getText().toString(), newStartTime.toString(), newEndTime.toString(), dateAttempt);
-                                            taskScheduled[0] =true;
-                                            Event newEvent = new Event(description.getText().toString(), newStartTime, newEndTime, LocalDate.parse(dateAttempt), false);
-                                            Event.eventsList.add(newEvent);
-                                            Toast.makeText(NewTaskActivity.this, "Your task was successfully scheduled.", Toast.LENGTH_SHORT).show();
+                                            if (isON==false)
+                                            {
+                                                writeToDataBase(description.getText().toString(), newStartTime.toString(), newEndTime.toString(), dateAttempt);
+                                                taskScheduled[0] =true;
+                                                Event newEvent = new Event(description.getText().toString(), newStartTime, newEndTime, LocalDate.parse(dateAttempt), false);
+                                                Event.eventsList.add(newEvent);
+                                                Toast.makeText(NewTaskActivity.this, "Your task was successfully scheduled.", Toast.LENGTH_SHORT).show();
+                                            }
+                                            else {
+                                                //
+                                                int counter = 1;
+                                                ArrayList<String> members = new ArrayList <>();
+                                                members=getMembers(groupSp.getSelectedItem().toString());
+                                                //members.add("test2");
+                                                //members.add("test4");
+
+                                                for (String member : getMembers(groupSp.getSelectedItem().toString())) {
+                                                    if (!member.equals(username))
+                                                    {
+                                                        if (slotIsFree(member, dateAttempt, newStartTime, newEndTime) == true)
+                                                        {
+                                                            counter++;
+                                                        }
+                                                    }
+
+                                                }
+                                                if (counter == getMembers(groupSp.getSelectedItem().toString()).size())
+                                                {
+                                                    Event newEvent = new Event(description.getText().toString(), newStartTime, newEndTime, LocalDate.parse(dateAttempt), false);
+                                                    Event.eventsList.add(newEvent);
+
+                                                    for (String member : getMembers(groupSp.getSelectedItem().toString()))
+                                                    {
+                                                        writeToDataBaseGroup(description.getText().toString(), newStartTime.toString(), newEndTime.toString(), dateAttempt, member, groupSp.getSelectedItem().toString());
+                                                        Toast.makeText(NewTaskActivity.this, "Your group task was successfully scheduled.", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }
+
+                                            }
+
                                         }
                                     }
                                 }
@@ -348,23 +542,4 @@ public class NewTaskActivity extends AppCompatActivity
                 Toast.makeText(this, "Fill in all fields before saving", Toast.LENGTH_SHORT).show();
             }
         }
-        else
-        {
-            if (!description.getText().toString().matches("")
-                    && !durationTV.getText().toString().matches("select")
-                    && !deadlineTV.getText().toString().matches("select")
-            && groupSp.getSelectedItem().toString().matches("" ))
-            {
-                //scheduling algorithm for group task
-                Intent intent = new Intent(this, AgendaScreenActivity.class);
-                startActivity(intent);
-            }
-            else
-            {
-                Toast.makeText(this, "Fill in all fields before saving", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
-
 }

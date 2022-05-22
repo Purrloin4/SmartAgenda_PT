@@ -155,8 +155,6 @@ public class GroupsActivity extends AppCompatActivity {
         });
 
         requestQueue.add(submitRequest);
-
-
     }
 
 
