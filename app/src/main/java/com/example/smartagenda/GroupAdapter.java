@@ -1,7 +1,10 @@
 package com.example.smartagenda;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -22,17 +25,26 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupViewHolder> {
     @NonNull
     @Override
     public GroupViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new GroupViewHolder(LayoutInflater.from(context).inflate(R.layout.group_and_members_cell,parent,false));
+        View view = LayoutInflater.from(context).inflate(R.layout.group_cell,parent,false);
+        return new GroupViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull GroupViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull GroupViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.group.setText(groups.get(position));
+
+        holder.parentLayout.setOnClickListener(view -> {
+            Intent intent = new Intent(context, OnGroupActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra("groupPosition", groups.get(position));
+            context.startActivity(intent);
+        });
     }
 
     @Override
     public int getItemCount() {
         return groups.size();
     }
+
 }
 

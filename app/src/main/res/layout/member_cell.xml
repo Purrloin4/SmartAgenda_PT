@@ -10,9 +10,9 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:layout_marginStart="20dp"
-        android:id="@+id/userCellTV"
+        android:id="@+id/memberCellTV"
         android:textSize="20sp"
         android:textColor="@color/gray"
-        android:text="user"/>
+        android:text="member"/>
 
 </LinearLayout>

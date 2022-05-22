@@ -1,14 +1,12 @@
 package com.example.smartagenda;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -23,36 +21,41 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class GroupsActivity extends AppCompatActivity {
-    public static ArrayList<String> groupNames = new ArrayList<>();
-    public ArrayList<String> memberNames = new ArrayList<>();
+public class OnGroupActivity extends GroupsActivity{
+    private ArrayList<String> members = new ArrayList<>();
     private RequestQueue requestQueue;
     private String username;
+    private String myGroup;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_groups);
-
-        if(groupNames.isEmpty()){
-            getGroups();
+        setContentView(R.layout.activity_on_group_click);
+        if (getIntent().hasExtra("groupPosition")){
+            myGroup = getIntent().getStringExtra("groupPosition");
         }
-        setGroupView();
+        members = getMembersPerGroup(myGroup);
+        setMemberView();
     }
 
-    private void setGroupView()
+    private void setMemberView()
     {
-        RecyclerView groupRecyclerView = findViewById(R.id.groupRecyclerView);
-        groupRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        groupRecyclerView.setAdapter(new GroupAdapter(getApplicationContext(),groupNames));
+        RecyclerView memberRecyclerView = findViewById(R.id.memberRecyclerView);
+        memberRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        memberRecyclerView.setAdapter(new MemberAdapter(getApplicationContext(),members));
     }
 
-    private void getGroups() {
+    public ArrayList<String> getMembersPerGroup(String group){
+        addMember1(group);
+        addMembers(group);
+        return memberNames;
+    }
 
+    private void addMember1(String group) {
         SharedPreferences login = getSharedPreferences("UserInfo", 0);
         username = login.getString("username", "");
         requestQueue = Volley.newRequestQueue(this);
-        String requestURL = "https://studev.groept.be/api/a21pt308/groups_per_user/"+username+"/"+username;
+        String requestURL = "https://studev.groept.be/api/a21pt308/get_member1/"+username+"/"+username;
 
 
         JsonArrayRequest submitRequest = new JsonArrayRequest(Request.Method.GET,requestURL,null,new Response.Listener<JSONArray>() {
@@ -64,10 +67,11 @@ public class GroupsActivity extends AppCompatActivity {
                     JSONObject o = null;
                     try {
                         o = response.getJSONObject(i);
-                        groupNames.add(o.get("team_name").toString());
-
+                        if(o.get("team_name").equals(group)) {
+                            memberNames.add("Group creator: " + o.get("member1").toString());
+                        }
                         if(i == response.length()-1){
-                            setGroupView();
+                            setMemberView();
                         }
 
                     } catch (JSONException e) {
@@ -79,19 +83,20 @@ public class GroupsActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(GroupsActivity.this, "Unable to communicate with the server", Toast.LENGTH_LONG).show();
+                Toast.makeText(OnGroupActivity.this, "Unable to communicate with the server", Toast.LENGTH_LONG).show();
             }
         });
 
         requestQueue.add(submitRequest);
+
+
     }
 
-
-    private void addMembers() {
+    private void addMembers(String group) {
         SharedPreferences login = getSharedPreferences("UserInfo", 0);
         username = login.getString("username", "");
         requestQueue = Volley.newRequestQueue(this);
-        String requestURL = "https://studev.groept.be/api/a21pt308/groups_per_user/"+username+"/"+username;
+        String requestURL = "https://studev.groept.be/api/a21pt308/members_of_group/"+username+"/"+username;
 
 
         JsonArrayRequest submitRequest = new JsonArrayRequest(Request.Method.GET,requestURL,null,new Response.Listener<JSONArray>() {
@@ -103,7 +108,12 @@ public class GroupsActivity extends AppCompatActivity {
                     JSONObject o = null;
                     try {
                         o = response.getJSONObject(i);
-                        memberNames.add(o.get("members").toString());
+                        if(o.get("team_name").equals(group)) {
+                            memberNames.add("Other members: " + o.get("members").toString());
+                        }
+                        if(i == response.length()-1){
+                            setMemberView();
+                        }
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -114,18 +124,12 @@ public class GroupsActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(GroupsActivity.this, "Unable to communicate with the server", Toast.LENGTH_LONG).show();
+                Toast.makeText(OnGroupActivity.this, "Unable to communicate with the server", Toast.LENGTH_LONG).show();
             }
         });
 
         requestQueue.add(submitRequest);
-    }
 
 
-
-    public void onNewGroup_Clicked (View caller)
-    {
-        NewGroupFragment dialogFragment = new NewGroupFragment();
-        dialogFragment.show(getSupportFragmentManager(), "My Fragment");
     }
 }
