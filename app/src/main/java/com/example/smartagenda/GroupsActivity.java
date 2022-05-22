@@ -23,7 +23,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class GroupsActivity extends AppCompatActivity implements GroupViewHolder.OnGroupListener {
+public class GroupsActivity extends AppCompatActivity {
     public static ArrayList<String> groupNames = new ArrayList<>();
     public ArrayList<String> memberNames = new ArrayList<>();
     private RequestQueue requestQueue;
@@ -44,7 +44,7 @@ public class GroupsActivity extends AppCompatActivity implements GroupViewHolder
     {
         RecyclerView groupRecyclerView = findViewById(R.id.groupRecyclerView);
         groupRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        groupRecyclerView.setAdapter(new GroupAdapter(getApplicationContext(),groupNames,this));
+        groupRecyclerView.setAdapter(new GroupAdapter(getApplicationContext(),groupNames));
     }
 
     private void getGroups() {
@@ -92,12 +92,5 @@ public class GroupsActivity extends AppCompatActivity implements GroupViewHolder
     {
         NewGroupFragment dialogFragment = new NewGroupFragment();
         dialogFragment.show(getSupportFragmentManager(), "My Fragment");
-    }
-
-    @Override
-    public void onGroupClick(int position) {
-        Intent intent = new Intent(this, OnGroupActivity.class);
-        intent.putExtra("groupPosition", groupNames.get(position));
-        startActivity(intent);
     }
 }

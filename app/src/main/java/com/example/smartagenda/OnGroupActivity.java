@@ -25,15 +25,15 @@ public class OnGroupActivity extends GroupsActivity{
     private ArrayList<String> members = new ArrayList<>();
     private RequestQueue requestQueue;
     private String username;
-    private int position;
+    private String myGroup;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_on_group_click);
         if (getIntent().hasExtra("groupPosition")){
-            position = getIntent().getExtras().getInt("groupPosition");}
-        String myGroup = groupNames.get(position);
+            myGroup = getIntent().getStringExtra("groupPosition");
+        }
         members = getMembersPerGroup(myGroup);
         setMemberView();
     }
