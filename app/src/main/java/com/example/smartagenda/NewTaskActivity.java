@@ -61,7 +61,7 @@ public class NewTaskActivity extends AppCompatActivity
     private LocalDate deadlineLD;
     private String username;
 
-    ArrayList<String> groupNames;
+    String[] groupNames;
 
 
 
@@ -94,21 +94,35 @@ public class NewTaskActivity extends AppCompatActivity
         username = login.getString("username", "");
 
 
-        groupNames = new ArrayList<>();
+
         requestQueue = Volley.newRequestQueue(this);
         String requestURL = "https://studev.groept.be/api/a21pt308/groups_per_user/"+username+"/"+username;
         JsonArrayRequest submitRequest = new JsonArrayRequest(Request.Method.GET,requestURL,null,new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
-                String info = "";
+                groupNames= new String[response.length()];
                 for (int i=0; i<response.length(); ++i)
                 {
                     JSONObject o = null;
-                    try {
+                    try
+                    {
                         o = response.getJSONObject(i);
-                        groupNames.add(o.get("team_name").toString());
+                        groupNames[i]=o.get("team_name").toString();
 
-                    } catch (JSONException e) {
+                        if (i==response.length()-1)
+                        {
+                            groupSp= findViewById(R.id.groupSpinner);
+                            groupSp.setVisibility(View.INVISIBLE);
+                            ArrayAdapter adapter = new ArrayAdapter
+                                    (NewTaskActivity.this, android.R.layout.simple_spinner_item, groupNames);
+
+                            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            groupSp.setAdapter(adapter);
+                        }
+
+                    }
+                    catch (JSONException e)
+                    {
                         e.printStackTrace();
                     }
                 }
@@ -122,29 +136,6 @@ public class NewTaskActivity extends AppCompatActivity
         });
 
         requestQueue.add(submitRequest);
-
-
-        /*
-
-        String[] groupNames2 = new String [groupNames.size()];
-
-        for (int i = 0; i < groupNames.size(); i++)
-        {
-            groupNames2[i]=groupNames.get(i);
-        }*/
-
-        String[] groupNames3= {"group1", "group3"};
-
-        groupSp= findViewById(R.id.groupSpinner);
-        groupSp.setVisibility(View.INVISIBLE);
-        ArrayAdapter adapter = new ArrayAdapter(
-                this, android.R.layout.simple_spinner_item, groupNames3);
-
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        //Spinner groupSp = (Spinner) findViewById(R.id.groupSpinner);
-        groupSp.setAdapter(adapter);
-
-
 
 
         TipOfDayFragment dialogFragment = new TipOfDayFragment();
@@ -439,88 +430,78 @@ public class NewTaskActivity extends AppCompatActivity
 
                                                                 o = response.getJSONObject(0);
                                                                 String[] members = o.get("members").toString().split(", ");
-                                                                final int[] counter = {1};
+                                                                final int[] counter = {0};
 
-                                                                for (String member : members) {
-                                                                    if (!member.equals(username))
-                                                                    {
-                                                                        /*
+                                                                for (String member : members)
+                                                                {
+                                                                    final int[] count2 = {0};
 
-                                                                        if (slotIsFree(member, dateAttempt, finalNewStartTime, finalNewEndTime))
-                                                                        {
-                                                                            counter++;
-                                                                        }*/
+                                                                    String requestURL6 = "https://studev.groept.be/api/a21pt308/eventsOfDayInChronologicalOrder/"+member+"/"+dateAttempt;
+                                                                    JsonArrayRequest submitRequest6 = new JsonArrayRequest(Request.Method.GET,requestURL6,null,new Response.Listener<JSONArray>() {
+                                                                        @Override
+                                                                        public void onResponse(JSONArray response) {
+                                                                            String info = "";
 
-                                                                        final int[] count2 = {0};
+                                                                            for (int i=0; i<response.length(); ++i) {
+                                                                                JSONObject o = null;
+                                                                                JSONObject o2 = null;
+                                                                                try
+                                                                                {
+                                                                                    o = response.getJSONObject(i);
 
-                                                                        String requestURL6 = "https://studev.groept.be/api/a21pt308/eventsOfDayInChronologicalOrder/"+member+"/"+dateAttempt;
-                                                                        JsonArrayRequest submitRequest6 = new JsonArrayRequest(Request.Method.GET,requestURL6,null,new Response.Listener<JSONArray>() {
-                                                                            @Override
-                                                                            public void onResponse(JSONArray response) {
-                                                                                String info = "";
-
-                                                                                for (int i=0; i<response.length(); ++i) {
-                                                                                    JSONObject o = null;
-                                                                                    JSONObject o2 = null;
-                                                                                    try
+                                                                                    if ((response.length()==1 && o.get("startTime").toString().equals("00:00")
+                                                                                            && o.get("endTime").toString().equals("23:59"))
+                                                                                            ||(LocalTime.parse(o.get("startTime").toString()).compareTo(finalNewStartTime1)<=0
+                                                                                            && LocalTime.parse(o.get("endTime").toString()).compareTo(finalNewStartTime)>=0 && LocalTime.parse(o.get("endTime").toString()).compareTo(finalNewEndTime1)<0)
+                                                                                            ||(LocalTime.parse(o.get("startTime").toString()).compareTo(finalNewStartTime1)>=0
+                                                                                            && LocalTime.parse(o.get("endTime").toString()).compareTo(finalNewStartTime1)<=0)
+                                                                                            ||(LocalTime.parse(o.get("startTime").toString()).compareTo(finalNewStartTime1)>0 && LocalTime.parse(o.get("startTime").toString()).compareTo(finalNewEndTime1)<0
+                                                                                            && LocalTime.parse(o.get("endTime").toString()).compareTo(finalNewStartTime1)<0))
                                                                                     {
-                                                                                        o = response.getJSONObject(i);
+                                                                                        count2[0]++;
+                                                                                        //i=response.length();
 
-                                                                                        if ((response.length()==1 && o.get("startTime").toString().equals("00:00")
-                                                                                                && o.get("endTime").toString().equals("23:59"))
-                                                                                                ||(LocalTime.parse(o.get("startTime").toString()).compareTo(finalNewStartTime1)<=0
-                                                                                                && LocalTime.parse(o.get("endTime").toString()).compareTo(finalNewStartTime)>=0 && LocalTime.parse(o.get("endTime").toString()).compareTo(finalNewEndTime1)<0)
-                                                                                                ||(LocalTime.parse(o.get("startTime").toString()).compareTo(finalNewStartTime1)>=0
-                                                                                                && LocalTime.parse(o.get("endTime").toString()).compareTo(finalNewStartTime1)<=0)
-                                                                                                ||(LocalTime.parse(o.get("startTime").toString()).compareTo(finalNewStartTime1)>0 && LocalTime.parse(o.get("startTime").toString()).compareTo(finalNewEndTime1)<0
-                                                                                                && LocalTime.parse(o.get("endTime").toString()).compareTo(finalNewStartTime1)<0))
+                                                                                    }
+
+                                                                                    if (i==response.length()-1 && count2[0]==0)
+                                                                                    {
+                                                                                        counter[0]++;
+
+                                                                                        if (member.equals(members[members.length-1]) && counter[0] == members.length)
                                                                                         {
-                                                                                            count2[0]++;
-                                                                                            //i=response.length();
+                                                                                            Event newEvent = new Event(description.getText().toString(), finalNewStartTime, finalNewEndTime, LocalDate.parse(dateAttempt), false);
+                                                                                            Event.eventsList.add(newEvent);
 
-                                                                                        }
-
-                                                                                        if (i==response.length()-1 && count2[0]==0)
-                                                                                        {
-                                                                                            counter[0]++;
-
-                                                                                            if (member.equals(members[members.length-1]) && counter[0] == members.length)
+                                                                                            for (String member : members)
                                                                                             {
-                                                                                                Event newEvent = new Event(description.getText().toString(), finalNewStartTime, finalNewEndTime, LocalDate.parse(dateAttempt), false);
-                                                                                                Event.eventsList.add(newEvent);
-
-                                                                                                for (String member : members)
-                                                                                                {
-                                                                                                    writeToDataBaseGroup(description.getText().toString(), finalNewStartTime.toString(), finalNewEndTime.toString(), dateAttempt, member, groupSp.getSelectedItem().toString());
-                                                                                                    taskScheduled[0] =true;
-                                                                                                    Toast.makeText(NewTaskActivity.this, "Your group task was successfully scheduled.", Toast.LENGTH_SHORT).show();
-                                                                                                }
+                                                                                                writeToDataBaseGroup(description.getText().toString(), finalNewStartTime.toString(), finalNewEndTime.toString(), dateAttempt, member, groupSp.getSelectedItem().toString());
+                                                                                                taskScheduled[0] =true;
+                                                                                                Toast.makeText(NewTaskActivity.this, "Your group task was successfully scheduled.", Toast.LENGTH_SHORT).show();
                                                                                             }
                                                                                         }
-
                                                                                     }
-
-                                                                                    catch (JSONException e)
-                                                                                    {
-                                                                                        e.printStackTrace();
-                                                                                    }
-
 
                                                                                 }
+
+                                                                                catch (JSONException e)
+                                                                                {
+                                                                                    e.printStackTrace();
+                                                                                }
+
+
                                                                             }
+                                                                        }
 
-                                                                        }, new Response.ErrorListener() {
-                                                                            @Override
-                                                                            public void onErrorResponse(VolleyError error) {
-                                                                                Toast.makeText(NewTaskActivity.this, "Unable to communicate with the server", Toast.LENGTH_LONG).show();
-                                                                            }
-                                                                        });
-
-
-                                                                        requestQueue.add(submitRequest6);
+                                                                    }, new Response.ErrorListener() {
+                                                                        @Override
+                                                                        public void onErrorResponse(VolleyError error) {
+                                                                            Toast.makeText(NewTaskActivity.this, "Unable to communicate with the server", Toast.LENGTH_LONG).show();
+                                                                        }
+                                                                    });
 
 
-                                                                    }
+                                                                    requestQueue.add(submitRequest6);
+
 
                                                                 }
 
