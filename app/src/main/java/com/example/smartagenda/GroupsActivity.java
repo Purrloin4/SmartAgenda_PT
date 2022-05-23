@@ -87,45 +87,18 @@ public class GroupsActivity extends AppCompatActivity {
     }
 
 
-    private void addMembers() {
-        SharedPreferences login = getSharedPreferences("UserInfo", 0);
-        username = login.getString("username", "");
-        requestQueue = Volley.newRequestQueue(this);
-        String requestURL = "https://studev.groept.be/api/a21pt308/groups_per_user/"+username+"/"+username;
-
-
-        JsonArrayRequest submitRequest = new JsonArrayRequest(Request.Method.GET,requestURL,null,new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-                String info = "";
-                for (int i=0; i<response.length(); ++i)
-                {
-                    JSONObject o = null;
-                    try {
-                        o = response.getJSONObject(i);
-                        memberNames.add(o.get("members").toString());
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(GroupsActivity.this, "Unable to communicate with the server", Toast.LENGTH_LONG).show();
-            }
-        });
-
-        requestQueue.add(submitRequest);
-    }
-
-
 
     public void onNewGroup_Clicked (View caller)
     {
         NewGroupFragment dialogFragment = new NewGroupFragment();
         dialogFragment.show(getSupportFragmentManager(), "My Fragment");
     }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, AgendaScreenActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
+
 }
