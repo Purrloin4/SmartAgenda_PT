@@ -1,10 +1,14 @@
 package com.example.smartagenda;
 
+import static android.widget.Toast.LENGTH_SHORT;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.PopupMenu;
@@ -20,6 +24,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 
 import static com.example.smartagenda.CalendarUtils.daysInWeekArray;
+import static com.example.smartagenda.CalendarUtils.formattedTime;
 import static com.example.smartagenda.CalendarUtils.monthYearFromDate;
 
 import com.android.volley.Request;
@@ -28,6 +33,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.hudomju.swipe.SwipeToDismissTouchListener;
+import com.hudomju.swipe.adapter.ListViewAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,6 +46,7 @@ public class AgendaScreenActivity extends AppCompatActivity implements CalendarA
     private RecyclerView calendarRecyclerView;
     private ListView eventListView;
     private Button addTask;
+    private EventAdapter eventAdapter;
 
 
 
@@ -62,6 +70,9 @@ public class AgendaScreenActivity extends AppCompatActivity implements CalendarA
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         String requestURL = "https://studev.groept.be/api/a21pt308/events_per_user/"+username;
 
+        Event newEvent1 = new Event("loading events", LocalTime.parse("00:00"), LocalTime.parse("00:00"), LocalDate.now(), false, true);
+        Event.eventsList.add(newEvent1);
+
 
         JsonArrayRequest submitRequest = new JsonArrayRequest(Request.Method.GET,requestURL,null,new Response.Listener<JSONArray>() {
             @Override
@@ -83,10 +94,11 @@ public class AgendaScreenActivity extends AppCompatActivity implements CalendarA
                             allDayON = true;
                         }
 
-                        Event newEvent = new Event(o.get("description").toString(), startTimeLT, endTimeLT, date, allDayON);
+                        Event newEvent = new Event(o.get("description").toString(), startTimeLT, endTimeLT, date, allDayON, false);
                         Event.eventsList.add(newEvent);
 
                         if(i == response.length()-1){
+                            Event.eventsList.remove(0);
                             setWeekView();
                         }
 
@@ -155,8 +167,40 @@ public class AgendaScreenActivity extends AppCompatActivity implements CalendarA
     private void setEventAdapter()
     {
         ArrayList<Event> dailyEvents = Event.eventsForDate(CalendarUtils.selectedDate);
-        EventAdapter eventAdapter = new EventAdapter(getApplicationContext(), dailyEvents);
+
+        if (dailyEvents.isEmpty()){
+            Event newEvent1 = new Event("You have no tasks on this day", LocalTime.parse("00:00"), LocalTime.parse("00:00"), LocalDate.now(), false, true);
+            dailyEvents.add(newEvent1);
+        }
+
+        eventAdapter = new EventAdapter(getApplicationContext(), dailyEvents);
         eventListView.setAdapter(eventAdapter);
+
+        final SwipeToDismissTouchListener<ListViewAdapter> touchListener =
+                new SwipeToDismissTouchListener<>(
+                        new ListViewAdapter(eventListView),
+                        new SwipeToDismissTouchListener.DismissCallbacks<ListViewAdapter>() {
+                            @Override
+                            public boolean canDismiss(int position) {
+                                return true;
+                            }
+
+                            @Override
+                            public void onDismiss(ListViewAdapter view, int position) {
+                                eventAdapter.remove(position);
+                            }
+                        });
+        eventListView.setOnTouchListener(touchListener);
+        eventListView.setOnScrollListener((AbsListView.OnScrollListener) touchListener.makeScrollListener());
+        eventListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (touchListener.existPendingDismisses()) {
+                    touchListener.undoPendingDismiss();
+                }
+            }
+        });
+
     }
 
 

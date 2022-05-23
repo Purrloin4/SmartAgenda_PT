@@ -441,7 +441,7 @@ public class NewRecurringEventActivity extends AppCompatActivity {
 
 
             for (LocalDate date:getDates(startDateLD,endDateLD)) {
-                Event newEvent = new Event(eventDescription, startTimeLT, endTimeLT, date, allDayON);
+                Event newEvent = new Event(eventDescription, startTimeLT, endTimeLT, date, allDayON, false);
                 Event.eventsList.add(newEvent);
 
 

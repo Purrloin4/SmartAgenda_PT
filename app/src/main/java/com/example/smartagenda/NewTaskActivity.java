@@ -405,7 +405,7 @@ public class NewTaskActivity extends AppCompatActivity
                                                 {
                                                     writeToDataBase(description.getText().toString(), newStartTime.toString(), newEndTime.toString(), dateAttempt);
                                                     taskScheduled[0] =true;
-                                                    Event newEvent = new Event(description.getText().toString(), newStartTime, newEndTime, LocalDate.parse(dateAttempt), false);
+                                                    Event newEvent = new Event(description.getText().toString(), newStartTime, newEndTime, LocalDate.parse(dateAttempt), false, false);
                                                     Event.eventsList.add(newEvent);
                                                     Toast.makeText(NewTaskActivity.this, "Your task was successfully scheduled.", Toast.LENGTH_SHORT).show();
                                                 }
@@ -463,7 +463,7 @@ public class NewTaskActivity extends AppCompatActivity
 
                                                                                         if ( member.equals(members[members.length-1]) && counter[0] == members.length)
                                                                                         {
-                                                                                            Event newEvent = new Event(description.getText().toString(), finalNewStartTime, finalNewEndTime, LocalDate.parse(dateAttempt), false);
+                                                                                            Event newEvent = new Event(description.getText().toString(), finalNewStartTime, finalNewEndTime, LocalDate.parse(dateAttempt), false, false);
                                                                                             Event.eventsList.add(newEvent);
 
                                                                                             for (String member : members)

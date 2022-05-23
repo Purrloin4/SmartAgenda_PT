@@ -1,19 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="60dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:layout_marginStart="20dp"
-        android:id="@+id/eventCellTV"
-        android:textSize="25sp"
-        android:fontFamily="@font/schoolbell"
-        android:textColor="@color/black"
-        android:text="Event"/>
 
-</LinearLayout>
+    <FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/lyt_container"
+        android:background="#757575">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="16dp"
+            android:id="@+id/eventCellTV"
+            android:textSize="25sp"
+            android:fontFamily="@font/schoolbell"
+            android:textColor="@color/black"
+            android:text="Event"
+            android:background="@android:color/white"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            android:weightSum="3"
+            android:height="60dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:id="@+id/txt_delete"
+                android:gravity="center_vertical"
+                android:text="Deleted"
+                android:clickable="false"
+                android:layout_weight="2"
+                android:hapticFeedbackEnabled="true"
+                android:textColor="@android:color/white"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:id="@+id/txt_undo"
+                android:text="undo"
+                android:clickable="false"
+                android:layout_weight="1"
+                android:textColor="#FFBB33"/>
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+

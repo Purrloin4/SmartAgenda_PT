@@ -32,14 +32,16 @@ public class Event
     private LocalTime endTime;
     private LocalDate date;
     private boolean allDay;
+    private boolean informativeTask;
 
 
-    public Event(String description, LocalTime startTime,LocalTime endTime, LocalDate date, boolean allDay) {
+    public Event(String description, LocalTime startTime,LocalTime endTime, LocalDate date, boolean allDay, boolean informativeTask) {
         this.description = description;
         this.startTime = startTime;
         this.endTime = endTime;
         this.date = date;
         this.allDay = allDay;
+        this.informativeTask = informativeTask;
     }
 
 
@@ -60,5 +62,9 @@ public class Event
 
     public boolean isAllDay() {
         return allDay;
+    }
+
+    public boolean isInformative() {
+        return informativeTask;
     }
 }
