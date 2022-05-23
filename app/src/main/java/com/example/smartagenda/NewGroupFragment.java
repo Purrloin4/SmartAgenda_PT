@@ -44,7 +44,8 @@ public class NewGroupFragment extends DialogFragment {
     private TextView newMember;
     private int counter;
     private RequestQueue requestQueue;
-    private String members;
+    private String members, username;
+
 
     @Nullable
     @Override
@@ -55,6 +56,8 @@ public class NewGroupFragment extends DialogFragment {
         View rootView = inflater.inflate(R.layout.fragment_new_group, container, false);
 
         members= "";
+        SharedPreferences login = rootView.getContext().getSharedPreferences("UserInfo", 0);
+        username = login.getString("username", "");
 
         counter = 0;
         groupName=rootView.findViewById(R.id.groupNameIn);
@@ -87,21 +90,36 @@ public class NewGroupFragment extends DialogFragment {
                         }
                         if (counter2==0)
                         {
-                            Toast.makeText(rootView.getContext(), "There is no account under that username", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(rootView.getContext(), "There is no account under that username.", Toast.LENGTH_SHORT).show();
                         }
                         else
                         {
-                            if (counter==0)
+                            if (!members.contains(memberIn.getText().toString()))
                             {
-                                members=members+memberIn.getText().toString();
-                                newMember.setText(members);
-                                newMember.setVisibility(View.VISIBLE);
+                                if (!memberIn.getText().toString().equals(username))
+                                {
+                                    if (counter==0)
+                                    {
+                                        members=members+memberIn.getText().toString();
+                                        newMember.setText(members);
+                                        newMember.setVisibility(View.VISIBLE);
+                                    }
+                                    else
+                                    {
+                                        members=members+ ", " +memberIn.getText().toString();
+                                        newMember.setText(members);
+                                    }
+                                }
+                                else
+                                {
+                                    Toast.makeText(rootView.getContext(), "You don't have to add yourself in the group manually.", Toast.LENGTH_SHORT).show();
+                                }
                             }
                             else
                             {
-                                members=members+ ", " +memberIn.getText().toString();
-                                newMember.setText(members);
+                                Toast.makeText(rootView.getContext(), "You can't add the same member twice.", Toast.LENGTH_SHORT).show();
                             }
+
                             counter++;
                         }
                         //txtInfo.setText(info);
@@ -115,18 +133,6 @@ public class NewGroupFragment extends DialogFragment {
 
                 requestQueue.add(submitRequest);
 
-                /*
-
-                if (counter==0)
-                {
-                    newMember.setText(memberIn.getText().toString());
-                    newMember.setVisibility(View.VISIBLE);
-                }
-                else
-                {
-                    newMember.setText(newMember.getText().toString()+ ", " +memberIn.getText().toString());
-                }
-                counter++;*/
             }
         });
 
@@ -135,8 +141,6 @@ public class NewGroupFragment extends DialogFragment {
             @Override
             public void onClick(View view)
             {
-                SharedPreferences login = rootView.getContext().getSharedPreferences("UserInfo", 0);
-                String username = login.getString("username", "");
                 requestQueue = Volley.newRequestQueue(rootView.getContext());
 
                 String requestURL = "https://studev.groept.be/api/a21pt308/teamnames";
@@ -192,7 +196,6 @@ public class NewGroupFragment extends DialogFragment {
                         {
                             Toast.makeText(rootView.getContext(), "This group name is already used.", Toast.LENGTH_SHORT).show();
                         }
-                        //txtInfo.setText(info);
                     }
                 }, new Response.ErrorListener() {
                     @Override

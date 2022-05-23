@@ -225,7 +225,7 @@ public class NewTaskActivity extends AppCompatActivity
         JsonArrayRequest submitRequest3 = new JsonArrayRequest(Request.Method.GET,requestURL3,null,new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
-                String info = "";
+
                 for (int i=0; i<response.length(); ++i) {
                     JSONObject o = null;
                     try {
@@ -251,7 +251,6 @@ public class NewTaskActivity extends AppCompatActivity
         JsonArrayRequest submitRequest7 = new JsonArrayRequest(Request.Method.GET,requestURL7,null,new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
-                String info = "";
                 for (int i=0; i<response.length(); ++i) {
                     JSONObject o = null;
                     try {
@@ -353,8 +352,6 @@ public class NewTaskActivity extends AppCompatActivity
                         JsonArrayRequest submitRequest2 = new JsonArrayRequest(Request.Method.GET,requestURL2,null,new Response.Listener<JSONArray>() {
                             @Override
                             public void onResponse(JSONArray response) {
-                                String info = "";
-
                                 for (int i=0; i<response.length(); ++i) {
                                     JSONObject o = null;
                                     JSONObject o2 = null;
@@ -424,7 +421,6 @@ public class NewTaskActivity extends AppCompatActivity
                                                     JsonArrayRequest submitRequest = new JsonArrayRequest(Request.Method.GET,requestURL,null,new Response.Listener<JSONArray>() {
                                                         @Override
                                                         public void onResponse(JSONArray response) {
-                                                            String info = "";
                                                             JSONObject o = null;
                                                             try {
 
@@ -440,7 +436,6 @@ public class NewTaskActivity extends AppCompatActivity
                                                                     JsonArrayRequest submitRequest6 = new JsonArrayRequest(Request.Method.GET,requestURL6,null,new Response.Listener<JSONArray>() {
                                                                         @Override
                                                                         public void onResponse(JSONArray response) {
-                                                                            String info = "";
 
                                                                             for (int i=0; i<response.length(); ++i) {
                                                                                 JSONObject o = null;
@@ -463,11 +458,10 @@ public class NewTaskActivity extends AppCompatActivity
 
                                                                                     }
 
-                                                                                    if (i==response.length()-1 && count2[0]==0)
-                                                                                    {
+                                                                                    if (i==response.length()-1 && count2[0]==0) {
                                                                                         counter[0]++;
 
-                                                                                        if (member.equals(members[members.length-1]) && counter[0] == members.length)
+                                                                                        if ( member.equals(members[members.length-1]) && counter[0] == members.length)
                                                                                         {
                                                                                             Event newEvent = new Event(description.getText().toString(), finalNewStartTime, finalNewEndTime, LocalDate.parse(dateAttempt), false);
                                                                                             Event.eventsList.add(newEvent);
@@ -480,6 +474,8 @@ public class NewTaskActivity extends AppCompatActivity
                                                                                             }
                                                                                         }
                                                                                     }
+
+
 
                                                                                 }
 
@@ -499,10 +495,7 @@ public class NewTaskActivity extends AppCompatActivity
                                                                         }
                                                                     });
 
-
                                                                     requestQueue.add(submitRequest6);
-
-
                                                                 }
 
 
