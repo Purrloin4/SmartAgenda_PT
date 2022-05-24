@@ -35,6 +35,22 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <Button
+        android:id="@+id/deleteButton"
+        android:layout_width="141dp"
+        android:layout_height="54dp"
+        android:layout_marginBottom="32dp"
+        android:background="@android:color/holo_blue_light"
+        android:fontFamily="@font/schoolbell"
+        android:onClick="onDeleteGroupClicked"
+        android:text="DELETE GROUP"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <TextView
         android:id="@+id/member1TV"
         android:layout_width="match_parent"

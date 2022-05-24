@@ -33,7 +33,8 @@ public class OnGroupActivity extends GroupsActivity{
     private String memberOne;
     private String membersS;
     private TextView member1TV, membersTV;
-    private Button deleteTask;
+    private Button leaveGroup;
+    private Button deleteGroup;
     private ArrayList<String> membersAL = new ArrayList<>();
 
     @Override
@@ -43,7 +44,12 @@ public class OnGroupActivity extends GroupsActivity{
 
         member1TV = findViewById(R.id.member1TV);
         membersTV = findViewById(R.id.membersTV);
-        deleteTask = findViewById(R.id.leaveButton);
+        leaveGroup = findViewById(R.id.leaveButton);
+        deleteGroup = findViewById(R.id.deleteButton);
+
+        SharedPreferences login = getSharedPreferences("UserInfo", 0);
+        username = login.getString("username", "");
+
 
         if (getIntent().hasExtra("groupPosition")){
             myGroup = getIntent().getStringExtra("groupPosition");
@@ -51,6 +57,10 @@ public class OnGroupActivity extends GroupsActivity{
         getMembers(myGroup);
         getMember1(myGroup);
         setMemberView();
+
+
+
+
     }
 
     private void setMemberView()
@@ -83,6 +93,13 @@ public class OnGroupActivity extends GroupsActivity{
                         }
                         if(i == response.length()-1){
                             setMemberView();
+
+                            if (!memberOne.equals(username)) {
+                                deleteGroup.setVisibility(View.INVISIBLE);
+                            }
+                            else {
+                                leaveGroup.setVisibility(View.INVISIBLE);
+                            }
                         }
 
                     } catch (JSONException e) {
@@ -180,6 +197,38 @@ public class OnGroupActivity extends GroupsActivity{
         String new_members = String.join(",", membersAL);
 
         String requestURL = "https://studev.groept.be/api/a21pt308/leave_group/"+new_members+"/"+memberOne+"/"+myGroup;
+
+
+        JsonArrayRequest submitRequest = new JsonArrayRequest(Request.Method.GET,requestURL,null,new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                String info = "";
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(OnGroupActivity.this, "Unable to communicate with the server", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        requestQueue.add(submitRequest);
+
+        Intent intent = new Intent(this, GroupsActivity.class);
+        startActivity(intent);
+    }
+
+    public void onDeleteGroupClicked(View view){
+
+
+        for (int j = 0; j<groupNames.size();j++){
+            if(groupNames.get(j).equals(myGroup)){
+                groupNames.remove(j);
+                j--;
+            }
+        }
+
+
+        String requestURL = "https://studev.groept.be/api/a21pt308/delete_group/"+myGroup;
 
 
         JsonArrayRequest submitRequest = new JsonArrayRequest(Request.Method.GET,requestURL,null,new Response.Listener<JSONArray>() {

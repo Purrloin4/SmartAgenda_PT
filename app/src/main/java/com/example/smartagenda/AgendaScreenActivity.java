@@ -70,7 +70,7 @@ public class AgendaScreenActivity extends AppCompatActivity implements CalendarA
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         String requestURL = "https://studev.groept.be/api/a21pt308/events_per_user/"+username;
 
-        Event newEvent1 = new Event("loading events", LocalTime.parse("00:00"), LocalTime.parse("00:00"), LocalDate.now(), false, true);
+        Event newEvent1 = new Event("You have no tasks on this day", LocalTime.parse("00:00"), LocalTime.parse("00:00"), LocalDate.now(), false, true);
         Event.eventsList.add(newEvent1);
 
 
@@ -99,6 +99,8 @@ public class AgendaScreenActivity extends AppCompatActivity implements CalendarA
 
                         if(i == response.length()-1){
                             Event.eventsList.remove(0);
+
+
                             setWeekView();
                         }
 
@@ -190,6 +192,9 @@ public class AgendaScreenActivity extends AppCompatActivity implements CalendarA
                                 eventAdapter.remove(position);
                             }
                         });
+
+        //touchListener.setDismissDelay(3000);  //idk why it doesn't work, the method is in the github (https://github.com/hudomju/android-swipe-to-dismiss-undo/blob/master/library/src/main/java/com/hudomju/swipe/SwipeToDismissTouchListener.java)
+
         eventListView.setOnTouchListener(touchListener);
         eventListView.setOnScrollListener((AbsListView.OnScrollListener) touchListener.makeScrollListener());
         eventListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
