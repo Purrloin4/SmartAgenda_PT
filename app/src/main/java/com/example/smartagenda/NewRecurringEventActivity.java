@@ -456,15 +456,6 @@ public class NewRecurringEventActivity extends AppCompatActivity {
                 JsonArrayRequest submitRequest = new JsonArrayRequest(Request.Method.GET,requestURL,null,new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-                        String info = "";
-                        for (int i=0; i<response.length(); ++i) {
-                            JSONObject o = null;
-                            try {
-                                o = response.getJSONObject(i);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
                     }
                 }, new Response.ErrorListener() {
                     @Override

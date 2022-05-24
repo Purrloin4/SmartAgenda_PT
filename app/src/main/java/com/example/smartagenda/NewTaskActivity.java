@@ -188,7 +188,6 @@ public class NewTaskActivity extends AppCompatActivity
             public void onTimeSet(TimePicker timePicker, int selHour, int selMin) {
                 hour= selHour;
                 min = selMin;
-                //duration.setText(String.format(Locale.getDefault(),"%02d:%02d", hour, min));
                 durationLT = LocalTime.of(hour,min);
                 String duration = CalendarUtils.formattedTime(durationLT);
                 durationTV.setText(duration);
@@ -225,15 +224,6 @@ public class NewTaskActivity extends AppCompatActivity
         JsonArrayRequest submitRequest3 = new JsonArrayRequest(Request.Method.GET,requestURL3,null,new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
-
-                for (int i=0; i<response.length(); ++i) {
-                    JSONObject o = null;
-                    try {
-                        o = response.getJSONObject(i);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -251,14 +241,6 @@ public class NewTaskActivity extends AppCompatActivity
         JsonArrayRequest submitRequest7 = new JsonArrayRequest(Request.Method.GET,requestURL7,null,new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
-                for (int i=0; i<response.length(); ++i) {
-                    JSONObject o = null;
-                    try {
-                        o = response.getJSONObject(i);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -268,65 +250,6 @@ public class NewTaskActivity extends AppCompatActivity
         });
 
         requestQueue.add(submitRequest7);
-    }
-
-
-
-
-    public boolean slotIsFree(String user, String dateAttempt, LocalTime newStartTime, LocalTime newEndTime)
-    {
-        final boolean[] result = new boolean[1];
-        result[0]=true;
-
-        String requestURL6 = "https://studev.groept.be/api/a21pt308/eventsOfDayInChronologicalOrder/"+user+"/"+dateAttempt;
-        JsonArrayRequest submitRequest6 = new JsonArrayRequest(Request.Method.GET,requestURL6,null,new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-                String info = "";
-
-                for (int i=0; i<response.length(); ++i) {
-                    JSONObject o = null;
-                    JSONObject o2 = null;
-                    try
-                    {
-                        o = response.getJSONObject(i);
-
-                        if ((response.length()==1 && o.get("startTime").toString().equals("00:00")
-                                && o.get("endTime").toString().equals("23:59"))
-                            ||(LocalTime.parse(o.get("startTime").toString()).compareTo(newStartTime)<=0
-                                /*&& LocalTime.parse(o.get("endTime").toString()).compareTo(newStartTime)>=0*/ && LocalTime.parse(o.get("endTime").toString()).compareTo(newEndTime)<0)
-                            ||(LocalTime.parse(o.get("startTime").toString()).compareTo(newStartTime)>=0
-                                && LocalTime.parse(o.get("endTime").toString()).compareTo(newStartTime)<=0)
-                            ||(LocalTime.parse(o.get("startTime").toString()).compareTo(newStartTime)>0 && LocalTime.parse(o.get("startTime").toString()).compareTo(newEndTime)<0
-                                && LocalTime.parse(o.get("endTime").toString()).compareTo(newStartTime)<0))
-                        {
-                            result[0] = false;
-                            i=response.length();
-
-                        }
-
-                    }
-
-                    catch (JSONException e)
-                    {
-                        e.printStackTrace();
-                    }
-
-
-                }
-            }
-
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(NewTaskActivity.this, "Unable to communicate with the server", Toast.LENGTH_LONG).show();
-            }
-        });
-
-
-        requestQueue.add(submitRequest6);
-        return result[0];
-
     }
 
     public void onScheduleTaskBtn_Clicked (View caller)

@@ -102,20 +102,10 @@ public class SignUpActivity extends AppCompatActivity {
 
                                 //enter new user in database
 
-
                                 String requestURL2 = "https://studev.groept.be/api/a21pt308/new_user/"+username.getText().toString()+"/"+password.getText().toString();
                                 JsonArrayRequest submitRequest2 = new JsonArrayRequest(Request.Method.GET,requestURL2,null,new Response.Listener<JSONArray>() {
                                     @Override
                                     public void onResponse(JSONArray response) {
-                                        String info = "";
-                                        for (int i=0; i<response.length(); ++i) {
-                                            JSONObject o = null;
-                                            try {
-                                                o = response.getJSONObject(i);
-                                            } catch (JSONException e) {
-                                                e.printStackTrace();
-                                            }
-                                        }
                                     }
                                 }, new Response.ErrorListener() {
                                     @Override
@@ -135,7 +125,6 @@ public class SignUpActivity extends AppCompatActivity {
                                 Toast.makeText(SignUpActivity.this, "Your are now logged it with your new account.", Toast.LENGTH_LONG).show();
 
 
-                                //
                                 Intent intent = new Intent(SignUpActivity.this, AgendaScreenActivity.class);
                                 startActivity(intent);
                             }

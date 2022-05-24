@@ -21,9 +21,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
-
-        //logInBtn = (Button) findViewById(R.id.logInBtn);
-        //signUpBtn = (Button) findViewById(R.id.signUpBtn);
     }
 
 

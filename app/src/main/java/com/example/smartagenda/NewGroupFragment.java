@@ -116,7 +116,6 @@ public class NewGroupFragment extends DialogFragment {
 
                             counter++;
                         }
-                        //txtInfo.setText(info);
                     }
                 }, new Response.ErrorListener() {
                     @Override
@@ -161,15 +160,6 @@ public class NewGroupFragment extends DialogFragment {
                             JsonArrayRequest submitRequest2 = new JsonArrayRequest(Request.Method.GET,requestURL2,null,new Response.Listener<JSONArray>() {
                                 @Override
                                 public void onResponse(JSONArray response) {
-                                    String info = "";
-                                    for (int i=0; i<response.length(); ++i) {
-                                        JSONObject o = null;
-                                        try {
-                                            o = response.getJSONObject(i);
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
-                                        }
-                                    }
                                 }
                             }, new Response.ErrorListener() {
                                 @Override

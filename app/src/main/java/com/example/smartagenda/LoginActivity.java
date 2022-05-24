@@ -94,7 +94,7 @@ public class LoginActivity extends AppCompatActivity {
                             startActivity(intent);
                         }
                     }
-                    //txtInfo.setText(info);
+
                 }
             }, new Response.ErrorListener() {
                 @Override

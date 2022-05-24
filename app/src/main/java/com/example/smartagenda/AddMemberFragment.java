@@ -1,13 +1,11 @@
 package com.example.smartagenda;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,10 +43,11 @@ public class AddMemberFragment extends DialogFragment {
     }
 
 
+    @Nullable
     @Override
     public View onCreateView (@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                               @Nullable Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         super.onCreateView(inflater, container, savedInstanceState);
         View rootView = inflater.inflate(R.layout.fragment_add_member, container, false);
 
@@ -88,15 +87,6 @@ public class AddMemberFragment extends DialogFragment {
                                     JsonArrayRequest submitRequest2 = new JsonArrayRequest(Request.Method.GET,requestURL2,null,new Response.Listener<JSONArray>() {
                                         @Override
                                         public void onResponse(JSONArray response) {
-                                            int counter2 = 0;
-                                            for (int i=0; i<response.length(); ++i) {
-                                                JSONObject o = null;
-                                                try {
-                                                    o = response.getJSONObject(i);
-                                                } catch (JSONException e) {
-                                                    e.printStackTrace();
-                                                }
-                                            }
                                         }
                                     }, new Response.ErrorListener() {
                                         @Override

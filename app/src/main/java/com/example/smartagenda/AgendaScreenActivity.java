@@ -75,7 +75,6 @@ public class AgendaScreenActivity extends AppCompatActivity implements CalendarA
         JsonArrayRequest submitRequest = new JsonArrayRequest(Request.Method.GET,requestURL,null,new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
-                String info = "";
                 for (int i=0; i<response.length(); ++i) {
                     JSONObject o = null;
                     try {
