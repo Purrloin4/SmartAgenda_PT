@@ -329,6 +329,8 @@ public class NewRecurringEventActivity extends AppCompatActivity {
         {
             if (!oneTimeON)
             {
+                coherentTime=true;
+
                 if (!startDate.getText().toString().matches("select")
                         && !endDate.getText().toString().matches("select")
                         && !eventDescriptionET.getText().toString().matches(""))
@@ -341,7 +343,7 @@ public class NewRecurringEventActivity extends AppCompatActivity {
                     }
                     else
                     {
-                        coherentTime=true;
+                        coherentDate=true;
                     }
                 }
                 else
@@ -356,6 +358,7 @@ public class NewRecurringEventActivity extends AppCompatActivity {
                 {
                     allFieldsFilled=true;
                     coherentDate=true;
+                    coherentTime=true;
 
                 }
                 else
@@ -482,6 +485,7 @@ public class NewRecurringEventActivity extends AppCompatActivity {
             finish();
 
 
+            Toast.makeText(this, "Your recurring event was successfully added to your schedule.", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(this, AgendaScreenActivity.class);
             startActivity(intent);
         }
