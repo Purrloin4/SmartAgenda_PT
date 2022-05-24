@@ -29,7 +29,6 @@ public class EventAdapter extends BaseAdapter {
 
     private Context context;
     private static ArrayList<Event> EventArrayList;
-    private static Event  event;
 
     public EventAdapter(@NonNull Context context, ArrayList<Event> events)
     {
@@ -65,6 +64,7 @@ public class EventAdapter extends BaseAdapter {
 
         requestQueue.add(submitRequest);
 
+        Event.eventsList.remove(position);
         EventArrayList.remove(position);
         notifyDataSetChanged();
 

@@ -69,9 +69,7 @@ public class AgendaScreenActivity extends AppCompatActivity implements CalendarA
         String username = login.getString("username", "");
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         String requestURL = "https://studev.groept.be/api/a21pt308/events_per_user/"+username;
-
-        Event newEvent1 = new Event("You have no tasks on this day", LocalTime.parse("00:00"), LocalTime.parse("00:00"), LocalDate.now(), false, true);
-        Event.eventsList.add(newEvent1);
+        
 
 
         JsonArrayRequest submitRequest = new JsonArrayRequest(Request.Method.GET,requestURL,null,new Response.Listener<JSONArray>() {
