@@ -24,17 +24,13 @@
         android:id="@+id/textView6"
         android:layout_width="408dp"
         android:layout_height="241dp"
+        android:layout_marginStart="5dp"
         android:layout_marginTop="68dp"
         android:fontFamily="@font/schoolbell"
-        android:text="For optimal scheduling of your tasks,
-                      make sure to have added beforehand at
-                      least one recurring event (like your lunch
-                      break and times when you'll be sleeping)
-                      per day preceding the deadline of the new
-                      task you want SMART AGENDA to schedule
-                      for you."
-        android:textAlignment="center"
+
+        android:text="For an optimal scheduling of your tasks, make sure to have added at least one recurring event (like the times when you're asleep and/or your lunch breaks) per day to come before asking SMART AGENDA to schedule a task for you."
         android:textSize="20dp"
+        android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toStartOf="parent"

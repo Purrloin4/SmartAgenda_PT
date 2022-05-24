@@ -30,6 +30,7 @@
         android:layout_marginTop="32dp"
         android:ems="10"
         android:hint="member's username"
+        android:maxLength="15"
         android:inputType="textPersonName"
         android:textColor="@color/gray"
         android:textSize="15sp"
