@@ -73,7 +73,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
                     if (counter==0)
                     {
-                        Toast.makeText(LoginActivity.this, "There is no account under that username", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, "There is no account under that username.", Toast.LENGTH_SHORT).show();
                     }
                     else
                     {
