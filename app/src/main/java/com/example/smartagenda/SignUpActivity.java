@@ -122,7 +122,7 @@ public class SignUpActivity extends AppCompatActivity {
                                 editor.putString("password",password.getText().toString());
                                 editor.commit();
 
-                                Toast.makeText(SignUpActivity.this, "Your are now logged it with your new account.", Toast.LENGTH_LONG).show();
+                                Toast.makeText(SignUpActivity.this, "Your are now logged in with your new account.", Toast.LENGTH_LONG).show();
 
 
                                 Intent intent = new Intent(SignUpActivity.this, AgendaScreenActivity.class);

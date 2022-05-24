@@ -80,6 +80,9 @@ public class NewRecurringEventActivity extends AppCompatActivity {
     private int startDay, startMonth, startYear, endDay, endMonth, endYear;
     private RequestQueue requestQueue;
 
+    private TextView included1, included2;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,7 +125,8 @@ public class NewRecurringEventActivity extends AppCompatActivity {
         oneDate.setVisibility(View.INVISIBLE);
 
 
-
+        included1 = findViewById(R.id.includedTV1);
+        included2 = findViewById(R.id.includedTV2);
 
         startDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -503,6 +507,8 @@ public class NewRecurringEventActivity extends AppCompatActivity {
             startDate.setVisibility(caller.INVISIBLE);
             endDateTV.setVisibility(caller.INVISIBLE);
             endDate.setVisibility(caller.INVISIBLE);
+            included1.setVisibility(caller.INVISIBLE);
+            included2.setVisibility(caller.INVISIBLE);
             oneDateTV.setVisibility(caller.VISIBLE);
             oneDate.setVisibility(caller.VISIBLE);
             oneTimeON = true;
@@ -513,6 +519,8 @@ public class NewRecurringEventActivity extends AppCompatActivity {
             startDate.setVisibility(caller.VISIBLE);
             endDateTV.setVisibility(caller.VISIBLE);
             endDate.setVisibility(caller.VISIBLE);
+            included1.setVisibility(caller.VISIBLE);
+            included2.setVisibility(caller.VISIBLE);
             oneDateTV.setVisibility(caller.INVISIBLE);
             oneDate.setVisibility(caller.INVISIBLE);
             daysSp2.setVisibility(caller.VISIBLE);

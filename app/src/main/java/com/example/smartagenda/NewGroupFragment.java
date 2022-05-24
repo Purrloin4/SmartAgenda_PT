@@ -172,6 +172,7 @@ public class NewGroupFragment extends DialogFragment {
 
                             GroupsActivity.groupNames.add(groupName.getText().toString());
 
+                            Toast.makeText(rootView.getContext(), "A new group was created successfully.", Toast.LENGTH_SHORT).show();
 
                             Intent intent = new Intent(getActivity(), GroupsActivity.class);
                             startActivity(intent);
