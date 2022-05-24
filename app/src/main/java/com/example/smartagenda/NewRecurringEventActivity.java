@@ -337,7 +337,7 @@ public class NewRecurringEventActivity extends AppCompatActivity {
                 {
                     allFieldsFilled=true;
 
-                    if (startDateLD.getDayOfYear() > endDateLD.getDayOfYear())
+                    if (startDateLD.getDayOfYear() >= endDateLD.getDayOfYear())
                     {
                         Toast.makeText(this, "Dates are incoherent", Toast.LENGTH_SHORT).show();
                     }
@@ -371,25 +371,19 @@ public class NewRecurringEventActivity extends AppCompatActivity {
         {
             if(oneTimeON)
             {
+                coherentDate=true;
                 if (!startTime.getText().toString().matches("select")
                         && !endTime.getText().toString().matches("select")
                         && !oneDate.getText().toString().matches("select")
                         && !eventDescriptionET.getText().toString().matches(""))
                 {
-                    allFieldsFilled=true;
-                    if (startDateLD.getDayOfYear() > endDateLD.getDayOfYear())
-                    {
-                        Toast.makeText(this, "Dates are incoherent.", Toast.LENGTH_SHORT).show();
+
+
+                    if (startTimeLT.compareTo(endTimeLT)>=0){
+                        Toast.makeText(this, "Times slot is incoherent", Toast.LENGTH_SHORT).show();
                     }
                     else
                     {
-                        coherentDate=true;
-                    }
-
-                    if (startTimeLT.compareTo(endTimeLT)>0){
-                        Toast.makeText(this, "Times slot is incoherent", Toast.LENGTH_SHORT).show();
-                    }
-                    else {
                         coherentTime = true;
                     }
                 }
@@ -407,7 +401,7 @@ public class NewRecurringEventActivity extends AppCompatActivity {
                         && !eventDescriptionET.getText().toString().matches(""))
                 {
                     allFieldsFilled=true;
-                    if (startDateLD.getDayOfYear() > endDateLD.getDayOfYear())
+                    if (startDateLD.getDayOfYear() >= endDateLD.getDayOfYear())
                     {
                         Toast.makeText(this, "Dates are incoherent.", Toast.LENGTH_SHORT).show();
                     }
@@ -416,7 +410,7 @@ public class NewRecurringEventActivity extends AppCompatActivity {
                         coherentDate=true;
                     }
 
-                    if (startTimeLT.compareTo(endTimeLT)>0){
+                    if (startTimeLT.compareTo(endTimeLT)>=0){
                         Toast.makeText(this, "Times slot is incoherent", Toast.LENGTH_SHORT).show();
                     }
                     else {
