@@ -2,8 +2,11 @@ package com.example.smartagenda;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -38,8 +41,6 @@ public class AccountActivity extends AppCompatActivity {
         passwordTxt.setText(pass);
 
 
-
-
     }
 
     public void onChangePasswordBtn_Clicked(View caller)
@@ -47,18 +48,27 @@ public class AccountActivity extends AppCompatActivity {
 
         NewPasswordFragment dialogFragment = new NewPasswordFragment();
         dialogFragment.show(getSupportFragmentManager(), "My Fragment");
-        /*
-
-
-        Intent intent = new Intent(this, NewPasswordActivity.class);
-        startActivity(intent);*/
     }
 
     public void onLogOutBtn_Clicked(View caller)
     {
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK );
-        startActivity(intent);
-        finish();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Are you sure you want to log out?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Intent intent = new Intent(AccountActivity.this, MainActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK );
+                        startActivity(intent);
+                        finish();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 }

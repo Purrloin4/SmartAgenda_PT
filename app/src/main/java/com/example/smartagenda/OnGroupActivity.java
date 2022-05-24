@@ -1,5 +1,7 @@
 package com.example.smartagenda;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -35,7 +37,10 @@ public class OnGroupActivity extends GroupsActivity{
     private TextView member1TV, membersTV;
     private Button leaveGroup;
     private Button deleteGroup;
+    private Button add;
+    private TextView title;
     private ArrayList<String> membersAL = new ArrayList<>();
+    private String allMembersExceptCreator;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -46,6 +51,15 @@ public class OnGroupActivity extends GroupsActivity{
         membersTV = findViewById(R.id.membersTV);
         leaveGroup = findViewById(R.id.leaveButton);
         deleteGroup = findViewById(R.id.deleteButton);
+        add = findViewById(R.id.addBtn);
+        title=findViewById(R.id.groupMembersTxt);
+
+        allMembersExceptCreator="";
+
+        deleteGroup.setVisibility(View.INVISIBLE);
+        add.setVisibility(View.INVISIBLE);
+        leaveGroup.setVisibility(View.INVISIBLE);
+
 
         SharedPreferences login = getSharedPreferences("UserInfo", 0);
         username = login.getString("username", "");
@@ -58,7 +72,7 @@ public class OnGroupActivity extends GroupsActivity{
         getMember1(myGroup);
         setMemberView();
 
-
+        title.setText(myGroup);
 
 
     }
@@ -95,10 +109,11 @@ public class OnGroupActivity extends GroupsActivity{
                             setMemberView();
 
                             if (!memberOne.equals(username)) {
-                                deleteGroup.setVisibility(View.INVISIBLE);
+                                leaveGroup.setVisibility(View.VISIBLE);
                             }
                             else {
-                                leaveGroup.setVisibility(View.INVISIBLE);
+                                deleteGroup.setVisibility(View.VISIBLE);
+                                add.setVisibility(View.VISIBLE);
                             }
                         }
 
@@ -128,7 +143,6 @@ public class OnGroupActivity extends GroupsActivity{
 
 
 
-
         JsonArrayRequest submitRequest = new JsonArrayRequest(Request.Method.GET,requestURL,null,new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
@@ -142,10 +156,12 @@ public class OnGroupActivity extends GroupsActivity{
                         if(o.get("team_name").equals(group)) {
                             if(j == 0){
                                 membersS = "Other members: " + o.get("members").toString();
+                                allMembersExceptCreator=allMembersExceptCreator+o.get("members").toString();
                                 j++;
                             }
                             else {
                                 membersS = membersS + o.get("members").toString();
+                                allMembersExceptCreator=allMembersExceptCreator+", "+o.get("members").toString();
                             }
                             membersAL.add(o.get("members").toString());
                         }
@@ -172,87 +188,132 @@ public class OnGroupActivity extends GroupsActivity{
     }
 
 
-    public void onLeaveGroupClicked(View view) {
-        getMembers(myGroup);
-        SharedPreferences login = getSharedPreferences("UserInfo", 0);
-        username = login.getString("username", "");
-        requestQueue = Volley.newRequestQueue(this);
-        int i = 0;
-        for(String member:membersAL){
-            if (member.equals(username)){
-                membersAL.remove(i);
-            }
-            i++;
-        }
-        for (int j = 0; j<groupNames.size();j++){
-            if(groupNames.get(j).equals(myGroup)){
-                groupNames.remove(j);
-                j--;
-            }
-        }
+    public void onLeaveGroupClicked(View view)
+    {
 
-        if(username.equals(memberOne)){
-            memberOne = null;
-        }
-        String new_members = String.join(",", membersAL);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Are you sure you want to leave this group?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id)
+                    {
+                        getMembers(myGroup);
+                        SharedPreferences login = getSharedPreferences("UserInfo", 0);
+                        username = login.getString("username", "");
 
-        String requestURL = "https://studev.groept.be/api/a21pt308/leave_group/"+new_members+"/"+memberOne+"/"+myGroup;
+                        requestQueue = Volley.newRequestQueue(OnGroupActivity.this);
+                        int i = 0;
+                        for(String member:membersAL){
+                            if (member.equals(username)){
+                                membersAL.remove(i);
+                            }
+                            i++;
+                        }
+                        for (int j = 0; j<groupNames.size();j++){
+                            if(groupNames.get(j).equals(myGroup)){
+                                groupNames.remove(j);
+                                j--;
+                            }
+                        }
+
+                        if(username.equals(memberOne)){
+                            memberOne = null;
+                        }
+                        String new_members = String.join(",", membersAL);
+
+                        String requestURL = "https://studev.groept.be/api/a21pt308/leave_group/"+new_members+"/"+memberOne+"/"+myGroup;
 
 
-        JsonArrayRequest submitRequest = new JsonArrayRequest(Request.Method.GET,requestURL,null,new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-                String info = "";
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(OnGroupActivity.this, "Unable to communicate with the server", Toast.LENGTH_LONG).show();
-            }
-        });
+                        JsonArrayRequest submitRequest = new JsonArrayRequest(Request.Method.GET,requestURL,null,new Response.Listener<JSONArray>() {
+                            @Override
+                            public void onResponse(JSONArray response) {
+                                String info = "";
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Toast.makeText(OnGroupActivity.this, "Unable to communicate with the server", Toast.LENGTH_LONG).show();
+                            }
+                        });
 
-        requestQueue.add(submitRequest);
+                        requestQueue.add(submitRequest);
 
-        Intent intent = new Intent(this, GroupsActivity.class);
-        startActivity(intent);
+                        Intent intent = new Intent(OnGroupActivity.this, GroupsActivity.class);
+                        startActivity(intent);
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+
     }
 
-    public void onDeleteGroupClicked(View view){
+    public void onDeleteGroupClicked(View view)
+    {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Are you sure you want to delete this group ?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id)
+                    {
+                        for (int j = 0; j<groupNames.size();j++){
+                            if(groupNames.get(j).equals(myGroup)){
+                                groupNames.remove(j);
+                                j--;
+                            }
+                        }
 
 
-        for (int j = 0; j<groupNames.size();j++){
-            if(groupNames.get(j).equals(myGroup)){
-                groupNames.remove(j);
-                j--;
-            }
-        }
+                        String requestURL = "https://studev.groept.be/api/a21pt308/delete_group/"+myGroup;
 
 
-        String requestURL = "https://studev.groept.be/api/a21pt308/delete_group/"+myGroup;
+                        JsonArrayRequest submitRequest = new JsonArrayRequest(Request.Method.GET,requestURL,null,new Response.Listener<JSONArray>() {
+                            @Override
+                            public void onResponse(JSONArray response) {
+                                String info = "";
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Toast.makeText(OnGroupActivity.this, "Unable to communicate with the server", Toast.LENGTH_LONG).show();
+                            }
+                        });
 
+                        requestQueue.add(submitRequest);
 
-        JsonArrayRequest submitRequest = new JsonArrayRequest(Request.Method.GET,requestURL,null,new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-                String info = "";
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(OnGroupActivity.this, "Unable to communicate with the server", Toast.LENGTH_LONG).show();
-            }
-        });
+                        Intent intent = new Intent(OnGroupActivity.this, GroupsActivity.class);
+                        startActivity(intent);
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id)
+                    {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
 
-        requestQueue.add(submitRequest);
-
-        Intent intent = new Intent(this, GroupsActivity.class);
-        startActivity(intent);
     }
+
 
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(this, GroupsActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
+    }
+
+    public void onAddMemberBtn_Clicked(View caller)
+    {
+
+        AddMemberFragment dialogFragment = new AddMemberFragment(myGroup, allMembersExceptCreator, memberOne);
+        dialogFragment.show(getSupportFragmentManager(), "My Fragment");
+
     }
 }

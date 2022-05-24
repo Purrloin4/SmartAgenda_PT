@@ -23,18 +23,20 @@
         <entry key="..\:/Users/penre/Documents/GitHub/pt-project/app/src/main/res/layout/activity_new_password.xml" value="0.10054347826086957" />
         <entry key="..\:/Users/penre/Documents/GitHub/pt-project/app/src/main/res/layout/activity_new_recurring_event.xml" value="0.32018561484918795" />
         <entry key="..\:/Users/penre/Documents/GitHub/pt-project/app/src/main/res/layout/activity_new_task.xml" value="0.3333333333333333" />
-        <entry key="..\:/Users/penre/Documents/GitHub/pt-project/app/src/main/res/layout/activity_on_group_click.xml" value="0.14666666666666667" />
+        <entry key="..\:/Users/penre/Documents/GitHub/pt-project/app/src/main/res/layout/activity_on_group_click.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/penre/Documents/GitHub/pt-project/app/src/main/res/layout/activity_personal.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/penre/Documents/GitHub/pt-project/app/src/main/res/layout/activity_schedule_new_task.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/penre/Documents/GitHub/pt-project/app/src/main/res/layout/activity_sign_up.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/penre/Documents/GitHub/pt-project/app/src/main/res/layout/activity_start.xml" value="0.22" />
         <entry key="..\:/Users/penre/Documents/GitHub/pt-project/app/src/main/res/layout/activity_week_view.xml" value="0.22" />
         <entry key="..\:/Users/penre/Documents/GitHub/pt-project/app/src/main/res/layout/calendar_cell.xml" value="0.15896739130434784" />
+        <entry key="..\:/Users/penre/Documents/GitHub/pt-project/app/src/main/res/layout/event_cell.xml" value="0.10280797101449275" />
         <entry key="..\:/Users/penre/Documents/GitHub/pt-project/app/src/main/res/layout/fragment_account_overview.xml" value="0.1358695652173913" />
+        <entry key="..\:/Users/penre/Documents/GitHub/pt-project/app/src/main/res/layout/fragment_add_member.xml" value="0.22" />
         <entry key="..\:/Users/penre/Documents/GitHub/pt-project/app/src/main/res/layout/fragment_first.xml" value="0.13177083333333334" />
         <entry key="..\:/Users/penre/Documents/GitHub/pt-project/app/src/main/res/layout/fragment_group_members.xml" value="0.1" />
         <entry key="..\:/Users/penre/Documents/GitHub/pt-project/app/src/main/res/layout/fragment_new_event.xml" value="0.3333333333333333" />
-        <entry key="..\:/Users/penre/Documents/GitHub/pt-project/app/src/main/res/layout/fragment_new_group.xml" value="0.22" />
+        <entry key="..\:/Users/penre/Documents/GitHub/pt-project/app/src/main/res/layout/fragment_new_group.xml" value="0.1" />
         <entry key="..\:/Users/penre/Documents/GitHub/pt-project/app/src/main/res/layout/fragment_new_password.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/penre/Documents/GitHub/pt-project/app/src/main/res/layout/fragment_second.xml" value="0.15806159420289856" />
         <entry key="..\:/Users/penre/Documents/GitHub/pt-project/app/src/main/res/layout/fragment_tip_of_day.xml" value="0.39330543933054396" />
@@ -43,20 +45,17 @@
         <entry key="..\:/Users/penre/Documents/GitHub/pt-project/app/src/main/res/layout/weekly_main.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/penre/Documents/GitHub/pt-project/app/src/main/res/menu/menu.xml" value="0.15989583333333332" />
         <entry key="..\:/Users/penre/Documents/GitHub/pt-project/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.153" />
-        <entry key="..\:/cedri/Documents/pt-project/pt-project/app/src/main/res/layout/activity_groups.xml" value="0.5541666666666667" />
         <entry key="..\:/cedri/Documents/pt-project/pt-project/app/src/main/res/layout/activity_new_recurring_event.xml" value="0.5541666666666667" />
         <entry key="..\:/cedri/Documents/pt-project/pt-project/app/src/main/res/layout/activity_new_task.xml" value="0.5330615942028986" />
-        <entry key="..\:/cedri/Documents/pt-project/pt-project/app/src/main/res/layout/activity_on_group_click.xml" value="0.5541666666666667" />
         <entry key="..\:/cedri/Documents/pt-project/pt-project/app/src/main/res/layout/activity_week_view.xml" value="0.5541666666666667" />
         <entry key="..\:/cedri/Documents/pt-project/pt-project/app/src/main/res/layout/calendar_cell.xml" value="0.5330615942028986" />
         <entry key="..\:/cedri/Documents/pt-project/pt-project/app/src/main/res/layout/event_cell.xml" value="0.5541666666666667" />
         <entry key="..\:/cedri/Documents/pt-project/pt-project/app/src/main/res/layout/fragment_new_password.xml" value="0.5541666666666667" />
-        <entry key="..\:/cedri/Documents/pt-project/pt-project/app/src/main/res/layout/group_cell.xml" value="0.5541666666666667" />
         <entry key="..\:/cedri/Documents/pt-project/pt-project/app/src/main/res/menu/menu.xml" value="0.5541666666666667" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

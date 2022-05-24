@@ -35,8 +35,10 @@
                 android:layout_height="match_parent"
                 android:id="@+id/txt_delete"
                 android:gravity="center_vertical"
-                android:text="Deleted"
+                android:text="task deleted"
                 android:clickable="false"
+                android:textSize="20dp"
+                android:fontFamily="@font/schoolbell"
                 android:layout_weight="2"
                 android:hapticFeedbackEnabled="true"
                 android:textColor="@android:color/white"/>
@@ -47,9 +49,11 @@
                 android:gravity="center"
                 android:id="@+id/txt_undo"
                 android:text="undo"
+                android:textSize="20dp"
+                android:fontFamily="@font/schoolbell"
                 android:clickable="false"
                 android:layout_weight="1"
-                android:textColor="#FFBB33"/>
+                android:textColor="@android:color/holo_orange_dark"/>
 
         </LinearLayout>
 

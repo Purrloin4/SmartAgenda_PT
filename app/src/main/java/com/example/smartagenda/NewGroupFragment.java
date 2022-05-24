@@ -7,14 +7,10 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
 
-import android.text.Layout;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -30,8 +26,6 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
 
 
 public class NewGroupFragment extends DialogFragment {
@@ -62,7 +56,7 @@ public class NewGroupFragment extends DialogFragment {
         counter = 0;
         groupName=rootView.findViewById(R.id.groupNameIn);
         add = rootView.findViewById(R.id.addMemberBtn);
-        memberIn = rootView.findViewById(R.id.memberIn);
+        memberIn = rootView.findViewById(R.id.memberIn2);
         newMember = rootView.findViewById(R.id.userTxt);
         newMember.setVisibility(View.INVISIBLE);
         add.setOnClickListener(new View.OnClickListener(){

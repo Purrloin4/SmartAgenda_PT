@@ -29,10 +29,10 @@
         android:text="For optimal scheduling of your tasks,
                       make sure to have added beforehand at
                       least one recurring event (like your lunch
-                      break and times where you'll be sleeping)
+                      break and times when you'll be sleeping)
                       per day preceding the deadline of the new
                       task you want SMART AGENDA to schedule
-                      for you"
+                      for you."
         android:textAlignment="center"
         android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
