@@ -441,6 +441,17 @@ public class NewTaskActivity extends AppCompatActivity
                                                 }
 
                                             }
+
+                                            /*
+                                            else
+                                            {
+                                                if (taskScheduled[0]==false && j[0]==DAYS.between(LocalDate.now(), deadlineLD)-1 && i==response.length()-1)
+                                                {
+                                                    Toast.makeText(NewTaskActivity.this, "This task doesn't fit in your schedule.", Toast.LENGTH_LONG).show();
+                                                    //Intent intent = new Intent(NewTaskActivity.this, AgendaScreenActivity.class);
+                                                    //startActivity(intent);
+                                                }
+                                            }*/
                                         }
                                     }
 
@@ -460,6 +471,7 @@ public class NewTaskActivity extends AppCompatActivity
 
                         requestQueue.add(submitRequest2);
                     }
+
 
                     if (taskScheduled[0]==false)
                     {
