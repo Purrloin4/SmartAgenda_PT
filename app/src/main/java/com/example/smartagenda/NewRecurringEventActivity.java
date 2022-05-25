@@ -382,6 +382,7 @@ public class NewRecurringEventActivity extends AppCompatActivity {
                         && !eventDescriptionET.getText().toString().matches(""))
                 {
 
+                    allFieldsFilled=true;
 
                     if (startTimeLT.compareTo(endTimeLT)>=0){
                         Toast.makeText(this, "Times slot is incoherent", Toast.LENGTH_SHORT).show();

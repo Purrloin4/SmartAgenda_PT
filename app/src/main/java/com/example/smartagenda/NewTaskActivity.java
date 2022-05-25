@@ -461,7 +461,7 @@ public class NewTaskActivity extends AppCompatActivity
                         requestQueue.add(submitRequest2);
                     }
 
-                    if (taskScheduled[0]=false)
+                    if (taskScheduled[0]==false)
                     {
                         Toast.makeText(NewTaskActivity.this, "This task doesn't fit in your schedule.", Toast.LENGTH_LONG).show();
                     }
