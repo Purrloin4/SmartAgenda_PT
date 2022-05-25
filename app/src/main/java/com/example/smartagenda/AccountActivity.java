@@ -58,6 +58,7 @@ public class AccountActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int id) {
                         Toast.makeText(AccountActivity.this, "You were logged out successfully.", Toast.LENGTH_LONG).show();
                         Event.eventsList.clear();
+                        //GroupAdapter.groups.clear();
                         Intent intent = new Intent(AccountActivity.this, MainActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK );
                         startActivity(intent);

@@ -475,7 +475,7 @@ public class NewTaskActivity extends AppCompatActivity
 
                     if (taskScheduled[0]==false)
                     {
-                        Toast.makeText(NewTaskActivity.this, "This task doesn't fit in your schedule.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(NewTaskActivity.this, "This task might not fit into your schedule.", Toast.LENGTH_LONG).show();
                     }
 
                     Intent intent = new Intent(this, AgendaScreenActivity.class);
